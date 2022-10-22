@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.swiper-button-prev {
+  display: none !important;
+}
+
+.swiper-button-next {
+  display: none !important;
+}
+
+.tab {
+  text-transform: none !important;
+  font-size: 18px !important;
+  margin: 0 20px 0 20px !important;
+}
+
+.tab-new {
+  text-transform: none !important;
+  font-size: 16px !important;
+  margin: 0 5px 0 5px !important;
+  color: black !important;
+}
+
+.tab-panel {
+  padding: 0px !important;
+}
+
+.swiper-pagination {
+  position: absolute !important;
+  bottom: 0px !important;
+}
+
+.tab-format {
+  text-transform: none !important;
+  font-size: 18px !important;
+  color: black !important;
+  padding-left: 0px !important;
+  margin-right: 20px !important;
+}
+
+.MuiTabs-indicator {
+  background-color: black !important;
+}
+
+.tab-details {
+  text-transform: none !important;
+  font-size: 18px !important;
+  color: black !important;
+  margin: 0 20px 0 20px !important;
+}
