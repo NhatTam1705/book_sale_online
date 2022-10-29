@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Button = ({
   onClick,
   className = '',
@@ -9,13 +7,12 @@ const Button = ({
   children,
   ...props
 }) => {
-
   return (
     <button
       {...props}
       type={type}
       onClick={onClick}
-      className={`py-3 px-6 capitalize rounded-md mt-auto ${
+      className={`py-3 px-6 capitalize rounded-md ${
         full ? 'w-full' : ''
       } ${bgColor} ${className}`}
     >
