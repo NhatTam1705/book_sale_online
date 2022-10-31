@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Nhà Giả Kim",
+    "category": "Vietnamese Book",
+    "price": 5.12
+  },
+  {
+    "name": "The Alchemist",
+    "category": "English Book",
+    "price": 10.92
+  },
+  {
+    "name": "How to win friends and Influence People",
+    "category": "English Book",
+    "price": 15.99
+  }
+]
