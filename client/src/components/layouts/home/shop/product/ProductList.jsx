@@ -1,5 +1,5 @@
 import { Autocomplete, Pagination, TextField } from '@mui/material';
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { HiOutlineViewGrid, HiOutlineViewList } from 'react-icons/hi';
 import ProductCardGrid from './ProductCardGrid';
 import ProductCardList from './ProductCardList';
@@ -78,17 +78,17 @@ const ProductList = () => {
       </div>
       <div className="grid grid-cols-12 my-8">
         {array.map((item, index) => (
-          <>
+          <Fragment key={index}>
             {isList ? (
-              <div className="col-span-12" key={index}>
+              <div className="col-span-12">
                 <ProductCardList></ProductCardList>
               </div>
             ) : (
-              <div className="col-span-3" key={index}>
+              <div className="col-span-3">
                 <ProductCardGrid></ProductCardGrid>
               </div>
             )}
-          </>
+          </Fragment>
         ))}
       </div>
       <div className='flex justify-center'>

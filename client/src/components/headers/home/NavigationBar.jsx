@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { HiSearch, HiX } from 'react-icons/hi';
+import { useState } from 'react';
+import { HiOutlineMenu, HiSearch, HiX } from 'react-icons/hi';
 import { NavLink } from 'react-router-dom';
-import navigationItemsData from '../../assets/datas/navigationItems';
+import navigationItemsData from '../../../assets/datas/navigationItems';
 
 const NavigationBar = () => {
   const [keyword, setKeyword] = useState('');
@@ -23,20 +23,7 @@ const NavigationBar = () => {
         <div className="grid items-center w-full h-full grid-cols-12 px-12 mx-auto xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 gap-x-5">
           <div className="flex items-center justify-center col-span-2 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2">
             <span className="w-auto h-auto">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth="1.5"
-                stroke="currentColor"
-                className="w-8 h-8"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M3.75 6.75h16.5M3.75 12H12m-8.25 5.25h16.5"
-                />
-              </svg>
+              <HiOutlineMenu className="w-8 h-8"></HiOutlineMenu>
             </span>
           </div>
           <div className="flex items-center justify-center col-span-2 xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-2">

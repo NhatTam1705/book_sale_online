@@ -1,4 +1,4 @@
-const OrderReceived = () => {
+const OrderReceivedPage = () => {
   return (
     <div className="flex flex-col gap-8 px-12 py-24 bg-[#fff6f6]">
       <h1 className="col-span-8 text-4xl font-semibold text-center">
@@ -86,4 +86,4 @@ const OrderReceived = () => {
   );
 };
 
-export default OrderReceived;
+export default OrderReceivedPage;

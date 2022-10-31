@@ -1,19 +1,21 @@
 import { Fragment } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Footer from './components/footers/Footer';
-import Header from './components/headers/Header';
-import NavigationBar from './components/headers/NavigationBar';
+import Footer from './components/footers/home/Footer';
+import Header from './components/headers/home/Header';
+import NavigationBar from './components/headers/home/NavigationBar';
 import AccountProfile from './components/layouts/home/profile/outletProfile/AccountProfile';
 import AddressProfile from './components/layouts/home/profile/outletProfile/AddressProfile';
 import DashboardProfile from './components/layouts/home/profile/outletProfile/DashboardProfile';
 import OrdersProfile from './components/layouts/home/profile/outletProfile/OrdersProfile';
 import WishlistProfile from './components/layouts/home/profile/outletProfile/WishlistProfile';
+import AuthorPage from './pages/home/AuthorPage';
+import AuthorSinglePage from './pages/home/AuthorSinglePage';
 import CartPage from './pages/home/CartPage';
 import CheckoutPage from './pages/home/CheckoutPage';
 import HomePage from './pages/home/HomePage';
 import NotFoundPage from './pages/home/NotFoundPage';
-import OrderReceived from './pages/home/OrderReceived';
+import OrderReceivedPage from './pages/home/OrderReceivedPage';
 import ProductPage from './pages/home/ProductPage';
 import ProfilePage from './pages/home/ProfilePage';
 import ShopPage from './pages/home/ShopPage';
@@ -46,8 +48,13 @@ function App() {
           ></Route>
           <Route
             path="/shop/order/:id"
-            element={<OrderReceived></OrderReceived>}
+            element={<OrderReceivedPage></OrderReceivedPage>}
           ></Route>
+          <Route
+            path="/author/:id"
+            element={<AuthorSinglePage></AuthorSinglePage>}
+          ></Route>
+          <Route path="/author" element={<AuthorPage></AuthorPage>}></Route>
           <Route path="/profile" element={<ProfilePage></ProfilePage>}>
             <Route
               path="/profile/dashboard"
