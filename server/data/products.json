@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Nhà Giả Kim",
+    "category": "Vietnamese Book",
+    "price": "89000"
+  },
+  {
+    "name": "The Alchemist",
+    "category": "English Book",
+    "price": "189000"
+  },
+  {
+    "name": "How To Win Friends and Influcence People",
+    "category": "English Book",
+    "price": "189000"
+  }
+]
