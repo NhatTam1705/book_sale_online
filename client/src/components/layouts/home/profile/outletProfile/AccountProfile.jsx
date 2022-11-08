@@ -6,7 +6,7 @@ const AccountProfile = () => {
       <h3 className="text-4xl font-semibold">Account Details</h3>
       <div>
         <h4 className="text-3xl">Edit Account</h4>
-        <div className="grid grid-cols-12 gap-8 mt-3 text-lg">
+        <div className="grid xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-6 sm:grid-cols-12 grid-cols-6 gap-8 mt-3 text-lg">
           <div className="col-span-6 flex flex-col gap-2">
             <label htmlFor="firstName">
               First name <span className="text-red-600">*</span>
@@ -57,7 +57,7 @@ const AccountProfile = () => {
       <hr />
       <div>
         <h4 className="text-3xl">Password Change</h4>
-        <div className="grid grid-cols-12 gap-8 mt-3 text-lg">
+        <div className="grid xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-6 sm:grid-cols-12 grid-cols-6 gap-8 mt-3 text-lg">
           <div className="col-span-6 flex flex-col gap-2">
             <label htmlFor="currentPassword">
               Current Password <span className="text-red-600">*</span>

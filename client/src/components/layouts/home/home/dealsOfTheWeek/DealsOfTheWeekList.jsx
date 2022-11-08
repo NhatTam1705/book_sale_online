@@ -19,7 +19,6 @@ const DealsOfTheWeekList = () => {
         </div>
       </div>
       <Swiper
-        slidesPerView={2}
         spaceBetween={0}
         slidesPerGroup={1}
         loop={true}
@@ -31,16 +30,16 @@ const DealsOfTheWeekList = () => {
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide className="max-w-[50%]">
+        <SwiperSlide className="xl:max-w-[50%] lg:max-w-[50%] md:max-w-[100%]">
           <DealsOfTheWeekCard></DealsOfTheWeekCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[50%]">
+        <SwiperSlide className="xl:max-w-[50%] lg:max-w-[50%] md:max-w-[100%]">
           <DealsOfTheWeekCard></DealsOfTheWeekCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[50%]">
+        <SwiperSlide className="xl:max-w-[50%] lg:max-w-[50%] md:max-w-[100%]">
           <DealsOfTheWeekCard></DealsOfTheWeekCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[50%]">
+        <SwiperSlide className="xl:max-w-[50%] lg:max-w-[50%] md:max-w-[100%]">
           <DealsOfTheWeekCard></DealsOfTheWeekCard>
         </SwiperSlide>
       </Swiper>

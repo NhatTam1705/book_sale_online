@@ -13,8 +13,8 @@ const BestsellingBooksCard = () => {
       >
         <img className="px-16 mt-8 h-[225px]" src={Slider1} alt="Book" />
         <div
-          className={`flex flex-col gap-1 absolute px-8 mb-8 pt-3 transition-all duration-500 bg-white ${
-            hover ? '-translate-y-10' : 'bottom-0'
+          className={`flex flex-col gap-1 w-full absolute px-8 mb-8 pt-3 transition-all duration-500 bg-white ${
+            hover ? '-translate-y-12' : 'bottom-0'
           }`}
         >
           <h6 className="text-sm text-red-600 uppercase">Paper Back</h6>

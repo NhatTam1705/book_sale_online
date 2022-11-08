@@ -22,10 +22,10 @@ const AddressItem = () => {
 
   return (
     <div className="p-4 border border-gray-300 text-lg">
-      <div className="items-center grid grid-cols-12">
-        <span className="col-span-2 font-semibold">Default address: </span>
+      <div className="items-center grid xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-10 sm:grid-cols-12 grid-cols-8">
+        <span className="xl:col-span-2 lg:col-span-2 md:col-span-10 sm:col-span-2 col-span-8 font-semibold">Default address: </span>
         <span className="col-span-8">Tan Lan - Can Duoc - Long An</span>
-        <Button onClick={() => setShow(true)} className="text-white w-24">
+        <Button onClick={() => setShow(true)} className="text-white w-24 col-span-2">
           Edit
         </Button>
       </div>

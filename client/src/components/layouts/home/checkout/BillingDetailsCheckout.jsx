@@ -4,7 +4,7 @@ const BillingDetailsCheckout = () => {
   return (
     <div className="flex flex-col gap-6 p-5 bg-white">
       <h5 className="text-xl font-semibold">Billing Details</h5>
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-2 gap-8">
         <div className="col-span-1">
           <h6 className="text-lg">
             First name <span className="text-xl font-bold text-red-600">*</span>

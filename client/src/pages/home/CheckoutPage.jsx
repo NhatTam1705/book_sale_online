@@ -8,14 +8,14 @@ import SideBarYourOrderCheckout from '../../components/layouts/home/checkout/sil
 
 const CheckoutPage = () => {
   return (
-    <div className="grid grid-cols-12 gap-8 px-12 py-24 bg-[#fff6f6]">
+    <div className="grid xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 grid-cols-12 gap-8 px-12 py-24 bg-[#fff6f6]">
       <h1 className="col-span-12 text-4xl font-semibold text-center">
         Checkout
       </h1>
-      <div className="col-span-8">
+      <div className="xl:col-span-8 lg:col-span-8 md:col-span-7 sm:col-span-12 col-span-12">
         <BillingDetailsCheckout></BillingDetailsCheckout>
       </div>
-      <div className="col-span-4">
+      <div className="xl:col-span-4 lg:col-span-4 md:col-span-5 sm:col-span-12 col-span-12">
         <SideBarYourOrderCheckout></SideBarYourOrderCheckout>
         <SideBarCartTotalsCheckout></SideBarCartTotalsCheckout>
         <SideBarShippingCheckout></SideBarShippingCheckout>

@@ -16,31 +16,31 @@ const FeaturedCategoriesList = () => {
         </div>
       </div>
       <Swiper grabCursor={'true'} spaceBetween={30} slidesPerView={'auto'}>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[18%]">
+        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
           <FeaturedCategoriesCard></FeaturedCategoriesCard>
         </SwiperSlide>
       </Swiper>

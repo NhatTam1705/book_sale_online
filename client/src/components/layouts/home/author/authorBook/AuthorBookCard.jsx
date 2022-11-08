@@ -12,9 +12,9 @@ const AuthorBookCard = () => {
         onMouseLeave={() => setHover(false)}
         className="w-full h-[500PX] select-none cursor-pointer border border-gray-300 hover:shadow-md hover:border-black relative"
       >
-        <img className="w-40 mx-auto mt-8 h-[250px]" src={Slider1} alt="Book" />
+        <img className="px-16 mt-8 h-[250px]" src={Slider1} alt="Book" />
         <div
-          className={`flex flex-col gap-1 absolute px-8 mb-8 pt-3 transition-all duration-500 bg-white ${
+          className={`flex w-full flex-col gap-1 absolute px-8 mb-8 pt-3 transition-all duration-500 bg-white ${
             hover ? '-translate-y-10' : 'bottom-0'
           }`}
         >
@@ -24,10 +24,10 @@ const AuthorBookCard = () => {
           </h5>
           <h5 className="text-base text-gray-500">Old man dev</h5>
           <h5 className="text-lg font-medium">$29</h5>
-					<div className="flex items-center gap-2">
-          <Rating name="size-small" defaultValue={2} readOnly size="small" />
-					<span>(1,123)</span>
-					</div>
+          <div className="flex items-center gap-2">
+            <Rating name="size-small" defaultValue={2} readOnly size="small" />
+            <span>(1,123)</span>
+          </div>
         </div>
         <div
           className={`grid grid-cols-2 absolute transition-all duration-500 bottom-0 px-8 mb-8 w-full ${

@@ -2,6 +2,8 @@ import { Fragment } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Footer from './components/footers/home/Footer';
+import HeaderAdmin from './components/headers/admin/HeaderAdmin';
+import SideBarAdmin from './components/headers/admin/SideBarAdmin';
 import Header from './components/headers/home/Header';
 import NavigationBar from './components/headers/home/NavigationBar';
 import AccountProfile from './components/layouts/home/profile/outletProfile/AccountProfile';
@@ -9,6 +11,16 @@ import AddressProfile from './components/layouts/home/profile/outletProfile/Addr
 import DashboardProfile from './components/layouts/home/profile/outletProfile/DashboardProfile';
 import OrdersProfile from './components/layouts/home/profile/outletProfile/OrdersProfile';
 import WishlistProfile from './components/layouts/home/profile/outletProfile/WishlistProfile';
+import AddAuthorPage from './pages/admin/author/AddAuthorPage';
+import AuthorListPage from './pages/admin/author/AuthorListPage';
+import CategoryAdminPage from './pages/admin/category/CategoryAdminPage';
+import CustomerAdminPage from './pages/admin/customer/CustomerAdminPage';
+import CustomerProfileAdmin from './pages/admin/customer/CustomerProfileAdmin';
+import DashboardAdminPage from './pages/admin/dashboard/DashboardAdminPage';
+import OrderAdminPage from './pages/admin/order/OrderAdminPage';
+import OrderDetailsAdminPage from './pages/admin/order/OrderDetailsAdminPage';
+import AddProductPage from './pages/admin/product/AddProductPage';
+import ProductListPage from './pages/admin/product/ProductListPage';
 import AuthorPage from './pages/home/AuthorPage';
 import AuthorSinglePage from './pages/home/AuthorSinglePage';
 import CartPage from './pages/home/CartPage';
@@ -78,6 +90,63 @@ function App() {
             ></Route>
           </Route>
           <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>
+        </Route>
+        <Route
+          path="/admin"
+          element={
+            <>
+              <HeaderAdmin></HeaderAdmin>
+              <div className="grid grid-cols-10">
+                <div className="col-span-2 ">
+                  <SideBarAdmin></SideBarAdmin>
+                </div>
+                <div className="col-span-8 p-6 ">
+                  <Outlet></Outlet>
+                </div>
+              </div>
+            </>
+          }
+        >
+          <Route
+            path="/admin/dashboard"
+            element={<DashboardAdminPage></DashboardAdminPage>}
+          ></Route>
+          <Route
+            path="/admin/customers"
+            element={<CustomerAdminPage></CustomerAdminPage>}
+          ></Route>
+          <Route
+            path="/admin/customer/:id"
+            element={<CustomerProfileAdmin></CustomerProfileAdmin>}
+          ></Route>
+          <Route
+            path="/admin/orders"
+            element={<OrderAdminPage></OrderAdminPage>}
+          ></Route>
+          <Route
+            path="/admin/order/:id"
+            element={<OrderDetailsAdminPage></OrderDetailsAdminPage>}
+          ></Route>
+          <Route
+            path="/admin/products"
+            element={<ProductListPage></ProductListPage>}
+          ></Route>
+          <Route
+            path="/admin/product"
+            element={<AddProductPage></AddProductPage>}
+          ></Route>
+          <Route
+            path="/admin/categories"
+            element={<CategoryAdminPage></CategoryAdminPage>}
+          ></Route>
+          <Route
+            path="/admin/authors"
+            element={<AuthorListPage></AuthorListPage>}
+          ></Route>
+          <Route
+            path="/admin/author"
+            element={<AddAuthorPage></AddAuthorPage>}
+          ></Route>
         </Route>
       </Routes>
     </Fragment>

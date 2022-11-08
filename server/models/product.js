@@ -1,39 +1,83 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please enter product name"],
+    required: [true, 'Please enter product name'],
     trim: true,
-    maxLength: [100, "Product name can not exceed 100 characters"],
+    maxLength: [100, 'Product name can not exceed 100 characters'],
   },
-  category: {
+  description: {
     type: String,
-    required: [true, "Please select category for this product!"],
+    required: [true, 'Please enter product description'],
+  },
+  publishing: {
+    type: String,
+    required: [true, 'Please enter publishing house'],
+  },
+  issuing: {
+    type: String,
+    required: [true, 'Please enter issuing company'],
+  },
+  stock: {
+    type: Number,
+    required: [true, 'Please enter product stock'],
+    default: 0.0,
+  },
+  format: {
+    type: String,
+    required: [true, 'Please select format for this product'],
     enum: {
-      values: ["English Book", "Vietnamese Book"],
-      message: "Please select conrect category for this product",
+      values: ['Hard cover', 'Paper back'],
+      message: 'Please select correct format for product',
     },
   },
-  price: {
+  language: {
+    type: String,
+    required: [true, 'Please select language for this product'],
+    enum: {
+      values: ['English', 'Vietnamese'],
+      message: 'Please select correct language for product',
+    },
+  },
+  costPrice: {
     type: Number,
-    required: [true, "Please enter product price"],
+    required: [true, 'Please enter product cost price'],
     trim: true,
-    maxLength: [10, "Product name can not exceed 5 characters"],
+    maxLength: [10, 'Product cost price can not exceed 5 characters'],
     default: 0.0,
+  },
+  soldPrice: {
+    type: Number,
+    required: [true, 'Please enter product sold price'],
+    trim: true,
+    maxLength: [10, 'Product sold price can not exceed 5 characters'],
+    default: 0.0,
+  },
+  page: {
+    type: Number,
+    required: [true, 'Please enter product page'],
+    trim: true,
+    default: 0.0,
+  },
+  weight: {
+    type: Number,
+    required: [true, 'Please enter product weight'],
+    trim: true,
+    default: 0.0,
+  },
+  category: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'SubCategory',
+    required: true,
   },
   ratings: {
     type: Number,
     default: 0.0,
   },
-  stock: {
-    type: Number,
-    required: [true, "Please enter product stock"],
-    default: 0.0,
-  },
   user: {
     type: mongoose.Schema.ObjectId,
-    ref: "User",
+    ref: 'User',
     required: true,
   },
   numOfReviews: {
@@ -44,7 +88,7 @@ const productSchema = new mongoose.Schema({
     {
       user: {
         type: mongoose.Schema.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: true,
       },
       name: {
@@ -61,9 +105,13 @@ const productSchema = new mongoose.Schema({
       },
     },
   ],
-  createAt: {
+  createdDate: {
+    type: Date,
+    default: Date.now,
+  },
+  modifiedDate: {
     type: Date,
     default: Date.now,
   },
 });
-module.exports = mongoose.model("Product", productSchema);
+module.exports = mongoose.model('Product', productSchema);

@@ -3,7 +3,22 @@ import { HiChevronDoubleRight } from 'react-icons/hi';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import BestsellingBooksCard from './BestsellingBooksCard';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts } from '../../../../../actions/productActions';
+import { useEffect } from 'react';
+import ProductPage from '../../../../../pages/home/ProductPage';
+
 const BestsellingBooksList = () => {
+  const disptach = useDispatch();
+
+  const { loading, products, error, productsCount } = useSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    disptach(getProducts());
+  }, [disptach]);
+
   return (
     <div>
       <div className="flex flex-row items-center justify-between mb-10">
@@ -16,28 +31,31 @@ const BestsellingBooksList = () => {
         </div>
       </div>
       <Swiper grabCursor={'true'} spaceBetween={0} slidesPerView={'auto'}>
-        <SwiperSlide className="max-w-[20%]">
+        {products &&
+          products.map((product) => (
+            <SwiperSlide key={product._id} className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
+              <BestsellingBooksCard></BestsellingBooksCard>
+            </SwiperSlide>
+          ))}
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
-          <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
         </SwiperSlide>
       </Swiper>

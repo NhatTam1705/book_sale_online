@@ -47,9 +47,9 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-row flex-wrap items-center justify-between">
         <span className="text-lg">Show 1 - 20 of 100 results</span>
-        <div className="flex flex-row gap-5">
+        <div className="flex flex-row flex-wrap gap-5">
           <Autocomplete
             options={sort}
             sx={{ width: 200 }}
@@ -84,7 +84,7 @@ const ProductList = () => {
                 <ProductCardList></ProductCardList>
               </div>
             ) : (
-              <div className="col-span-3">
+              <div className="col-span-12 xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-6">
                 <ProductCardGrid></ProductCardGrid>
               </div>
             )}

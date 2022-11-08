@@ -16,28 +16,28 @@ const RelatedProductsList = () => {
         </div>
       </div>
       <Swiper grabCursor={'true'} spaceBetween={0} slidesPerView={'auto'}>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%] max-w-[100%]">
           <RelatedProductsCard></RelatedProductsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%] max-w-[100%]">
           <RelatedProductsCard></RelatedProductsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%] max-w-[100%]">
           <RelatedProductsCard></RelatedProductsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%] max-w-[100%]">
           <RelatedProductsCard></RelatedProductsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%] max-w-[100%]">
           <RelatedProductsCard></RelatedProductsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%] max-w-[100%]">
           <RelatedProductsCard></RelatedProductsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%] max-w-[100%]">
           <RelatedProductsCard></RelatedProductsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%] max-w-[100%]">
           <RelatedProductsCard></RelatedProductsCard>
         </SwiperSlide>
       </Swiper>

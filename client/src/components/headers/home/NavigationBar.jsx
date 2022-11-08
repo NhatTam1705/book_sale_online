@@ -1,10 +1,24 @@
+import { Menu, MenuItem } from '@mui/material';
 import { useState } from 'react';
 import { HiOutlineMenu, HiSearch, HiX } from 'react-icons/hi';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import navigationItemsData from '../../../assets/datas/navigationItems';
+import Logo from '../../../assets/images/logo.png';
 
 const NavigationBar = () => {
+  const navigate = useNavigate();
   const [keyword, setKeyword] = useState('');
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleChangeSearch = (event) => {
     setKeyword(event.target.value);
@@ -23,15 +37,40 @@ const NavigationBar = () => {
         <div className="grid items-center w-full h-full grid-cols-12 px-12 mx-auto xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 gap-x-5">
           <div className="flex items-center justify-center col-span-2 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2">
             <span className="w-auto h-auto">
-              <HiOutlineMenu className="w-8 h-8"></HiOutlineMenu>
+              <HiOutlineMenu
+                id="basic-button"
+                aria-controls={open ? 'basic-menu' : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? 'true' : undefined}
+                onClick={handleClick}
+                className="w-8 h-8"
+              ></HiOutlineMenu>
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                MenuListProps={{
+                  'aria-labelledby': 'basic-button',
+                }}
+              >
+                {navigationItemsData &&
+                  navigationItemsData.map((item, index) => (
+                    <MenuItem
+                      key={item.id}
+                      onClick={() => {
+                        navigate(item.to);
+                        handleClose();
+                      }}
+                    >
+                      <span className='w-full px-2 my-2 text-lg border-b-2 border-transparent mx-14 hover:text-orange-600 hover:border-orange-600'>{item.navName}</span>
+                    </MenuItem>
+                  ))}
+              </Menu>
             </span>
           </div>
           <div className="flex items-center justify-center col-span-2 xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-2">
-            <img
-              className="w-full h-auto"
-              src="https://sieuthilamdep.com/images/feature_variant/14/image-skincare.jpg"
-              alt="Logo"
-            />
+            <img className="w-full h-auto" src={Logo} alt="Logo" />
           </div>
           <div className="items-center justify-center hidden h-full gap-8 text-xl text-center xl:col-span-7 xl:col-start-3 xl:flex lg:col-span-7 lg:col-start-3 lg:flex md:hidden sm:hidden">
             {navigationItemsData &&

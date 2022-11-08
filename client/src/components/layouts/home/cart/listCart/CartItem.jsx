@@ -10,10 +10,14 @@ const CartItem = () => {
   };
 
   return (
-    <div className="grid items-center grid-cols-10 p-8 bg-white border border-gray-300">
-      <div className="grid grid-cols-10 col-span-5">
-        <img src={Slider1} alt="" className="w-full h-[150px] col-span-2" />
-        <div className="flex flex-col justify-center col-span-8 p-5">
+    <div className="grid items-center xl:grid-cols-10 lg:grid-cols-10 md:grid-cols-9 sm:grid-cols-5 grid-cols-5 p-8 bg-white border border-gray-300">
+      <div className="grid xl:grid-cols-10 lg:grid-cols-10 md:grid-cols-10 sm:grid-cols-1 xl:col-span-5 lg:col-span-5 md:col-span-4 sm:col-span-5 col-span-5">
+        <img
+          src={Slider1}
+          alt=""
+          className="w-full h-[150px] lg:col-span-2 xl:col-spa-2 md:col-span-2"
+        />
+        <div className="flex flex-col justify-center xl:col-span-8 lg:col-span-8 md:col-span-8 p-5">
           <h6 className="text-lg cursor-pointer hover:text-orange-600">
             The Overdue Life of Amy Byler
           </h6>
@@ -23,7 +27,7 @@ const CartItem = () => {
         </div>
       </div>
       <span className="col-span-1 text-lg font-medium ">99.99$</span>
-      <div className="flex items-center h-[55px] col-span-2 p-2 space-x-2 border rounded-md w-[120px] boder-gray-300">
+      <div className="flex items-center h-[55px] col-span-2 p-2 space-x-2 border rounded-md xl:w-[120px] lg:w-[100px] md:w-[120px] sm:w-[120px] w-[120px] boder-gray-300">
         <HiMinus
           onClick={() => setQuantity(quantity - 1)}
           className="cursor-pointer"

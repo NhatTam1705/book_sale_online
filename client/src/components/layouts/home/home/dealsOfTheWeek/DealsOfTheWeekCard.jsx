@@ -3,9 +3,9 @@ import Slider1 from '../../../../../assets/images/Slider_1.png';
 const DealsOfTheWeekCard = () => {
   return (
     <>
-      <div className="w-full h-[400PX] select-none cursor-pointer border border-gray-300 hover:shadow-xl p-8 grid grid-cols-12 gap-8 ">
-        <img src={Slider1} alt="" className="col-span-4 h-full" />
-        <div className="col-span-8 col-start-5 flex flex-col justify-between">
+      <div className="grid w-full h-full grid-cols-4 gap-8 p-8 border border-gray-300 cursor-pointer select-none hover:shadow-xl xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 ">
+        <img src={Slider1} alt="" className="w-full h-full col-span-4" />
+        <div className="flex flex-col justify-between col-span-8 ">
           <div className="flex flex-col gap-1">
             <h6 className="text-sm text-red-600 uppercase">Paper Back</h6>
             <h5 className="text-lg font-medium">
@@ -17,18 +17,18 @@ const DealsOfTheWeekCard = () => {
           <h4 className="text-xl font-bold">
             Hurry Up! <span className="font-normal">Offer ends in:</span>
           </h4>
-          <div className="grid grid-cols-4 h-12 ">
-            <div className="border-r border-gray-300 text-xl font-bold items-center flex flex-row justify-around">
-              114 <span className="font-normal text-base">Days</span>
+          <div className="grid h-12 grid-cols-4 ">
+            <div className="flex flex-col items-center justify-around text-xl font-bold border-r border-gray-300 md:flex-row sm:flex-col lg:flex-col xl:flex-row">
+              114 <span className="text-base font-normal">Days</span>
             </div>
-            <div className="border-r border-gray-300 text-xl font-bold items-center flex flex-row justify-around">
-              03 <span className="font-normal text-base">Hours</span>
+            <div className="flex flex-col items-center justify-around text-xl font-bold border-r border-gray-300 md:flex-row sm:flex-col lg:flex-col xl:flex-row">
+              03 <span className="text-base font-normal">Hours</span>
             </div>
-            <div className="border-r border-gray-300 text-xl font-bold items-center flex flex-row justify-around">
-              60 <span className="font-normal text-base">Mins</span>
+            <div className="flex flex-col items-center justify-around text-xl font-bold border-r border-gray-300 md:flex-row sm:flex-col lg:flex-col xl:flex-row">
+              60 <span className="text-base font-normal">Mins</span>
             </div>
-            <div className="text-xl font-bold items-center flex flex-row justify-around">
-              25 <span className="font-normal text-base">Secs</span>
+            <div className="flex flex-col items-center justify-around text-xl font-bold md:flex-row sm:flex-col lg:flex-col xl:flex-row">
+              25 <span className="text-base font-normal">Secs</span>
             </div>
           </div>
           <div>
@@ -36,8 +36,8 @@ const DealsOfTheWeekCard = () => {
               <h6 className="text-base">Already Sold: 14</h6>
               <h6 className="text-base">Available: 3</h6>
             </div>
-            <div className="relative h-5 w-full mt-3">
-              <div className="absolute h-5 w-full bg-red-100 rounded-full "></div>
+            <div className="relative w-full h-5 mt-3">
+              <div className="absolute w-full h-5 bg-red-100 rounded-full "></div>
               <div className="absolute h-5 w-[80%] bg-red-500 rounded-full "></div>
             </div>
           </div>

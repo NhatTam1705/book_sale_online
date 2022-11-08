@@ -10,7 +10,7 @@ import SideBarLanguage from "../../components/layouts/home/shop/sideBar/SideBarL
 const ShopPage = () => {
   return (
     <>
-      <div className="grid grid-cols-9 gap-8 px-12 py-24">
+      <div className="grid grid-cols-2 gap-8 px-12 py-24 xl:grid-cols-9 lg:grid-cols-7 md:grid-cols-5 sm:grid-cols-2">
         <div className="col-span-2">
           <SideBarCategories></SideBarCategories>
           <SideBarAuthor></SideBarAuthor>
@@ -19,7 +19,7 @@ const ShopPage = () => {
           <SideBarFilterByPrice></SideBarFilterByPrice>
           <SideBarByReview></SideBarByReview>
         </div>
-        <div className="col-span-7">
+        <div className="col-span-2 xl:col-span-7 lg:col-span-5 md:col-span-3 sm:col-span-2">
           <ProductList></ProductList>
         </div>
       </div>

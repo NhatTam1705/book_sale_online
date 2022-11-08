@@ -28,10 +28,6 @@ const Header = () => {
     setOverlay(false);
   };
 
-  // useEffect(() => {
-  //   console.log(form);
-  // }, [form]);
-
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 

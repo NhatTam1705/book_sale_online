@@ -69,7 +69,7 @@ const DashboardProfile = () => {
             dashboardItems.map((item, index) => (
               <div
                 key={item.id}
-                className="col-span-4 px-6 py-12 flex flex-col gap-2 items-center border border-gray-300 cursor-pointer"
+                className="xl:col-span-4 lg:col-span-4 md:col-span-6 sm:col-span-4 col-span-6 px-6 py-12 flex flex-col gap-2 items-center border border-gray-300 cursor-pointer"
                 onClick={() => navigate(`${item.link}`)}
               >
                 <div className="w-24 h-24 rounded-full flex items-center justify-center bg-pink-50 hover:bg-red-300 text-red-500 hover:text-white">

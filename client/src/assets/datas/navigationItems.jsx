@@ -1,3 +1,5 @@
+import { HiOutlineHome, HiOutlineNewspaper, HiOutlineShoppingCart, HiOutlineUser } from "react-icons/hi";
+
 const navigationItemsData = [
   {
     id: 1,

@@ -16,28 +16,28 @@ const BiographiesBooksList = () => {
         </div>
       </div>
       <Swiper grabCursor={'true'} spaceBetween={0} slidesPerView={'auto'}>
-        <SwiperSlide className="max-w-[33.32%]">
+        <SwiperSlide className="lg:max-w-[33.32%] xl:max-w-[33.32%] md:max-w-[50%] sm:max-w-[50%] ">
           <BiographiesBooksCard></BiographiesBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[33.32%]">
+        <SwiperSlide className="lg:max-w-[33.32%] xl:max-w-[33.32%] md:max-w-[50%] sm:max-w-[50%] ">
           <BiographiesBooksCard></BiographiesBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[33.32%]">
+        <SwiperSlide className="lg:max-w-[33.32%] xl:max-w-[33.32%] md:max-w-[50%] sm:max-w-[50%] ">
           <BiographiesBooksCard></BiographiesBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[33.32%]">
+        <SwiperSlide className="lg:max-w-[33.32%] xl:max-w-[33.32%] md:max-w-[50%] sm:max-w-[50%] ">
           <BiographiesBooksCard></BiographiesBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[33.32%]">
+        <SwiperSlide className="lg:max-w-[33.32%] xl:max-w-[33.32%] md:max-w-[50%] sm:max-w-[50%] ">
           <BiographiesBooksCard></BiographiesBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[33.32%]">
+        <SwiperSlide className="lg:max-w-[33.32%] xl:max-w-[33.32%] md:max-w-[50%] sm:max-w-[50%] ">
           <BiographiesBooksCard></BiographiesBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[33.32%]">
+        <SwiperSlide className="lg:max-w-[33.32%] xl:max-w-[33.32%] md:max-w-[50%] sm:max-w-[50%] ">
           <BiographiesBooksCard></BiographiesBooksCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[33.32%]">
+        <SwiperSlide className="lg:max-w-[33.32%] xl:max-w-[33.32%] md:max-w-[50%] sm:max-w-[50%] ">
           <BiographiesBooksCard></BiographiesBooksCard>
         </SwiperSlide>
       </Swiper>

@@ -13,7 +13,7 @@ const ProductCardGrid = () => {
       >
         <img className="px-16 mt-8 h-[225px]" src={Slider1} alt="Book" />
         <div
-          className={`flex flex-col gap-1 absolute px-8 mb-8 pt-3 transition-all duration-500 bg-white ${
+          className={`flex flex-col w-full gap-1 absolute px-8 mb-8 pt-3 transition-all duration-500 bg-white ${
             hover ? '-translate-y-10' : 'bottom-0'
           }`}
         >
@@ -29,10 +29,10 @@ const ProductCardGrid = () => {
             hover ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <button className=" col-span-3 font-semibold uppercase transition-all duration-300 border-b-2 hover:border-gray-900">
+          <button className="col-span-3 font-semibold uppercase transition-all duration-300 border-b-2  hover:border-gray-900">
             Add to card
           </button>
-          <div className="col-span-2 flex flex-row items-center justify-end gap-1">
+          <div className="flex flex-row items-center justify-end col-span-2 gap-1">
             <span className="p-2 rounded-full w-9 h-9 hover:bg-red-500">
               <HiSwitchHorizontal className="w-full h-full"></HiSwitchHorizontal>
             </span>

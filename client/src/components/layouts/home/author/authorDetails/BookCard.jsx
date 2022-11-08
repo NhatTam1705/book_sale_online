@@ -14,7 +14,7 @@ const BookCard = () => {
       >
         <img className="px-14 mt-7 h-[180px]" src={Slider1} alt="Book" />
         <div
-          className={`flex flex-col gap-1 absolute px-7 mb-7 pt-3 transition-all duration-500 bg-white ${
+          className={`flex flex-col w-full gap-1 absolute px-7 mb-7 pt-3 transition-all duration-500 bg-white ${
             hover ? '-translate-y-10' : 'bottom-0'
           }`}
         >

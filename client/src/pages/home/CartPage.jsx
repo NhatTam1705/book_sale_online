@@ -6,14 +6,14 @@ import SideBarCartTotals from '../../components/layouts/home/cart/sideBarCart/Si
 
 const CartPage = () => {
   return (
-    <div className="grid grid-cols-8 gap-8 px-12 py-24 bg-[#fff6f6]">
-      <h1 className="col-span-8 text-4xl font-semibold text-center">
+    <div className="grid xl:grid-cols-8 lg:grid-cols-7 gap-8 px-12 py-24 bg-[#fff6f6]">
+      <h1 className="xl:col-span-8 lg:col-span-7 text-4xl font-semibold text-center">
         Your cart: 3 items
       </h1>
-      <div className="col-span-6">
+      <div className="xl:col-span-6 lg:col-span-5">
         <ListCart></ListCart>
       </div>
-      <div className="col-span-2">
+      <div className="xl:col-span-2 lg:col-span-2">
         <SideBarCartTotals></SideBarCartTotals>
         <SideBarCartShipping></SideBarCartShipping>
         <SideBarCartCoupon></SideBarCartCoupon>

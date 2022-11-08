@@ -51,7 +51,7 @@ const ProductTab = () => {
 
 const DescriptionTab = () => {
   return (
-    <TabPanel value="description">
+    <TabPanel className="!p-0" value="description">
       <p className="text-lg">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam
         possimus cum cumque laboriosam quo dolor soluta hic. Autem eius
@@ -67,7 +67,7 @@ const DescriptionTab = () => {
 
 const ProductDetailsTab = () => {
   return (
-    <TabPanel value="productDetails">
+    <TabPanel className="!p-0" value="productDetails">
       <div className="grid gap-1 ">
         <div className="grid w-full grid-cols-2 px-5 py-3 hover:bg-gray-200">
           <h6 className="text-lg font-semibold">Format:</h6>
@@ -117,13 +117,13 @@ const ReviewesTab = () => {
   };
 
   return (
-    <TabPanel value="reviews">
+    <TabPanel className="!p-0" value="reviews">
       <div className="flex flex-col gap-12">
-        <div className="grid grid-cols-12 gap-y-4">
-          <h6 className="col-span-12 text-xl font-semibold">
+        <div className="grid xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-6 grid-cols-6 gap-y-4">
+          <h6 className="xl:col-span-12 lg:col-span-12 md:col-span-12 sm:col-span-6 col-span-6 text-xl font-semibold">
             Customer Reviews
           </h6>
-          <div className="grid col-span-6 gap-5">
+          <div className="flex flex-col col-span-6 gap-5">
             <div className="flex gap-5">
               <h1 className="font-bold text-7xl">4.6</h1>
               <div className="grid gap-1 py-2">

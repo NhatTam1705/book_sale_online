@@ -29,8 +29,8 @@ const ProductDetails = () => {
   };
 
   return (
-    <div className="grid grid-cols-12 gap-16">
-      <div className="flex items-center col-span-5">
+    <div className="grid grid-cols-12 xl:gap-16 lg:gap-8 md:gap-y-16 sm:gap-y-8 gap-y-8">
+      <div className="flex items-center xl:col-span-5 lg:col-span-5 md:col-span-12 sm:col-span-12 col-span-12">
         <Swiper
           effect={'coverflow'}
           grabCursor={true}
@@ -47,32 +47,32 @@ const ProductDetails = () => {
           modules={[EffectCoverflow, Pagination]}
           className="w-full mySwiper"
         >
-          <SwiperSlide className="max-w-[55%]">
+          <SwiperSlide className="max-w-[55%] ">
             <img src={Slider1} alt="" className="w-full h-auto" />
           </SwiperSlide>
-          <SwiperSlide className="max-w-[55%]">
+          <SwiperSlide className="max-w-[55%] ">
             <img className="w-full h-auto" src={Slider1} alt="" />
           </SwiperSlide>
-          <SwiperSlide className="max-w-[55%]">
+          <SwiperSlide className="max-w-[55%] ">
             <img className="w-full h-auto" src={Slider1} alt="" />
           </SwiperSlide>
-          <SwiperSlide className="max-w-[55%]">
+          <SwiperSlide className="max-w-[55%] ">
             <img className="w-full h-auto" src={Slider1} alt="" />
           </SwiperSlide>
-          <SwiperSlide className="max-w-[55%]">
+          <SwiperSlide className="max-w-[55%] ">
             <img className="w-full h-auto" src={Slider1} alt="" />
           </SwiperSlide>
-          <SwiperSlide className="max-w-[55%]">
+          <SwiperSlide className="max-w-[55%] ">
             <img className="w-full h-auto" src={Slider1} alt="" />
           </SwiperSlide>
-          <SwiperSlide className="max-w-[55%]">
+          <SwiperSlide className="max-w-[55%] ">
             <img className="w-full h-auto" src={Slider1} alt="" />
           </SwiperSlide>
         </Swiper>
       </div>
-      <div className="flex flex-col col-span-7 gap-4">
+      <div className="flex flex-col xl:col-span-7 gap-4 lg:col-span-7 md:col-span-12 sm:col-span-12 col-span-12">
         <h3 className="text-4xl font-semibold">Where the Crawdads Sing</h3>
-        <div className="flex gap-5 text-lg flex-row-">
+        <div className="flex gap-5 text-lg flex-row flex-wrap">
           <Rating name="read-only" value={4} readOnly />
           <span>(3,714)</span>
           <span className="font-semibold">By (author)</span>
@@ -101,7 +101,7 @@ const ProductDetails = () => {
           nihil, animi inventore, in sequi. Corrupti, id! Voluptas, praesentium
           aliquid? Accusantium saepe exercitationem id?
         </h6>
-        <div className="grid grid-cols-12 gap-5 h-14">
+        <div className="grid xl:grid-cols-12 lg:grid-cols-6 md:grid-cols-12 sm:grid-cols-12 grid-cols-6 gap-5 h-14">
           <div className="flex items-center col-span-2 p-2 space-x-2 border rounded-md boder-gray-300">
             <HiMinus
               onClick={() => setQuantity(quantity - 1)}

@@ -13,7 +13,6 @@ class APIFeature {
           },
         }
       : {};
-    console.log(keyword);
     this.query = this.query.find({ ...keyword });
     return this;
   }
@@ -24,12 +23,9 @@ class APIFeature {
     const removeFields = ["keyword", "limit", "page"];
     removeFields.forEach((el) => delete queryCopy[el]);
 
-    console.log(queryCopy);8
     // Advance filter for price
     let queryStr = JSON.stringify(queryCopy);
     queryStr = queryStr.replace(/\b(gt|gte|lt|lte)\b/g, (match) => `$${match}`);
-
-    console.log(queryCopy);
 
     this.query = this.query.find(JSON.parse(queryStr));
 

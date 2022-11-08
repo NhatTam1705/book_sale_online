@@ -19,11 +19,10 @@ const FavoriteAuthorsList = () => {
         </div>
       </div>
       <Swiper
-        slidesPerView={5}
+        slidesPerView='auto'
         spaceBetween={0}
         slidesPerGroup={1}
         loop={true}
-        loopFillGroupWithBlank={true}
         pagination={{
           clickable: true,
         }}
@@ -31,22 +30,22 @@ const FavoriteAuthorsList = () => {
         modules={[Pagination, Navigation]}
         className="mySwiper"
       >
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <FavoriteAuthorsCard></FavoriteAuthorsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <FavoriteAuthorsCard></FavoriteAuthorsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <FavoriteAuthorsCard></FavoriteAuthorsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <FavoriteAuthorsCard></FavoriteAuthorsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <FavoriteAuthorsCard></FavoriteAuthorsCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[20%]">
+        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <FavoriteAuthorsCard></FavoriteAuthorsCard>
         </SwiperSlide>
       </Swiper>

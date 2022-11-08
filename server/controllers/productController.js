@@ -14,6 +14,7 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
     product,
   });
 });
+
 // get all products => /api/v1/products?keyword = apple
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
   const resPerPage = 5;
@@ -64,7 +65,7 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Delete product => /api/v1/admin/delete/:id
+// Delete product => /api/v1/admin/product/:id
 exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   if (!product) {

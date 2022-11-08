@@ -8,28 +8,28 @@ const AuthorBookList = () => {
         <h4 className="text-4xl font-normal">Author's Books</h4>
       </div>
       <Swiper grabCursor={'true'} spaceBetween={0} slidesPerView={'auto'}>
-        <SwiperSlide className="max-w-[25%]">
+        <SwiperSlide className="xl:max-w-[25%] lg:max-w-[33.33%] md:max-w-[50%] sm:max-w-[50%] max-w-[100%]">
           <AuthorBookCard></AuthorBookCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[25%]">
+        <SwiperSlide className="xl:max-w-[25%] lg:max-w-[33.33%] md:max-w-[50%] sm:max-w-[50%] max-w-[100%]">
           <AuthorBookCard></AuthorBookCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[25%]">
+        <SwiperSlide className="xl:max-w-[25%] lg:max-w-[33.33%] md:max-w-[50%] sm:max-w-[50%] max-w-[100%]">
           <AuthorBookCard></AuthorBookCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[25%]">
+        <SwiperSlide className="xl:max-w-[25%] lg:max-w-[33.33%] md:max-w-[50%] sm:max-w-[50%] max-w-[100%]">
           <AuthorBookCard></AuthorBookCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[25%]">
+        <SwiperSlide className="xl:max-w-[25%] lg:max-w-[33.33%] md:max-w-[50%] sm:max-w-[50%] max-w-[100%]">
           <AuthorBookCard></AuthorBookCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[25%]">
+        <SwiperSlide className="xl:max-w-[25%] lg:max-w-[33.33%] md:max-w-[50%] sm:max-w-[50%] max-w-[100%]">
           <AuthorBookCard></AuthorBookCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[25%]">
+        <SwiperSlide className="xl:max-w-[25%] lg:max-w-[33.33%] md:max-w-[50%] sm:max-w-[50%] max-w-[100%]">
           <AuthorBookCard></AuthorBookCard>
         </SwiperSlide>
-        <SwiperSlide className="max-w-[25%]">
+        <SwiperSlide className="xl:max-w-[25%] lg:max-w-[33.33%] md:max-w-[50%] sm:max-w-[50%] max-w-[100%]">
           <AuthorBookCard></AuthorBookCard>
         </SwiperSlide>
       </Swiper>
