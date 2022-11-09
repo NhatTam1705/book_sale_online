@@ -75,18 +75,18 @@ exports.updateCategory = catchAsyncErrors(async (req, res, next) => {
 
 // Delete category => /api/v1/admin/category/:id
 exports.deleteCategory = catchAsyncErrors(async (req, res, next) => {
-  const subCategories = SubCategory.find(
-    (sub) => sub.category.toString() === req.params.id.toString()
-  );
-  if (subCategories) {
-    return next(new ErrorHandler('Category can not deleted!', 404));
-  }
-
   const category = await Category.findById(req.params.id);
-
   if (!category) {
     return next(new ErrorHandler('Category is not found!', 404));
   }
+  const subCategories = await SubCategory.find();
+  const categoryExist = subCategories.filter(
+    (sub) => sub.category.toString() === req.params.id.toString()
+  );
+  if (categoryExist.length !== 0) {
+    return next(new ErrorHandler('Category can not deleted!', 404));
+  }
+
   await category.remove();
   res.status(200).json({
     success: true,
