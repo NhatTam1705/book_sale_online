@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { HiOutlineHeart, HiSwitchHorizontal } from 'react-icons/hi';
 import Slider1 from '../../../../../assets/images/Slider_1.png';
 
-const BestsellingBooksCard = () => {
+const BestsellingBooksCard = ({ product }) => {
+  const { name, format } = product;
   const [hover, setHover] = useState(false);
   return (
     <>
@@ -17,9 +18,9 @@ const BestsellingBooksCard = () => {
             hover ? '-translate-y-12' : 'bottom-0'
           }`}
         >
-          <h6 className="text-sm text-red-600 uppercase">Paper Back</h6>
+          <h6 className="text-sm text-red-600 uppercase">{format}</h6>
           <h5 className="text-base font-medium">
-            The Last Sister (Columbia River Book 1)
+            {name}
           </h5>
           <h5 className="text-base text-gray-500">Old man dev</h5>
           <h5 className="text-lg font-medium">$29</h5>

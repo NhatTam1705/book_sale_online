@@ -8,12 +8,12 @@ const subCategorySchema = new mongoose.Schema({
     maxLength: [100, 'Sub category name can not exceed 100 characters'],
   },
   user: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },
   category: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
     required: true,
   },

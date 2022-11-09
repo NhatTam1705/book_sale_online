@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, Suspense } from 'react';
 import { Outlet, Route, Routes } from 'react-router-dom';
 import './App.css';
 import Footer from './components/footers/home/Footer';
@@ -35,120 +35,122 @@ import ShopPage from './pages/home/ShopPage';
 function App() {
   return (
     <Fragment>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <Header></Header>
-              <NavigationBar></NavigationBar>
-              <Outlet></Outlet>
-              <Footer></Footer>
-            </>
-          }
-        >
-          <Route path="/home" element={<HomePage></HomePage>}></Route>
-          <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
+      <Suspense fallback={<></>}>
+        <Routes>
           <Route
-            path="/shop/product/:id"
-            element={<ProductPage></ProductPage>}
-          ></Route>
-          <Route path="/shop/cart" element={<CartPage></CartPage>}></Route>
-          <Route
-            path="/shop/checkout"
-            element={<CheckoutPage></CheckoutPage>}
-          ></Route>
-          <Route
-            path="/shop/order/:id"
-            element={<OrderReceivedPage></OrderReceivedPage>}
-          ></Route>
-          <Route
-            path="/author/:id"
-            element={<AuthorSinglePage></AuthorSinglePage>}
-          ></Route>
-          <Route path="/author" element={<AuthorPage></AuthorPage>}></Route>
-          <Route path="/profile" element={<ProfilePage></ProfilePage>}>
+            path="/"
+            element={
+              <>
+                <Header></Header>
+                <NavigationBar></NavigationBar>
+                <Outlet></Outlet>
+                <Footer></Footer>
+              </>
+            }
+          >
+            <Route path="/home" element={<HomePage></HomePage>}></Route>
+            <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
             <Route
-              path="/profile/dashboard"
-              element={<DashboardProfile></DashboardProfile>}
+              path="/shop/product/:id"
+              element={<ProductPage></ProductPage>}
+            ></Route>
+            <Route path="/shop/cart" element={<CartPage></CartPage>}></Route>
+            <Route
+              path="/shop/checkout"
+              element={<CheckoutPage></CheckoutPage>}
             ></Route>
             <Route
-              path="/profile/orders"
-              element={<OrdersProfile></OrdersProfile>}
+              path="/shop/order/:id"
+              element={<OrderReceivedPage></OrderReceivedPage>}
             ></Route>
             <Route
-              path="/profile/address"
-              element={<AddressProfile></AddressProfile>}
+              path="/author/:id"
+              element={<AuthorSinglePage></AuthorSinglePage>}
+            ></Route>
+            <Route path="/author" element={<AuthorPage></AuthorPage>}></Route>
+            <Route path="/profile" element={<ProfilePage></ProfilePage>}>
+              <Route
+                path="/profile/dashboard"
+                element={<DashboardProfile></DashboardProfile>}
+              ></Route>
+              <Route
+                path="/profile/orders"
+                element={<OrdersProfile></OrdersProfile>}
+              ></Route>
+              <Route
+                path="/profile/address"
+                element={<AddressProfile></AddressProfile>}
+              ></Route>
+              <Route
+                path="/profile/account"
+                element={<AccountProfile></AccountProfile>}
+              ></Route>
+              <Route
+                path="/profile/wishlist"
+                element={<WishlistProfile></WishlistProfile>}
+              ></Route>
+            </Route>
+            <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>
+          </Route>
+          <Route
+            path="/admin"
+            element={
+              <>
+                <HeaderAdmin></HeaderAdmin>
+                <div className="grid grid-cols-10">
+                  <div className="col-span-2 ">
+                    <SideBarAdmin></SideBarAdmin>
+                  </div>
+                  <div className="col-span-8 p-6 ">
+                    <Outlet></Outlet>
+                  </div>
+                </div>
+              </>
+            }
+          >
+            <Route
+              path="/admin/dashboard"
+              element={<DashboardAdminPage></DashboardAdminPage>}
             ></Route>
             <Route
-              path="/profile/account"
-              element={<AccountProfile></AccountProfile>}
+              path="/admin/customers"
+              element={<CustomerAdminPage></CustomerAdminPage>}
             ></Route>
             <Route
-              path="/profile/wishlist"
-              element={<WishlistProfile></WishlistProfile>}
+              path="/admin/customer/:id"
+              element={<CustomerProfileAdmin></CustomerProfileAdmin>}
+            ></Route>
+            <Route
+              path="/admin/orders"
+              element={<OrderAdminPage></OrderAdminPage>}
+            ></Route>
+            <Route
+              path="/admin/order/:id"
+              element={<OrderDetailsAdminPage></OrderDetailsAdminPage>}
+            ></Route>
+            <Route
+              path="/admin/products"
+              element={<ProductListPage></ProductListPage>}
+            ></Route>
+            <Route
+              path="/admin/product"
+              element={<AddProductPage></AddProductPage>}
+            ></Route>
+            <Route
+              path="/admin/categories"
+              element={<CategoryAdminPage></CategoryAdminPage>}
+            ></Route>
+            <Route
+              path="/admin/authors"
+              element={<AuthorListPage></AuthorListPage>}
+            ></Route>
+            <Route
+              path="/admin/author"
+              element={<AddAuthorPage></AddAuthorPage>}
             ></Route>
           </Route>
-          <Route path="/*" element={<NotFoundPage></NotFoundPage>}></Route>
-        </Route>
-        <Route
-          path="/admin"
-          element={
-            <>
-              <HeaderAdmin></HeaderAdmin>
-              <div className="grid grid-cols-10">
-                <div className="col-span-2 ">
-                  <SideBarAdmin></SideBarAdmin>
-                </div>
-                <div className="col-span-8 p-6 ">
-                  <Outlet></Outlet>
-                </div>
-              </div>
-            </>
-          }
-        >
-          <Route
-            path="/admin/dashboard"
-            element={<DashboardAdminPage></DashboardAdminPage>}
-          ></Route>
-          <Route
-            path="/admin/customers"
-            element={<CustomerAdminPage></CustomerAdminPage>}
-          ></Route>
-          <Route
-            path="/admin/customer/:id"
-            element={<CustomerProfileAdmin></CustomerProfileAdmin>}
-          ></Route>
-          <Route
-            path="/admin/orders"
-            element={<OrderAdminPage></OrderAdminPage>}
-          ></Route>
-          <Route
-            path="/admin/order/:id"
-            element={<OrderDetailsAdminPage></OrderDetailsAdminPage>}
-          ></Route>
-          <Route
-            path="/admin/products"
-            element={<ProductListPage></ProductListPage>}
-          ></Route>
-          <Route
-            path="/admin/product"
-            element={<AddProductPage></AddProductPage>}
-          ></Route>
-          <Route
-            path="/admin/categories"
-            element={<CategoryAdminPage></CategoryAdminPage>}
-          ></Route>
-          <Route
-            path="/admin/authors"
-            element={<AuthorListPage></AuthorListPage>}
-          ></Route>
-          <Route
-            path="/admin/author"
-            element={<AddAuthorPage></AddAuthorPage>}
-          ></Route>
-        </Route>
-      </Routes>
+        </Routes>
+      </Suspense>
     </Fragment>
   );
 }

@@ -5,10 +5,10 @@ const categorySchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter category name'],
     trim: true,
-    maxLength: [100, 'Product category can not exceed 100 characters'],
+    maxLength: [100, 'Category name can not exceed 100 characters'],
   },
   user: {
-    type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     required: true,
   },

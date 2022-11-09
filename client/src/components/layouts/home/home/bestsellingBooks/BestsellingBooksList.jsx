@@ -1,12 +1,10 @@
-import React from 'react';
 import { HiChevronDoubleRight } from 'react-icons/hi';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import BestsellingBooksCard from './BestsellingBooksCard';
 
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProducts } from '../../../../../actions/productActions';
-import { useEffect } from 'react';
-import ProductPage from '../../../../../pages/home/ProductPage';
 
 const BestsellingBooksList = () => {
   const disptach = useDispatch();
@@ -14,11 +12,16 @@ const BestsellingBooksList = () => {
   const { loading, products, error, productsCount } = useSelector(
     (state) => state.products
   );
-
+  
   useEffect(() => {
     disptach(getProducts());
   }, [disptach]);
-
+  
+  console.log(
+    '🚀 ~ file: BestsellingBooksList.jsx ~ line 13 ~ BestsellingBooksList ~ products',
+    products
+  );
+  
   return (
     <div>
       <div className="flex flex-row items-center justify-between mb-10">
@@ -33,11 +36,14 @@ const BestsellingBooksList = () => {
       <Swiper grabCursor={'true'} spaceBetween={0} slidesPerView={'auto'}>
         {products &&
           products.map((product) => (
-            <SwiperSlide key={product._id} className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
-              <BestsellingBooksCard></BestsellingBooksCard>
+            <SwiperSlide
+              key={product._id}
+              className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]"
+            >
+              <BestsellingBooksCard product={product}></BestsellingBooksCard>
             </SwiperSlide>
           ))}
-        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
+        {/* <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
         </SwiperSlide>
         <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
@@ -57,7 +63,7 @@ const BestsellingBooksList = () => {
         </SwiperSlide>
         <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
           <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
     </div>
   );

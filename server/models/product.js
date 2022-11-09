@@ -44,14 +44,14 @@ const productSchema = new mongoose.Schema({
     type: Number,
     required: [true, 'Please enter product cost price'],
     trim: true,
-    maxLength: [10, 'Product cost price can not exceed 5 characters'],
+    maxLength: [10, 'Product cost price can not exceed 10 characters'],
     default: 0.0,
   },
   soldPrice: {
     type: Number,
     required: [true, 'Please enter product sold price'],
     trim: true,
-    maxLength: [10, 'Product sold price can not exceed 5 characters'],
+    maxLength: [10, 'Product sold price can not exceed 10 characters'],
     default: 0.0,
   },
   page: {
@@ -66,19 +66,9 @@ const productSchema = new mongoose.Schema({
     trim: true,
     default: 0.0,
   },
-  category: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'SubCategory',
-    required: true,
-  },
   ratings: {
     type: Number,
     default: 0.0,
-  },
-  user: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-    required: true,
   },
   numOfReviews: {
     type: Number,
@@ -105,6 +95,26 @@ const productSchema = new mongoose.Schema({
       },
     },
   ],
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'SubCategory',
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  discount: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Discount',
+    default: null,
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Author',
+    required: true,
+  },
   createdDate: {
     type: Date,
     default: Date.now,
