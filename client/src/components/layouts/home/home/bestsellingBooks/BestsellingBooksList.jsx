@@ -17,11 +17,6 @@ const BestsellingBooksList = () => {
     disptach(getProducts());
   }, [disptach]);
   
-  console.log(
-    '🚀 ~ file: BestsellingBooksList.jsx ~ line 13 ~ BestsellingBooksList ~ products',
-    products
-  );
-  
   return (
     <div>
       <div className="flex flex-row items-center justify-between mb-10">
@@ -43,27 +38,6 @@ const BestsellingBooksList = () => {
               <BestsellingBooksCard product={product}></BestsellingBooksCard>
             </SwiperSlide>
           ))}
-        {/* <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
-          <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
-          <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
-          <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
-          <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
-          <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
-          <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]">
-          <BestsellingBooksCard></BestsellingBooksCard>
-        </SwiperSlide> */}
       </Swiper>
     </div>
   );

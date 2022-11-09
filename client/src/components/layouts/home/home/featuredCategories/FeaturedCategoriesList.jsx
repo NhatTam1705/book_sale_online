@@ -1,9 +1,49 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import FeaturedCategoriesCard from './FeaturedCategoriesCard';
+import { useEffect } from 'react';
 import { HiChevronDoubleRight } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { getCategories } from '../../../../../actions/categoryActions';
+import FeaturedCategoriesCard from './FeaturedCategoriesCard';
+
+const themeCategoryColors = [
+  'red',
+  'blue',
+  'pink',
+  'orange',
+  'green',
+  'purple',
+  'yellow',
+  'amber',
+  'lime',
+  'emerald',
+  'teal',
+  'cyan',
+  'sky',
+  'indigo',
+  'violet',
+  'fuchsia',
+  'rose',
+];
 
 const FeaturedCategoriesList = () => {
+  const disptach = useDispatch();
+
+  const { loading, categories, error, categoriesCount } = useSelector(
+    (state) => state.categories
+  );
+
+  useEffect(() => {
+    disptach(getCategories());
+  }, [disptach]);
+
+  console.log(
+    '🚀 ~ file: FeaturedCategoriesList.jsx ~ line 32 ~ FeaturedCategoriesList ~ categoriesCount',
+    categoriesCount
+  );
+  console.log(
+    '🚀 ~ file: FeaturedCategoriesList.jsx ~ line 32 ~ FeaturedCategoriesList ~ categories',
+    categories
+  );
   return (
     <div>
       <div className="flex flex-row items-center justify-between mb-10">
@@ -16,33 +56,22 @@ const FeaturedCategoriesList = () => {
         </div>
       </div>
       <Swiper grabCursor={'true'} spaceBetween={30} slidesPerView={'auto'}>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
-        <SwiperSlide className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]">
-          <FeaturedCategoriesCard></FeaturedCategoriesCard>
-        </SwiperSlide>
+        {categories &&
+          categories.map((category) => (
+            <SwiperSlide
+              key={category._id}
+              className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]"
+            >
+              <FeaturedCategoriesCard
+                category={category}
+                color={
+                  themeCategoryColors[
+                    Math.floor(Math.random() * themeCategoryColors.length)
+                  ]
+                }
+              ></FeaturedCategoriesCard>
+            </SwiperSlide>
+          ))}
       </Swiper>
     </div>
   );

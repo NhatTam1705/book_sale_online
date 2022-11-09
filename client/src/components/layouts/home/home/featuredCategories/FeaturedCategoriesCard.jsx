@@ -1,18 +1,44 @@
-import React from 'react';
-import { HiOutlinePhotograph } from 'react-icons/hi';
 import PropsTypes from 'prop-types';
 import { withErrorBoundary } from 'react-error-boundary';
+import { MdOutlineMenuBook } from 'react-icons/md';
 
-const FeaturedCategoriesCard = () => {
+const FeaturedCategoriesCard = ({ category, color }) => {
+  console.log(
+    '🚀 ~ file: FeaturedCategoriesCard.jsx ~ line 5 ~ FeaturedCategoriesCard ~ color',
+    color
+  );
+  const { _id, name } = category;
+
   return (
     <>
-      <div className="p-9 w-full h-[194px] select-none cursor-pointer flex flex-col items-start gap-1 bg-pink-200">
-        <HiOutlinePhotograph className="text-pink-500 w-14 h-14"></HiOutlinePhotograph>
-        <h4 className="text-xl font-semibold">Arts & Photography</h4>
+      <div
+        className={`p-9 w-full h-[194px] select-none cursor-pointer flex flex-col items-start gap-1 bg-${color}-200`}
+      >
+        <MdOutlineMenuBook
+          className={`text-${color}-500 w-14 h-14`}
+        ></MdOutlineMenuBook>
+        <h4 className="text-xl font-semibold">{name}</h4>
         <h6 className="text-lg">Shop Now</h6>
       </div>
     </>
   );
 };
 
-export default FeaturedCategoriesCard;
+FeaturedCategoriesCard.PropsTypes = {
+  category: PropsTypes.shape({
+    _id: PropsTypes.string,
+    name: PropsTypes.string,
+  }),
+};
+
+function FallbackComponent() {
+  return (
+    <p className="text-red-400 bg-red-50">
+      Something went wrong with this component
+    </p>
+  );
+}
+
+export default withErrorBoundary(FeaturedCategoriesCard, {
+  FallbackComponent,
+});
