@@ -162,3 +162,26 @@ exports.deleteReviews = catchAsyncErrors(async (req, res, next) => {
     success: true,
   });
 });
+// Get review star for each product =?/api/v1/review/:id
+
+exports.getSingleReviewProduct= catchAsyncErrors(async (req, res, next) => {
+  const product = await Product.findById(req.params.id);
+  let review = new Array();
+  let j=0;
+  if (!product) {   
+    return next(new ErrorHandler("Can not found this ID", 404));     
+  }
+  for(var i =1;i<=5;i++){
+    
+  const products = product.reviews.filter((re) => re.rating === i)
+  review[j] = (i, products.length)
+  j=j+1;
+  }
+  
+  res.status(200).json({
+     return:true,
+     review
+  });
+
+
+});

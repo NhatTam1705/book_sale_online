@@ -1,7 +1,8 @@
-const Author = require('../models/author');
-const ErrorHandler = require('../utils/errorHandler');
-const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
-const APIFeatures = require('../utils/apiFeatures');
+const Author = require("../models/author");
+const ErrorHandler = require("../utils/errorHandler");
+const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
+const APIFeatures = require("../utils/apiFeatures");
+const Product = require("../models/product");
 
 // Create new author => api/v1/admin/author/new
 exports.newAuthor = catchAsyncErrors(async (req, res, next) => {
@@ -56,7 +57,7 @@ exports.updateAuthor = catchAsyncErrors(async (req, res, next) => {
   let author = await Author.findById(req.params.id);
 
   if (!author) {
-    return next(new ErrorHandler('Author is not found!', 404));
+    return next(new ErrorHandler("Author is not found!", 404));
   }
 
   req.body.user = req.user.id;
@@ -77,12 +78,19 @@ exports.updateAuthor = catchAsyncErrors(async (req, res, next) => {
 exports.deleteAuthor = catchAsyncErrors(async (req, res, next) => {
   const author = await Author.findById(req.params.id);
   if (!author) {
-    return next(new ErrorHandler('Author is not found!', 404));
+    return next(new ErrorHandler("author is not found!", 404));
+  }
+  const products = await Product.find();
+  const authorExist = products.filter(
+    (pro) => pro.author == req.params.id
+  );
+  if (authorExist.length !== 0) {
+    return next(new ErrorHandler("author can not deleted!", 404));
   }
 
   await author.remove();
   res.status(200).json({
     success: true,
-    message: 'Author is deleted!',
+    message: "author is deleted!",
   });
 });
