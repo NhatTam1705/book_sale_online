@@ -26,8 +26,10 @@ const NavigationBar = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (keyword !== '') {
-      console.log(keyword);
+    if (keyword.trim()) {
+      navigate(`/shop/search/${keyword}`)
+    } else {
+      navigate('/shop')
     }
   };
 

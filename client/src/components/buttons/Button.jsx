@@ -1,4 +1,5 @@
 const Button = ({
+  disabled = false,
   onClick,
   className = '',
   full = false,
@@ -9,6 +10,7 @@ const Button = ({
 }) => {
   return (
     <button
+      disabled={false}
       {...props}
       type={type}
       onClick={onClick}

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { withErrorBoundary } from 'react-error-boundary';
 import { HiChevronDoubleRight } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,23 +7,23 @@ import { getCategories } from '../../../../../actions/categoryActions';
 import FeaturedCategoriesCard from './FeaturedCategoriesCard';
 
 const themeCategoryColors = [
-  'red',
-  'blue',
-  'pink',
-  'orange',
-  'green',
-  'purple',
-  'yellow',
-  'amber',
-  'lime',
-  'emerald',
-  'teal',
-  'cyan',
-  'sky',
-  'indigo',
-  'violet',
-  'fuchsia',
-  'rose',
+  { bg: 'bg-red-200', text: 'text-red-500' },
+  { bg: 'bg-blue-200', text: 'text-blue-500' },
+  { bg: 'bg-pink-200', text: 'text-pink-500' },
+  { bg: 'bg-orange-200', text: 'text-orange-500' },
+  { bg: 'bg-green-200', text: 'text-green-500' },
+  { bg: 'bg-purple-200', text: 'text-purple-500' },
+  { bg: 'bg-yellow-200', text: 'text-yellow-500' },
+  { bg: 'bg-amber-200', text: 'text-amber-500' },
+  { bg: 'bg-lime-200', text: 'text-lime-500' },
+  { bg: 'bg-emerald-200', text: 'text-emerald-500' },
+  { bg: 'bg-teal-200', text: 'text-teal-500' },
+  { bg: 'bg-cyan-200', text: 'text-cyan-500' },
+  { bg: 'bg-sky-200', text: 'text-sky-500' },
+  { bg: 'bg-indigo-200', text: 'text-indigo-500' },
+  { bg: 'bg-violet-200', text: 'text-violet-500' },
+  { bg: 'bg-fuchsia-200', text: 'text-fuchsia-500' },
+  { bg: 'bg-rose-200', text: 'text-rose-500' },
 ];
 
 const FeaturedCategoriesList = () => {
@@ -36,14 +37,6 @@ const FeaturedCategoriesList = () => {
     disptach(getCategories());
   }, [disptach]);
 
-  console.log(
-    '🚀 ~ file: FeaturedCategoriesList.jsx ~ line 32 ~ FeaturedCategoriesList ~ categoriesCount',
-    categoriesCount
-  );
-  console.log(
-    '🚀 ~ file: FeaturedCategoriesList.jsx ~ line 32 ~ FeaturedCategoriesList ~ categories',
-    categories
-  );
   return (
     <div>
       <div className="flex flex-row items-center justify-between mb-10">
@@ -57,24 +50,40 @@ const FeaturedCategoriesList = () => {
       </div>
       <Swiper grabCursor={'true'} spaceBetween={30} slidesPerView={'auto'}>
         {categories &&
-          categories.map((category) => (
-            <SwiperSlide
-              key={category._id}
-              className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]"
-            >
-              <FeaturedCategoriesCard
-                category={category}
-                color={
-                  themeCategoryColors[
-                    Math.floor(Math.random() * themeCategoryColors.length)
-                  ]
-                }
-              ></FeaturedCategoriesCard>
-            </SwiperSlide>
-          ))}
+          categories
+            .sort((prev, next) => {
+              return prev.createdDate < next.createdDate ? 1 : -1;
+            })
+            .map((category) => {
+              let index = Math.floor(
+                Math.random() * themeCategoryColors.length
+              );
+              return (
+                <SwiperSlide
+                  key={category._id}
+                  className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]"
+                >
+                  <FeaturedCategoriesCard
+                    category={category}
+                    bg={themeCategoryColors[index].bg}
+                    text={themeCategoryColors[index].text}
+                  ></FeaturedCategoriesCard>
+                </SwiperSlide>
+              );
+            })}
       </Swiper>
     </div>
   );
 };
 
-export default FeaturedCategoriesList;
+const FallbackComponent = () => {
+  return (
+    <p className="text-red-400 bg-red-50">
+      Something went wrong with this component
+    </p>
+  );
+};
+
+export default withErrorBoundary(FeaturedCategoriesList, {
+  FallbackComponent,
+});

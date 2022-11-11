@@ -1,7 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
 import { Rating, Tab } from '@mui/material';
+import PropsTypes from 'prop-types';
 import { useState } from 'react';
+import { withErrorBoundary } from 'react-error-boundary';
 import { useForm } from 'react-hook-form';
 import {
   HiOutlineTag,
@@ -11,7 +13,20 @@ import {
 import * as Yup from 'yup';
 import Button from '../../../buttons/Button';
 
-const ProductTab = () => {
+const ProductTab = ({ product }) => {
+  const {
+    _id,
+    numOfReviews,
+    reviews,
+    ratings,
+    format,
+    language,
+    description,
+    publishing,
+    issuing,
+    page,
+    weight,
+  } = product;
   const [value, setValue] = useState('description');
 
   const handleChange = (event, newValue) => {
@@ -36,65 +51,81 @@ const ProductTab = () => {
               value="productDetails"
               label="Product Details"
             />
-            <Tab className="tab-details" value="reviews" label="Reviewes (0)" />
+            <Tab
+              className="tab-details"
+              value="reviews"
+              label={`Reviewes (${numOfReviews})`}
+            />
           </TabList>
         </div>
         <div className="px-12 mt-12 max-w-[1050px] mx-auto">
-          <DescriptionTab></DescriptionTab>
-          <ProductDetailsTab></ProductDetailsTab>
-          <ReviewesTab></ReviewesTab>
+          <DescriptionTab description={description}></DescriptionTab>
+          <ProductDetailsTab
+            format={format}
+            language={language}
+            page={page}
+            weight={weight}
+            publishing={publishing}
+            issuing={issuing}
+          ></ProductDetailsTab>
+          <ReviewesTab
+            ratings={ratings}
+            numOfReviews={numOfReviews}
+            reviews={reviews}
+          ></ReviewesTab>
         </div>
       </TabContext>
     </div>
   );
 };
 
-const DescriptionTab = () => {
+const DescriptionTab = ({ description }) => {
   return (
     <TabPanel className="!p-0" value="description">
-      <p className="text-lg">
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam
-        possimus cum cumque laboriosam quo dolor soluta hic. Autem eius
-        molestias nisi temporibus? Labore sunt nisi eveniet inventore ratione
-        quas! Nostrum! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-        Dignissimos porro exercitationem totam. Eaque atque minus a blanditiis
-        mollitia, aspernatur doloremque amet nemo molestiae dignissimos
-        accusamus provident corrupti cumque aliquid necessitatibus.
-      </p>
+      <p className="text-lg">{description}</p>
     </TabPanel>
   );
 };
 
-const ProductDetailsTab = () => {
+const ProductDetailsTab = ({
+  language,
+  format,
+  publishing,
+  issuing,
+  page,
+  weight,
+}) => {
   return (
     <TabPanel className="!p-0" value="productDetails">
       <div className="grid gap-1 ">
         <div className="grid w-full grid-cols-2 px-5 py-3 hover:bg-gray-200">
           <h6 className="text-lg font-semibold">Format:</h6>
-          <h6 className="text-lg">Paperback | 384 pages</h6>
+          <h6 className="text-lg">
+            {format} | {page} pages
+          </h6>
         </div>
         <div className="grid w-full grid-cols-2 px-5 py-3 hover:bg-gray-200">
           <h6 className="text-lg font-semibold">Demensions:</h6>
-          <h6 className="text-lg">123 x 384 x 12mm | 350g</h6>
-        </div>
-        <div className="grid w-full grid-cols-2 px-5 py-3 hover:bg-gray-200">
-          <h6 className="text-lg font-semibold">Publication Date:</h6>
-          <h6 className="text-lg">11 Apr 2001</h6>
-        </div>
-        <div className="grid w-full grid-cols-2 px-5 py-3 hover:bg-gray-200">
-          <h6 className="text-lg font-semibold">Publisher:</h6>
-          <h6 className="text-lg">Doan Van</h6>
+          <h6 className="text-lg">{weight} g </h6>
         </div>
         <div className="grid w-full grid-cols-2 px-5 py-3 hover:bg-gray-200">
           <h6 className="text-lg font-semibold">Language:</h6>
-          <h6 className="text-lg">Korea</h6>
+          <h6 className="text-lg">{language}</h6>
+        </div>
+        <div className="grid w-full grid-cols-2 px-5 py-3 hover:bg-gray-200">
+          <h6 className="text-lg font-semibold">Publishing house:</h6>
+          <h6 className="text-lg">{publishing}</h6>
+        </div>
+        <div className="grid w-full grid-cols-2 px-5 py-3 hover:bg-gray-200">
+          <h6 className="text-lg font-semibold">Issuing company:</h6>
+          <h6 className="text-lg">{issuing}</h6>
         </div>
       </div>
     </TabPanel>
   );
 };
 
-const ReviewesTab = () => {
+const ReviewesTab = ({ ratings, numOfReviews, reviews }) => {
   const schemaReview = Yup.object({
     title: Yup.string().required(),
     content: Yup.string().required(),
@@ -125,15 +156,15 @@ const ReviewesTab = () => {
           </h6>
           <div className="flex flex-col col-span-6 gap-5">
             <div className="flex gap-5">
-              <h1 className="font-bold text-7xl">4.6</h1>
+              <h1 className="font-bold text-7xl">{ratings}</h1>
               <div className="grid gap-1 py-2">
                 <div>
-                  <span className="text-lg">3,714 </span>
+                  <span className="text-lg">{numOfReviews} </span>
                   <span className="text-base">reviews</span>
                 </div>
                 <Rating
                   name=""
-                  defaultValue={1}
+                  value={ratings}
                   precision={0.5}
                   readOnly
                   size="small"
@@ -347,4 +378,28 @@ const ReviewesTab = () => {
   );
 };
 
-export default ProductTab;
+ProductTab.PropsTypes = {
+  product: PropsTypes.shape({
+    _id: PropsTypes.string,
+    numOfReviews: PropsTypes.number,
+    reviews: PropsTypes.array,
+    ratings: PropsTypes.number,
+    format: PropsTypes.string,
+    language: PropsTypes.string,
+    description: PropsTypes.string,
+    publishing: PropsTypes.string,
+    issuing: PropsTypes.string,
+    page: PropsTypes.number,
+    weight: PropsTypes.number,
+  }),
+};
+
+const FallbackComponent = () => {
+  return (
+    <p className="text-red-400 bg-red-50">
+      Something went wrong with this component
+    </p>
+  );
+};
+
+export default withErrorBoundary(ProductTab, FallbackComponent);

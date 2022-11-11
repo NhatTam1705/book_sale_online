@@ -4,7 +4,8 @@ const router = express.Router();
 const {
   newAuthor,
   getAuthors,
-  getAuthorsAdmin,
+  getAuthorsPagination,
+  getAuthorDetails,
   updateAuthor,
   deleteAuthor,
 } = require('../controllers/authorController');
@@ -15,11 +16,10 @@ router
   .route('/admin/author/new')
   .post(isAuthenticatedUser, authorizeRoles('admin'), newAuthor);
 
-router.route('/authors/').get(getAuthors);
+router.route('/authors').get(getAuthors);
+router.route('/author/:id').get(getAuthorDetails);
 
-router
-  .route('/admin/authors/:resPerPage')
-  .get(isAuthenticatedUser, authorizeRoles('admin'), getAuthorsAdmin);
+router.route('/admin/authors/:resPerPage').get(getAuthorsPagination);
 
 router
   .route('/admin/author/:id')

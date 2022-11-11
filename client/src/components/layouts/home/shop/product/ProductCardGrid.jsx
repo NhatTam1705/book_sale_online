@@ -1,9 +1,45 @@
-import React, { useState } from 'react';
+import { useSnackbar } from 'notistack';
+import PropsTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { withErrorBoundary } from 'react-error-boundary';
 import { HiOutlineHeart, HiSwitchHorizontal } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import {
+  clearErrors,
+  getAuthorDetails,
+} from '../../../../../actions/authorActions';
 import Slider1 from '../../../../../assets/images/Slider_1.png';
 
-const ProductCardGrid = () => {
+const ProductCardGrid = ({ product }) => {
+  // Destructuring information of product
+  const { _id, name, format, soldPrice, author: authorId } = product;
+
+  // Declare value hover when hover product card
   const [hover, setHover] = useState(false);
+
+  // Declare function handle error when need
+  const { enqueueSnackbar } = useSnackbar();
+
+  // Declare function transmission action form view to reducer
+  const dispatch = useDispatch();
+
+  // Declare function redirect url when click to product card
+  const navigate = useNavigate();
+
+  // Handle get single author details from store redux when component render
+  const { author, error } = useSelector((state) => state.authorDetails);
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(error, { variant: 'error' });
+      dispatch(clearErrors);
+    }
+
+    if (authorId !== undefined) {
+      dispatch(getAuthorDetails(authorId));
+    }
+  }, [dispatch, enqueueSnackbar, error, authorId]);
+
   return (
     <>
       <div
@@ -17,24 +53,22 @@ const ProductCardGrid = () => {
             hover ? '-translate-y-10' : 'bottom-0'
           }`}
         >
-          <h6 className="text-sm text-red-600 uppercase">Paper Back</h6>
-          <h5 className="text-base font-medium">
-            The Last Sister (Columbia River Book 1)
-          </h5>
-          <h5 className="text-base text-gray-500">Old man dev</h5>
-          <h5 className="text-lg font-medium">$29</h5>
+          <h6 className="text-sm text-red-600 uppercase">{format}</h6>
+          <h5 className="text-base font-medium">{name}</h5>
+          <h5 className="text-base text-gray-500">{author.name}</h5>
+          <h5 className="text-lg font-medium">${soldPrice}</h5>
         </div>
         <div
           className={`grid grid-cols-5 absolute transition-all duration-500 bottom-0 px-8 mb-8 w-full ${
             hover ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <button className="col-span-3 font-semibold uppercase transition-all duration-300 border-b-2  hover:border-gray-900">
+          <button className="col-span-3 font-semibold uppercase transition-all duration-300 border-b-2 hover:border-gray-900">
             Add to card
           </button>
           <div className="flex flex-row items-center justify-end col-span-2 gap-1">
             <span className="p-2 rounded-full w-9 h-9 hover:bg-red-500">
-              <HiSwitchHorizontal className="w-full h-full"></HiSwitchHorizontal>
+              <HiSwitchHorizontal className="w-full h-full" onClick={() => navigate(`/shop/product/${_id}`)}></HiSwitchHorizontal>
             </span>
             <span className="p-2 rounded-full w-9 h-9 hover:bg-red-500">
               <HiOutlineHeart className="w-full h-full"></HiOutlineHeart>
@@ -47,4 +81,23 @@ const ProductCardGrid = () => {
   );
 };
 
-export default ProductCardGrid;
+// Check type props input
+ProductCardGrid.PropsTypes = {
+  product: PropsTypes.shape({
+    _id: PropsTypes.string,
+    name: PropsTypes.string,
+    format: PropsTypes.string,
+    soldPrice: PropsTypes.number,
+    authorId: PropsTypes.string,
+  }),
+};
+
+// Callback component when error
+const FallbackComponent = () => {
+  return (
+    <p className="text-red-400 bg-red-50">
+      Something went wrong with this component
+    </p>
+  );
+};
+export default withErrorBoundary(ProductCardGrid, FallbackComponent);

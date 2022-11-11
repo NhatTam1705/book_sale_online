@@ -9,7 +9,7 @@ class APIFeature {
       ? {
           name: {
             $regex: this.queryStr.keyword,
-            $options: "i",
+            $options: 'i',
           },
         }
       : {};
@@ -20,8 +20,10 @@ class APIFeature {
     const queryCopy = { ...this.queryStr };
 
     //removing from the query string
-    const removeFields = ["keyword", "limit", "page"];
-    removeFields.forEach((el) => delete queryCopy[el]);
+    const removeFields = ['keyword', 'limit', 'page', 'sortBy', 'orderBy'];
+    removeFields.forEach((el) => {
+      return delete queryCopy[el];
+    });
 
     // Advance filter for price
     let queryStr = JSON.stringify(queryCopy);
@@ -31,9 +33,20 @@ class APIFeature {
 
     return this;
   }
-  pagination (resPerPage){
+  sorting() {
+    let sort = {};
+
+    if (this.queryStr.sortBy && this.queryStr.orderBy) {
+      sort[this.queryStr.sortBy] = this.queryStr.orderBy === 'desc' ? -1 : 1;
+    }
+
+    this.query.sort(sort);
+    return this;
+  }
+
+  pagination(resPerPage) {
     const currentPage = Number(this.queryStr.page) || 1;
-    const skip = resPerPage * (currentPage -1);
+    const skip = resPerPage * (currentPage - 1);
 
     this.query = this.query.limit(resPerPage).skip(skip);
     return this;

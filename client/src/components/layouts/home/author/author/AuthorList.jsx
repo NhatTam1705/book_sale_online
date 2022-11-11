@@ -1,3 +1,5 @@
+import PropsTypes from 'prop-types';
+import { withErrorBoundary } from 'react-error-boundary';
 import Button from '../../../../buttons/Button';
 import AuthorCard from './AuthorCard';
 
@@ -112,9 +114,7 @@ const characters = [
   },
 ];
 
-const array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-const AuthorList = () => {
+const AuthorList = ({ authors, loading, authorsCount }) => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-row flex-wrap justify-between text-lg">
@@ -126,12 +126,16 @@ const AuthorList = () => {
           ))}
       </div>
       <div className="grid grid-cols-2 gap-2 xl:grid-cols-10 lg:grid-cols-8 md:grid-cols-6 sm:grid-cols-4">
-        {array &&
-          array.map((item, index) => (
-            <div className="col-span-2" key={index}>
-              <AuthorCard></AuthorCard>
-            </div>
-          ))}
+        {authors &&
+          authors
+            .sort((prev, next) => {
+              return prev.createdDate < next.createdDate ? 1 : -1;
+            })
+            .map((author, index) => (
+              <div className="col-span-2" key={author._id}>
+                <AuthorCard author={author}></AuthorCard>
+              </div>
+            ))}
       </div>
       <Button className="w-48 mx-auto text-lg bg-white border border-gray-300">
         Load more
@@ -140,4 +144,18 @@ const AuthorList = () => {
   );
 };
 
-export default AuthorList;
+AuthorList.PropsTypes = {
+  authors: PropsTypes.array,
+  loading: PropsTypes.bool,
+  authorsCount: PropsTypes.number,
+};
+
+const FallbackComponent = () => {
+  return (
+    <p className="text-red-400 bg-red-50">
+      Something went wrong with this component
+    </p>
+  );
+};
+
+export default withErrorBoundary(AuthorList, FallbackComponent);

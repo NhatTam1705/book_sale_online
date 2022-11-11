@@ -1,6 +1,7 @@
-import { TabContext, TabList } from '@mui/lab';
-import { Rating, Tab } from '@mui/material';
+import { Rating } from '@mui/material';
+import PropsTypes from 'prop-types';
 import { useState } from 'react';
+import { withErrorBoundary } from 'react-error-boundary';
 import {
   HiMinus,
   HiOutlineHeart,
@@ -15,17 +16,21 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Button from '../../../buttons/Button';
 import Slider1 from './../../../../assets/images/Slider_1.png';
 
-const ProductDetails = () => {
-  const [value, setValue] = useState('Hardcover');
+const ProductDetails = ({ product, author }) => {
+  const {
+    _id,
+    name: productName,
+    ratings,
+    numOfReviews,
+    soldPrice,
+    stock,
+  } = product;
+  const { name: authorName } = author;
 
   const [quantity, setQuantity] = useState(1);
 
   const handleChangeQuantity = (e) => {
     setQuantity(e.target.value);
-  };
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
   };
 
   return (
@@ -71,35 +76,20 @@ const ProductDetails = () => {
         </Swiper>
       </div>
       <div className="flex flex-col xl:col-span-7 gap-4 lg:col-span-7 md:col-span-12 sm:col-span-12 col-span-12">
-        <h3 className="text-4xl font-semibold">Where the Crawdads Sing</h3>
+        <h3 className="text-4xl font-semibold">{productName}</h3>
         <div className="flex gap-5 text-lg flex-row flex-wrap">
-          <Rating name="read-only" value={4} readOnly />
-          <span>(3,714)</span>
+          <Rating name="read-only" value={ratings || 0} readOnly />
+          <span>({numOfReviews})</span>
           <span className="font-semibold">By (author)</span>
-          <h6 className="text-gray-500">Old man dev</h6>
+          <h6 className="text-gray-500">{authorName}</h6>
         </div>
-        <h4 className="text-3xl font-semibold">$1.999</h4>
-        <div className="text-lg">
-          <span className="text-xl font-semibold">Book format: </span>
-          <span>{value === '' ? 'Choose an option' : value}</span>
-        </div>
-        <div>
-          <TabContext value={value}>
-            <TabList
-              onChange={handleChange}
-              textColor="primary"
-              indicatorColor="primary"
-            >
-              <Tab className="tab-format" value="Hardcover" label="Hardcover" />
-              <Tab className="tab-format" value="Paperback" label="Paperback" />
-            </TabList>
-          </TabContext>
-        </div>
+        <h4 className="text-3xl font-semibold">${soldPrice}</h4>
+        <h6 className="text-lg">Discount</h6>
         <h6 className="text-lg">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis
-          expedita repudiandae aspernatur dolorum commodi molestias reiciendis
-          nihil, animi inventore, in sequi. Corrupti, id! Voluptas, praesentium
-          aliquid? Accusantium saepe exercitationem id?
+          <strong>Status: </strong>
+          <span className={`${stock > 0 ? 'text-green-500' : 'text-red-500'}`}>
+            {stock > 0 ? 'In stock' : 'Out of stock'}
+          </span>
         </h6>
         <div className="grid xl:grid-cols-12 lg:grid-cols-6 md:grid-cols-12 sm:grid-cols-12 grid-cols-6 gap-5 h-14">
           <div className="flex items-center col-span-2 p-2 space-x-2 border rounded-md boder-gray-300">
@@ -120,7 +110,12 @@ const ProductDetails = () => {
               onClick={() => setQuantity(quantity + 1)}
             ></HiPlus>
           </div>
-          <Button className="w-full h-full col-span-4 text-white">
+          <Button
+            disabled={stock > 0 ? false : true}
+            className={`${
+              stock > 0 ? '' : 'bg-gray-500 cursor-not-allowed'
+            }  w-full h-full col-span-4 text-white`}
+          >
             Add To Card
           </Button>
           <div className="flex items-center col-span-3 space-x-3 cursor-pointer hover:text-orange-600">
@@ -137,4 +132,27 @@ const ProductDetails = () => {
   );
 };
 
-export default ProductDetails;
+ProductDetails.PropsTypes = {
+  product: PropsTypes.shape({
+    _id: PropsTypes.string,
+    productName: PropsTypes.string,
+    authorName: PropsTypes.string,
+    ratings: PropsTypes.number,
+    numOfReviews: PropsTypes.number,
+    soldPrice: PropsTypes.number,
+    stock: PropsTypes.number,
+    authorId: PropsTypes.string,
+  }),
+};
+
+const FallbackComponent = () => {
+  return (
+    <p className="text-red-400 bg-red-50">
+      Something went wrong with this component
+    </p>
+  );
+};
+
+export default withErrorBoundary(ProductDetails, {
+  FallbackComponent,
+});

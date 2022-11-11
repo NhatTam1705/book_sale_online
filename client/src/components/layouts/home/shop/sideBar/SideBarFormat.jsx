@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiMinus, HiPlus } from 'react-icons/hi';
 
-const SideBarFormat = () => {
-  const [show, setShow] = useState(false);
+const formats = ['Paper back', 'Hard cover'];
 
+const SideBarFormat = ({ fallbackFormat }) => {
+  const [show, setShow] = useState(false);
+  const [format, setFormat] = useState('');
+  useEffect(() => {
+    fallbackFormat(format);
+  }, [fallbackFormat, format]);
   return (
     <>
       <div className="border-gray-300 border px-8 py-6 flex flex-col gap-5 text-xl">
@@ -24,12 +29,16 @@ const SideBarFormat = () => {
         {show && (
           <>
             <div className="flex flex-col gap-3 text-lg">
-              <span className="cursor-pointer hover:text-orange-600">
-                Paperback
-              </span>
-              <span className="cursor-pointer hover:text-orange-600">
-                Hardcover
-              </span>
+              {formats &&
+                formats.map((format, index) => (
+                  <span
+                    key={index}
+                    onClick={() => setFormat(format)}
+                    className="cursor-pointer hover:text-orange-600"
+                  >
+                    {format}
+                  </span>
+                ))}
             </div>
           </>
         )}

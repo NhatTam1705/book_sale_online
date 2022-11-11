@@ -1,7 +1,7 @@
-const Product = require("../models/product");
-const ErrorHandler = require("../utils/errorHandler");
-const catchAsyncErrors = require("../middlewares/catchAsyncErrors");
-const APIFeatures = require("../utils/apiFeatures");
+const Product = require('../models/product');
+const ErrorHandler = require('../utils/errorHandler');
+const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
+const APIFeatures = require('../utils/apiFeatures');
 
 // Create new product => api/v1/admin/product/new
 exports.newProduct = catchAsyncErrors(async (req, res, next) => {
@@ -15,14 +15,13 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// get all products => /api/v1/products?keyword = apple
+// Get all products => /api/v1/products?keyword = apple
 exports.getProducts = catchAsyncErrors(async (req, res, next) => {
-  const resPerPage = 5;
   const productsCount = await Product.countDocuments();
   const apiFeatures = new APIFeatures(Product.find(), req.query)
     .search()
-    .filter()
-    .pagination(resPerPage);
+    .filter();
+
   const products = await apiFeatures.query;
 
   res.status(200).json({
@@ -32,12 +31,36 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
     products,
   });
 });
+
+// Get all products => /api/v1/products/:resPerPage?keyword = apple
+exports.getProductsPagination = catchAsyncErrors(async (req, res, next) => {
+  let resPerPage = req.params.resPerPage;
+
+  const productsCount = await Product.countDocuments();
+  const apiFeatures = new APIFeatures(Product.find(), req.query)
+    .search()
+    .filter();
+
+  let products = await apiFeatures.query;
+  let filteredProductsCount = products.length;
+
+  apiFeatures.sorting().pagination(resPerPage);
+  products = await apiFeatures.query.clone();
+
+  res.status(200).json({
+    success: true,
+    filteredProductsCount,
+    productsCount,
+    products,
+  });
+});
+
 //Get single product detail => /api/v1/product/:id
 exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
 
   if (!product) {
-    return next(new ErrorHandler("KHÔNG CÓ ID NÀY MÁ ƠI!", 404));
+    return next(new ErrorHandler('KHÔNG CÓ ID NÀY MÁ ƠI!', 404));
   }
 
   res.status(200).json({
@@ -51,7 +74,7 @@ exports.updateProduct = catchAsyncErrors(async (req, res, next) => {
   let product = await Product.findById(req.params.id);
 
   if (!product) {
-    return next(new ErrorHandler("KHÔNG CÓ ID NÀY MÁ ƠI!", 404));
+    return next(new ErrorHandler('KHÔNG CÓ ID NÀY MÁ ƠI!', 404));
   }
 
   product = await Product.findByIdAndUpdate(req.params.id, req.body, {
@@ -71,13 +94,13 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   if (!product) {
     return res.status(404).json({
       success: false,
-      message: "sai ID roi ma oi~",
+      message: 'sai ID roi ma oi~',
     });
   }
   await product.remove();
   res.status(200).json({
     success: true,
-    message: "Product is deleted!",
+    message: 'Product is deleted!',
   });
 });
 
@@ -130,6 +153,7 @@ exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+
 // delete Product Reviews => /api/v1/reviews
 exports.deleteReviews = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.query.productId);
@@ -141,8 +165,7 @@ exports.deleteReviews = catchAsyncErrors(async (req, res, next) => {
   const numOfReviews = reviews.length;
 
   const ratings =
-    reviews.reduce((acc, item) => item.rating + acc, 0) /
-    reviews.length;
+    reviews.reduce((acc, item) => item.rating + acc, 0) / reviews.length;
 
   await Product.findByIdAndUpdate(
     req.query.productId,
@@ -164,24 +187,21 @@ exports.deleteReviews = catchAsyncErrors(async (req, res, next) => {
 });
 // Get review star for each product =?/api/v1/review/:id
 
-exports.getSingleReviewProduct= catchAsyncErrors(async (req, res, next) => {
+exports.getSingleReviewProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
   let review = new Array();
-  let j=0;
-  if (!product) {   
-    return next(new ErrorHandler("Can not found this ID", 404));     
+  let j = 0;
+  if (!product) {
+    return next(new ErrorHandler('Can not found this ID', 404));
   }
-  for(var i =1;i<=5;i++){
-    
-  const products = product.reviews.filter((re) => re.rating === i)
-  review[j] = (i, products.length)
-  j=j+1;
+  for (var i = 1; i <= 5; i++) {
+    const products = product.reviews.filter((re) => re.rating === i);
+    review[j] = (i, products.length);
+    j = j + 1;
   }
-  
+
   res.status(200).json({
-     return:true,
-     review
+    return: true,
+    review,
   });
-
-
 });

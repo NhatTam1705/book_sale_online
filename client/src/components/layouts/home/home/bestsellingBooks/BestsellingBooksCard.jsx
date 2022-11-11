@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { HiOutlineHeart, HiSwitchHorizontal } from 'react-icons/hi';
+import { useNavigate } from 'react-router-dom';
 import Slider1 from '../../../../../assets/images/Slider_1.png';
 
 const BestsellingBooksCard = ({ product }) => {
-  const { name, format } = product;
+  const navigate = useNavigate();
+  const { _id, name, format, soldPrice } = product;
   const [hover, setHover] = useState(false);
   return (
     <>
@@ -11,6 +13,7 @@ const BestsellingBooksCard = ({ product }) => {
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
         className="w-full h-[430PX] select-none cursor-pointer border border-gray-300 hover:shadow-md hover:border-black relative"
+        onClick={() => navigate(`/shop/product/${_id}`)}
       >
         <img className="px-16 mt-8 h-[225px]" src={Slider1} alt="Book" />
         <div
@@ -19,11 +22,9 @@ const BestsellingBooksCard = ({ product }) => {
           }`}
         >
           <h6 className="text-sm text-red-600 uppercase">{format}</h6>
-          <h5 className="text-base font-medium">
-            {name}
-          </h5>
+          <h5 className="text-base font-medium">{name}</h5>
           <h5 className="text-base text-gray-500">Old man dev</h5>
-          <h5 className="text-lg font-medium">$29</h5>
+          <h5 className="text-lg font-medium">${soldPrice}</h5>
         </div>
         <div
           className={`grid grid-cols-2 absolute transition-all duration-500 bottom-0 px-8 mb-8 w-full ${
@@ -42,6 +43,22 @@ const BestsellingBooksCard = ({ product }) => {
             </span>
           </div>
           <div></div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export const BestsellingBooksCardSkeleton = () => {
+  return (
+    <>
+      <div className="w-full h-[430PX] select-none cursor-pointer border border-gray-300 hover:shadow-md hover:border-black">
+        <div className="skeleton mx-16 mt-8 h-[200px]" />
+        <div className={`flex flex-col gap-2 w-full px-8 mb-8 pt-10 bg-white`}>
+          <div className="h-6 w-[50%] skeleton"></div>
+          <div className="h-10 skeleton"></div>
+          <div className="h-5 skeleton"></div>
+          <div className="h-5 w-[25%] skeleton"></div>
         </div>
       </div>
     </>

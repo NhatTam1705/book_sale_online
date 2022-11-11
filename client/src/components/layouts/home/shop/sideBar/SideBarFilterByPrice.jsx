@@ -1,16 +1,15 @@
 import { Slider } from '@mui/material';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HiMinus, HiPlus } from 'react-icons/hi';
 
-const SideBarFilterByPrice = () => {
+const SideBarFilterByPrice = ({ fallbackPrice }) => {
   const [show, setShow] = useState(false);
 
-  const [value, setValue] = React.useState([0, 100]);
+  const [price, setPrice] = React.useState([0, 100]);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
+  useEffect(() => {
+    fallbackPrice(price);
+  }, [price, fallbackPrice]);
   return (
     <>
       <div className="border-gray-300 border px-8 py-6 flex flex-col gap-5 text-xl">
@@ -33,11 +32,12 @@ const SideBarFilterByPrice = () => {
             <div className="flex flex-col gap-3 px-2">
               <Slider
                 getAriaLabel={() => 'Temperature range'}
-                value={value}
-                onChange={handleChange}
+                value={price}
+                step={0.1}
+                onChange={(event, value) => setPrice(value)}
               />
               <span className="text-lg mx-auto">
-                Price: ${value[0] * 10} - ${value[1] * 10}
+                Price: ${price[0] * 10} - ${price[1] * 10}
               </span>
             </div>
           </>

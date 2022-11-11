@@ -1,21 +1,33 @@
+import { useSnackbar } from 'notistack';
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 import { HiMinus, HiPlus, HiSearch, HiX } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearErrors, getAuthors } from '../../../../../actions/authorActions';
 
-const SideBarAuthor = () => {
+const SideBarAuthor = ({ fallbackAuthor }) => {
   const [show, setShow] = useState(false);
-
   const [keyword, setKeyword] = useState('');
+  const dispatch = useDispatch();
+  const [author, setAuthor] = useState('');
+  const { enqueueSnackbar } = useSnackbar();
+  const { loading, error, authors, authorsCount } = useSelector(
+    (state) => state.authors
+  );
 
-  const handleChangeSearch = (event) => {
-    setKeyword(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (keyword !== '') {
-      console.log(keyword);
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(error, { variant: 'error' });
+      dispatch(clearErrors());
     }
-  };
+
+    dispatch(getAuthors(keyword.trim()));
+  }, [error, dispatch, enqueueSnackbar, keyword]);
+
+  useEffect(() => {
+    fallbackAuthor(author);
+  }, [author, fallbackAuthor]);
+
   return (
     <>
       <div className="border-gray-300 border px-8 py-6 flex flex-col gap-5 text-xl">
@@ -35,20 +47,14 @@ const SideBarAuthor = () => {
         </div>
         {show && (
           <>
-            <form
-              onSubmit={handleSubmit}
-              autoComplete="off"
-              className="flex flex-row bg-[#f6f5f3] p-3 justify-between"
-            >
-              <button type="submit" className="w-8">
-                <HiSearch></HiSearch>
-              </button>
+            <div className="flex flex-row bg-[#f6f5f3] p-3 justify-between">
+              <HiSearch className="w-8"></HiSearch>
               <input
-                className="text-[#7c6e65] bg-[#f6f5f3] text-base w-full"
+                className="text-[#7c6e65] bg-[#f6f5f3] text-base w-full decoration-transparent"
                 type="text"
-                placeholder="Search category ..."
+                placeholder="Search author ..."
                 value={keyword}
-                onChange={handleChangeSearch}
+                onChange={(event) => setKeyword(event.target.value)}
               />
               <HiX
                 className={`text-blue-700 text-base my-auto cursor-pointer ${
@@ -56,20 +62,21 @@ const SideBarAuthor = () => {
                 }`}
                 onClick={() => setKeyword('')}
               ></HiX>
-            </form>
+            </div>
             <div className="flex flex-col gap-3 text-lg">
-              <span className="cursor-pointer hover:text-orange-600">
-                Doan Van
-              </span>
-              <span className="cursor-pointer hover:text-orange-600">
-                Doan Van
-              </span>
-              <span className="cursor-pointer hover:text-orange-600">
-                Doan Van
-              </span>
-              <span className="cursor-pointer hover:text-orange-600">
-                Doan Van
-              </span>
+              {authors &&
+                authors.map((author, index) => (
+                  <span
+                    onClick={() => {
+                      setAuthor(author._id);
+                      setKeyword(author.name);
+                    }}
+                    key={author._id}
+                    className="cursor-pointer hover:text-orange-600"
+                  >
+                    {author.name}
+                  </span>
+                ))}
             </div>
           </>
         )}
