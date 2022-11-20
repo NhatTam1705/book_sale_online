@@ -3,7 +3,7 @@ import {
   ALL_CATEGORIES_REQUEST,
   ALL_CATEGORIES_SUCCESS,
   CLEAR_ERRORS,
-} from '../constansts/categoryConstansts';
+} from '../constants/categoryConstants';
 
 export const categoriesReducer = (state = { categories: [] }, action) => {
   switch (action.type) {

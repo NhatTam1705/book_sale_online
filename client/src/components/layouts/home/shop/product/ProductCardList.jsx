@@ -1,57 +1,23 @@
 import { IconButton, Tooltip } from '@mui/material';
-import { useSnackbar } from 'notistack';
 import PropsTypes from 'prop-types';
-import { useEffect } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import {
   HiOutlineHeart,
   HiOutlineShoppingBag,
   HiSwitchHorizontal,
 } from 'react-icons/hi';
-import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  clearErrors,
-  getAuthorDetails,
-} from '../../../../../actions/authorActions';
 import Slider1 from '../../../../../assets/images/Slider_1.png';
 
 const ProductCardList = ({ product }) => {
   // Destructuring information of product
-  const {
-    name,
-    format,
-    _id,
-    soldPrice,
-    description,
-    author: authorId,
-  } = product;
+  const { name, format, _id, soldPrice, description, author, discount } =
+    product;
 
-  // Declare function transmission action from view to reducer
-  const dispatch = useDispatch();
-
-  // Declare function handle error when need
-  const { enqueueSnackbar } = useSnackbar();
-
-  // Handle get single author details from store redux when component render
-  const { author, error } = useSelector((state) => state.authorDetails);
-  useEffect(() => {
-    if (error) {
-      enqueueSnackbar(error, { variant: 'error' });
-      dispatch(clearErrors());
-    }
-    if (authorId !== undefined) {
-      dispatch(getAuthorDetails(authorId));
-    }
-  }, [dispatch, enqueueSnackbar, authorId, error]);
-
-  // Declare function redirect url when click to product card
   const navigate = useNavigate();
 
   return (
-    <div
-      className="grid grid-cols-2 gap-8 p-8 border border-gray-300 xl:grid-cols-12 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-3 hover:shadow-md hover:border-black"
-    >
+    <div className="grid grid-cols-2 gap-8 p-8 border border-gray-300 xl:grid-cols-12 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-3 hover:shadow-md hover:border-black">
       <div className="col-span-2">
         <img src={Slider1} alt="" className="h-full" />
       </div>
@@ -69,7 +35,10 @@ const ProductCardList = ({ product }) => {
           </IconButton>
         </Tooltip>
         <span className="col-span-1 p-2 rounded-full w-9 h-9 hover:bg-red-500">
-          <HiSwitchHorizontal className="w-full h-full" onClick={() => navigate(`/shop/product/${_id}`)}></HiSwitchHorizontal>
+          <HiSwitchHorizontal
+            className="w-full h-full"
+            onClick={() => navigate(`/shop/product/${_id}`)}
+          ></HiSwitchHorizontal>
         </span>
         <span className="col-span-1 p-2 rounded-full w-9 h-9 hover:bg-red-500">
           <HiOutlineHeart className="w-full h-full"></HiOutlineHeart>
@@ -87,7 +56,8 @@ ProductCardList.PropsTypes = {
     format: PropsTypes.string,
     description: PropsTypes.string,
     soldPrice: PropsTypes.number,
-    authorId: PropsTypes.string,
+    author: PropsTypes.object,
+    discount: PropsTypes.object,
   }),
 };
 

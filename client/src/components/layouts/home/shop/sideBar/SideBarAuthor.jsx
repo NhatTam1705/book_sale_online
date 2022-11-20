@@ -1,6 +1,5 @@
 import { useSnackbar } from 'notistack';
-import React, { useState } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { HiMinus, HiPlus, HiSearch, HiX } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, getAuthors } from '../../../../../actions/authorActions';
@@ -30,8 +29,8 @@ const SideBarAuthor = ({ fallbackAuthor }) => {
 
   return (
     <>
-      <div className="border-gray-300 border px-8 py-6 flex flex-col gap-5 text-xl">
-        <div className=" flex flex-row justify-between font-semibold items-center">
+      <div className="flex flex-col gap-5 px-8 py-6 text-xl border border-gray-300">
+        <div className="flex flex-row items-center justify-between font-semibold ">
           <span>Author</span>
           {show ? (
             <HiMinus
@@ -60,23 +59,30 @@ const SideBarAuthor = ({ fallbackAuthor }) => {
                 className={`text-blue-700 text-base my-auto cursor-pointer ${
                   keyword === '' ? 'hidden' : 'block'
                 }`}
-                onClick={() => setKeyword('')}
+                onClick={() => {
+                  setKeyword('');
+                  setAuthor('');
+                }}
               ></HiX>
             </div>
             <div className="flex flex-col gap-3 text-lg">
               {authors &&
-                authors.map((author, index) => (
-                  <span
-                    onClick={() => {
-                      setAuthor(author._id);
-                      setKeyword(author.name);
-                    }}
-                    key={author._id}
-                    className="cursor-pointer hover:text-orange-600"
-                  >
-                    {author.name}
-                  </span>
-                ))}
+                authors
+                  .sort((prev, next) => {
+                    return prev.createdDate < next.createdDate ? 1 : -1;
+                  })
+                  .map((author, index) => (
+                    <span
+                      onClick={() => {
+                        setAuthor(author._id);
+                        setKeyword(author.name);
+                      }}
+                      key={author._id}
+                      className="cursor-pointer hover:text-orange-600"
+                    >
+                      {author.name}
+                    </span>
+                  ))}
             </div>
           </>
         )}

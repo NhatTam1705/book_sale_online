@@ -1,5 +1,5 @@
-import { Popover } from '@mui/material';
-import { useState } from 'react';
+import { useSnackbar } from 'notistack';
+import { useEffect } from 'react';
 import {
   HiOutlineDeviceMobile,
   HiOutlineHeart,
@@ -9,33 +9,30 @@ import {
   HiOutlineSwitchHorizontal,
   HiOutlineUser,
 } from 'react-icons/hi';
-import ForgotPasswordForm from './ForgotPasswordForm';
-import SignInForm from './SignInForm';
-import SignUpForm from './SignUpForm';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [overlay, setOverlay] = useState(false);
-  const [form, setForm] = useState('signIn');
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  const { isAuthenticated, loading, error } = useSelector(
+    (state) => state.auth
+  );
+
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-    setOverlay(true);
+    if (isAuthenticated) {
+      navigate('/profile/dashboard');
+    } else {
+      navigate('/login');
+    }
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-    setOverlay(false);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  useEffect(() => {}, []);
 
   return (
     <>
-      {overlay && (
-        <div className="absolute z-10 inset-0 bg-black bg-opacity-50 overlay"></div>
-      )}
       <div className="grid h-10 border border-gray-300">
         <div className="grid items-center justify-between w-full grid-cols-10 px-12 mx-auto xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-6 gap-y-5">
           <a
@@ -57,62 +54,26 @@ const Header = () => {
             </p>
           </a>
           <div className="grid items-center w-full grid-cols-5 col-span-4 col-start-7 sm:col-start-5 sm:col-span-2 md:col-span-3 md:col-start-10 lg:col-span-2 xl:col-span-2 xl:col-start-11 lg:col-start-11 ">
-            <span className="hover:text-orange-600">
+            <span className="cursor-pointer hover:text-orange-600">
               <a href="http://google.com">
                 <HiOutlineLocationMarker className="w-5 h-5"></HiOutlineLocationMarker>
               </a>
             </span>
-            <span className="hover:text-orange-600">
+            <span className="cursor-pointer hover:text-orange-600">
               <a href="http://google.com">
                 <HiOutlineSwitchHorizontal className="w-5 h-5"></HiOutlineSwitchHorizontal>
               </a>
             </span>
-            <span className="hover:text-orange-600">
+            <span className="cursor-pointer hover:text-orange-600">
               <HiOutlineHeart className="w-5 h-5"></HiOutlineHeart>
             </span>
-            <span className="hover:text-orange-600">
+            <span className="cursor-pointer hover:text-orange-600">
               <HiOutlineUser
-                aria-describedby={id}
                 onClick={handleClick}
                 className="w-5 h-5"
               ></HiOutlineUser>
-              <Popover
-                id={id}
-                open={open}
-                anchorReference="anchorPosition"
-                anchorPosition={{ top: 0, left: 10000 }}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                onClose={handleClose}
-                className=""
-              >
-                <div className="w-[500px] h-[680px]">
-                  {form === 'signIn' ? (
-                    <SignInForm
-                      setForm={setForm}
-                      onClick={handleClose}
-                    ></SignInForm>
-                  ) : form === 'signUp' ? (
-                    <SignUpForm
-                      setForm={setForm}
-                      onClick={handleClose}
-                    ></SignUpForm>
-                  ) : (
-                    <ForgotPasswordForm
-                      setForm={setForm}
-                      onClick={handleClose}
-                    ></ForgotPasswordForm>
-                  )}
-                </div>
-              </Popover>
             </span>
-            <span className="relative hover:text-orange-600">
+            <span className="relative cursor-pointer hover:text-orange-600">
               <a href="http://google.com">
                 <HiOutlineShoppingCart className="w-5 h-5"></HiOutlineShoppingCart>
               </a>

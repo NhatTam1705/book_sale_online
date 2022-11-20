@@ -6,7 +6,7 @@ import {
   AUTHOR_DETAILS_REQUEST,
   AUTHOR_DETAILS_SUCCESS,
   CLEAR_ERRORS,
-} from '../constansts/authorConstansts';
+} from '../constants/authorConstants';
 
 // Reducer handle get all author
 export const authorsReducer = (state = { authors: [] }, action) => {

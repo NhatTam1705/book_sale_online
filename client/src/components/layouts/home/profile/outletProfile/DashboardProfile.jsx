@@ -1,3 +1,4 @@
+import { useSnackbar } from 'notistack';
 import {
   HiOutlineHeart,
   HiOutlineIdentification,
@@ -6,7 +7,9 @@ import {
   HiOutlineNewspaper,
   HiOutlineViewBoards,
 } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../../../../../actions/userActions';
 
 const dashboardItems = [
   {
@@ -53,12 +56,18 @@ const dashboardItems = [
 
 const DashboardProfile = () => {
   const navigate = useNavigate();
-
+  const { loading, error, user } = useSelector((state) => state.auth);
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    enqueueSnackbar('Logout successfully!', { variant: 'success' });
+  };
   return (
     <div>
       <h3 className="text-4xl font-semibold mb-6">Dashboard</h3>
       <div className="flex flex-col gap-4">
-        <h5 className="text-lg">Hello Old man dev</h5>
+        <h5 className="text-lg">Hello {user.name}</h5>
         <h6>
           From your account dashboard you can view your recent orders, manage
           your shipping and billing addresses, and edit your password and

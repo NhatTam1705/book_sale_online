@@ -1,5 +1,5 @@
-import { Checkbox, FormControlLabel } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { Checkbox } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { HiMinus, HiPlus } from 'react-icons/hi';
 
 const languages = [
@@ -23,8 +23,8 @@ const SideBarLanguage = ({ fallbackLanguage }) => {
 
   return (
     <>
-      <div className="border-gray-300 border px-8 py-6 flex flex-col gap-5 text-xl">
-        <div className=" flex flex-row justify-between font-semibold items-center">
+      <div className="flex flex-col gap-5 px-8 py-6 text-xl border border-gray-300">
+        <div className="flex flex-row items-center justify-between font-semibold ">
           <span>Language</span>
           {show ? (
             <HiMinus
@@ -44,19 +44,28 @@ const SideBarLanguage = ({ fallbackLanguage }) => {
               {languages &&
                 languages.map((language, index) => (
                   <div
-                    class="flex items-center"
+                    className="flex items-center"
                     key={index}
                     onClick={() => {
-                      setLanguage(language.label);
-                      languages.map((lan, index) => (lan.checked = false));
-                      language.checked = true;
+                      if (language.checked) {
+                        setLanguage('');
+                        languages.map((lan, index) => (lan.checked = false));
+                      } else {
+                        setLanguage(language.label);
+                        languages.map((lan, index) => (lan.checked = false));
+                        language.checked = true;
+                      }
                     }}
                   >
                     <Checkbox
                       checked={language.checked}
                       sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }}
                     />
-                    <span className="text-lg my-auto cursor-pointer hover:text-orange-600">
+                    <span
+                      className={`text-lg my-auto cursor-pointer hover:text-orange-600 ${
+                        language.checked ? 'text-orange-500' : ''
+                      }`}
+                    >
                       {language.label}
                     </span>
                   </div>

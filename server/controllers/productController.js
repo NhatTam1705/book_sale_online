@@ -1,4 +1,6 @@
 const Product = require('../models/product');
+const Author = require('../models/author');
+const Discount = require('../models/discount');
 const ErrorHandler = require('../utils/errorHandler');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const APIFeatures = require('../utils/apiFeatures');
@@ -47,6 +49,14 @@ exports.getProductsPagination = catchAsyncErrors(async (req, res, next) => {
   apiFeatures.sorting().pagination(resPerPage);
   products = await apiFeatures.query.clone();
 
+  for await (let product of products) {
+    product.author = await Author.findById(product.author);
+
+    if (product.discount) {
+      product.discount = await Discount.findById(product.discount);
+    }
+  }
+
   res.status(200).json({
     success: true,
     filteredProductsCount,
@@ -57,10 +67,16 @@ exports.getProductsPagination = catchAsyncErrors(async (req, res, next) => {
 
 //Get single product detail => /api/v1/product/:id
 exports.getSingleProduct = catchAsyncErrors(async (req, res, next) => {
-  const product = await Product.findById(req.params.id);
+  let product = await Product.findById(req.params.id);
 
   if (!product) {
-    return next(new ErrorHandler('KHÔNG CÓ ID NÀY MÁ ƠI!', 404));
+    return next(new ErrorHandler('Product is not found!', 404));
+  }
+
+  product.author = await Author.findById(product.author);
+
+  if (product.discount) {
+    product.discount = await Discount.findById(product.discount);
   }
 
   res.status(200).json({
@@ -104,7 +120,7 @@ exports.deleteProduct = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-//Create new review =? /api/v1/review
+//Create new review => /api/v1/review
 exports.createProductReview = catchAsyncErrors(async (req, res, next) => {
   const { rating, comment, productId } = req.body;
 
@@ -153,7 +169,6 @@ exports.getProductReviews = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-
 // delete Product Reviews => /api/v1/reviews
 exports.deleteReviews = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.query.productId);
@@ -189,15 +204,13 @@ exports.deleteReviews = catchAsyncErrors(async (req, res, next) => {
 
 exports.getSingleReviewProduct = catchAsyncErrors(async (req, res, next) => {
   const product = await Product.findById(req.params.id);
-  let review = new Array();
-  let j = 0;
+  let review = [];
   if (!product) {
     return next(new ErrorHandler('Can not found this ID', 404));
   }
-  for (var i = 1; i <= 5; i++) {
-    const products = product.reviews.filter((re) => re.rating === i);
-    review[j] = (i, products.length);
-    j = j + 1;
+  for (let i = 1; i <= 5; i++) {
+    const reviewOfStar = product.reviews.filter((re) => re.rating === i);
+    review[i - 1] = { star: i, total: reviewOfStar.length };
   }
 
   res.status(200).json({

@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getAuthorDetails } from '../../actions/authorActions';
 import { clearErrors, getProductDetials } from '../../actions/productActions';
 import ProductDetails from '../../components/layouts/home/product/ProductDetails';
 import ProductTab from '../../components/layouts/home/product/ProductTab';
@@ -14,34 +13,25 @@ const ProductPage = () => {
   const { enqueueSnackbar } = useSnackbar();
   const { id } = useParams();
 
-  const {
-    loading,
-    error: errorProduct,
-    product,
-  } = useSelector((state) => state.productDetails);
-  const { error: errorAuthor, author } = useSelector(
-    (state) => state.authorDetails
+  const { loading, error, product } = useSelector(
+    (state) => state.productDetails
   );
 
   useEffect(() => {
-    if (errorProduct || errorAuthor) {
-      enqueueSnackbar(errorProduct || errorAuthor, {
+    if (error) {
+      enqueueSnackbar(error, {
         variant: 'error',
       });
       dispatch(clearErrors());
     }
 
     dispatch(getProductDetials(id));
-
-    if (product.author !== undefined) {
-      dispatch(getAuthorDetails(product.author));
-    }
-  }, [dispatch, enqueueSnackbar, errorProduct, errorAuthor, id, product]);
+  }, [dispatch, enqueueSnackbar, error, id]);
 
   return (
     <>
       <div className="px-12 pt-24 pb-12 bg-[#fff6f6]">
-        <ProductDetails product={product} author={author}></ProductDetails>
+        <ProductDetails product={product}></ProductDetails>
       </div>
       <div className="flex flex-col gap-24 pb-24">
         <ProductTab product={product}></ProductTab>

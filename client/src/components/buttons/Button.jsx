@@ -1,5 +1,5 @@
 const Button = ({
-  disabled = false,
+  disabledButton = false,
   onClick,
   className = '',
   full = false,
@@ -10,7 +10,7 @@ const Button = ({
 }) => {
   return (
     <button
-      disabled={false}
+      disabled={disabledButton}
       {...props}
       type={type}
       onClick={onClick}

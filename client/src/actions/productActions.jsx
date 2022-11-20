@@ -1,18 +1,17 @@
 import axios from 'axios';
-import { useEffect } from 'react';
 
 import {
   ALL_PRODUCTS_FAIL,
-  ALL_PRODUCTS_REQUEST,
-  ALL_PRODUCTS_SUCCESS,
   ALL_PRODUCTS_PAGINATION_FAIL,
   ALL_PRODUCTS_PAGINATION_REQUEST,
   ALL_PRODUCTS_PAGINATION_SUCCESS,
+  ALL_PRODUCTS_REQUEST,
+  ALL_PRODUCTS_SUCCESS,
+  CLEAR_ERRORS,
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
-  CLEAR_ERRORS,
-} from '../constansts/productConstansts';
+} from '../constants/productConstants';
 
 // Action handle get all product
 export const getProducts = () => async (dispatch) => {
@@ -44,7 +43,9 @@ export const getProductsPagination =
     price = [0, 100],
     format,
     language,
-    author
+    author,
+    rating = [-1, 5],
+    category
   ) =>
   async (dispatch) => {
     try {
@@ -52,7 +53,9 @@ export const getProductsPagination =
 
       let url = `/api/v1/products/${resPerPage}?sortBy=${sortBy}&orderBy=${orderBy}&page=${currentPage}&keyword=${keyword}&soldPrice[gte]=${
         price[0] * 10
-      }&soldPrice[lte]=${price[1] * 10}`;
+      }&soldPrice[lte]=${price[1] * 10}&ratings[gt]=${rating[0]}&ratings[lte]=${
+        rating[1]
+      }`;
 
       if (format) {
         url = url + `&format=${format}`;
@@ -64,6 +67,10 @@ export const getProductsPagination =
 
       if (author) {
         url = url + `&author=${author}`;
+      }
+
+      if (category) {
+        url = url + `&category=${category}`;
       }
 
       const { data } = await axios.get(url);

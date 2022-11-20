@@ -1,4 +1,7 @@
-import { NavLink } from 'react-router-dom';
+import { useSnackbar } from 'notistack';
+import { useDispatch } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { logout } from '../../../../actions/userActions';
 
 const sideBarItems = [
   {
@@ -29,6 +32,12 @@ const sideBarItems = [
 ];
 
 const SideBarProfile = () => {
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    enqueueSnackbar('Logout successfully!', { variant: 'success' });
+  };
   return (
     <div className="flex flex-col gap-2">
       {sideBarItems &&
@@ -45,7 +54,11 @@ const SideBarProfile = () => {
             {item.name}
           </NavLink>
         ))}
-      <NavLink className="text-lg hover:text-orange-600 hover:translate-x-4 transition-all">
+      <NavLink
+        onClick={handleLogout}
+        to="/home"
+        className="text-lg hover:text-orange-600 hover:translate-x-4 transition-all"
+      >
         Logout
       </NavLink>
     </div>

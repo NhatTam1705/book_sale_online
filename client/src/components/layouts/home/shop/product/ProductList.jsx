@@ -52,6 +52,9 @@ const ProductList = ({
   const numberPage = Math.ceil(
     (filteredProductsCount || productsCount) / perPage
   );
+  useEffect(() => {
+    setPage(1);
+  }, []);
 
   useEffect(() => {
     fallbackPagination(perPage, page, sort, order);
@@ -122,20 +125,21 @@ const ProductList = ({
             </Fragment>
           ))}
       </div>
-      {((perPage < (filteredProductsCount || productsCount)) && filteredProductsCount !== 0 ) && (
-        <div className="flex justify-center">
-          <Pagination
-            className=""
-            page={page}
-            onChange={(event, value) => setPage(value)}
-            color="primary"
-            count={numberPage || 0}
-            variant="outlined"
-            shape="rounded"
-            size="large"
-          />
-        </div>
-      )}
+      {perPage < (filteredProductsCount || productsCount) &&
+        filteredProductsCount !== 0 && (
+          <div className="flex justify-center">
+            <Pagination
+              className=""
+              page={page}
+              onChange={(event, value) => setPage(value)}
+              color="primary"
+              count={numberPage || 0}
+              variant="outlined"
+              shape="rounded"
+              size="large"
+            />
+          </div>
+        )}
     </>
   );
 };

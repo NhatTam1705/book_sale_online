@@ -8,7 +8,7 @@ const array = [1, 2, 3, 4];
 const Footer = () => {
   return (
     <>
-      <div className="py-12 px-12 border border-gray-300 text-lg">
+      <div className="px-12 py-12 text-lg border border-gray-300">
         <div className="container grid max-w-3xl py-5 mx-auto">
           <h1 className="text-3xl font-medium text-center">
             Join Our Newsletter
@@ -25,14 +25,14 @@ const Footer = () => {
               name=""
               id=""
             />
-            <Button className="col-span-1 text-white  h-14 sm:col-start-2 md:col-start-4 xl:col-start-4 lg:col-start-4">
+            <Button className="col-span-1 text-white h-14 sm:col-start-2 md:col-start-4 xl:col-start-4 lg:col-start-4">
               Subscribe
             </Button>
           </form>
         </div>
-        <div className="grid justify-between w-full gap-10 py-5 mx-auto xl:grid-cols-6 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 grid-cols-2 ">
-          <div className="grid gap-y-3 col-span-2">
-            <img src={Logo} alt="Logo" className=" " />
+        <div className="grid justify-between w-full grid-cols-2 gap-10 py-5 mx-auto xl:grid-cols-6 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 ">
+          <div className="grid col-span-2 gap-y-3">
+            <img src={Logo} alt="Logo" className="" />
             <p className="">
               Ký túc xá Khu B Đại học Quốc gia TP.HCM, Đông Hoà, Dĩ An, Bình
               Dương
@@ -87,9 +87,9 @@ const Footer = () => {
           ))}
         </div>
       </div>
-      <div className="border-b border-gray-300 border-x px-12">
-        <div className="grid items-center w-full py-5 mx-auto xl:grid-cols-10 lg:grid-cols-6 md:grid-cols-6  sm:grid-cols-3 grid-cols-3 gap-y-5">
-          <p className="flex items-center text-center justify-center lg:col-start-2 xl:col-start-1 md:col-start-2 col-span-4 text-lg">
+      <div className="px-12 border-b border-gray-300 border-x">
+        <div className="grid items-center w-full grid-cols-3 py-5 mx-auto xl:grid-cols-10 lg:grid-cols-6 md:grid-cols-6 sm:grid-cols-3 gap-y-5">
+          <p className="flex items-center justify-center col-span-4 text-lg text-center lg:col-start-2 xl:col-start-1 md:col-start-2">
             © {new Date().getFullYear()} Nhat Tam - Thanh Van. All rights
             reserved
           </p>

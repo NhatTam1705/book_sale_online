@@ -6,7 +6,7 @@ const orderSchema = mongoose.Schema({
       type: String,
       required: true,
     },
-    provinceORcity: {
+    provinceOrCity: {
       type: String,
       required: true,
     },
@@ -63,12 +63,12 @@ const orderSchema = mongoose.Schema({
     required: true,
     default: "Processing",
   },
-  deliverdAt: {
+  deliveredDate: {
     type: Date,
   },
-  createAt: {
+  createdDate: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 

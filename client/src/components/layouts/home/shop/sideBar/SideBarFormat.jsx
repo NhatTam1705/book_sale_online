@@ -1,7 +1,16 @@
 import { useEffect, useState } from 'react';
 import { HiMinus, HiPlus } from 'react-icons/hi';
 
-const formats = ['Paper back', 'Hard cover'];
+const formats = [
+  {
+    label: 'Paper back',
+    active: false,
+  },
+  {
+    label: 'Hard cover',
+    active: false,
+  },
+];
 
 const SideBarFormat = ({ fallbackFormat }) => {
   const [show, setShow] = useState(false);
@@ -33,10 +42,16 @@ const SideBarFormat = ({ fallbackFormat }) => {
                 formats.map((format, index) => (
                   <span
                     key={index}
-                    onClick={() => setFormat(format)}
-                    className="cursor-pointer hover:text-orange-600"
+                    onClick={() => {
+                      setFormat(format.label);
+                      formats.map((type, index) => (type.active = false));
+                      format.active = true;
+                    }}
+                    className={`cursor-pointer hover:text-orange-600 ${
+                      format.active ? 'text-orange-600' : ''
+                    }`}
                   >
-                    {format}
+                    {format.label}
                   </span>
                 ))}
             </div>

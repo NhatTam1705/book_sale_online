@@ -1,12 +1,14 @@
-import { Fragment, Suspense } from 'react';
+import { Fragment, Suspense, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Outlet, Route, Routes } from 'react-router-dom';
+import { loadUser } from './actions/userActions';
 import './App.css';
 import Footer from './components/footers/home/Footer';
 import HeaderAdmin from './components/headers/admin/HeaderAdmin';
 import SideBarAdmin from './components/headers/admin/SideBarAdmin';
 import Header from './components/headers/home/Header';
 import NavigationBar from './components/headers/home/NavigationBar';
-import AccountProfile from './components/layouts/home/profile/outletProfile/AccountProfile';
+import AccountProfile from './components/layouts/home/profile/outletProfile/account/AccountProfile';
 import AddressProfile from './components/layouts/home/profile/outletProfile/AddressProfile';
 import DashboardProfile from './components/layouts/home/profile/outletProfile/DashboardProfile';
 import OrdersProfile from './components/layouts/home/profile/outletProfile/OrdersProfile';
@@ -25,14 +27,23 @@ import AuthorPage from './pages/home/AuthorPage';
 import AuthorSinglePage from './pages/home/AuthorSinglePage';
 import CartPage from './pages/home/CartPage';
 import CheckoutPage from './pages/home/CheckoutPage';
+import ForgotPasswordPage from './pages/home/ForgotPasswordPage';
 import HomePage from './pages/home/HomePage';
 import NotFoundPage from './pages/home/NotFoundPage';
 import OrderReceivedPage from './pages/home/OrderReceivedPage';
 import ProductPage from './pages/home/ProductPage';
 import ProfilePage from './pages/home/ProfilePage';
 import ShopPage from './pages/home/ShopPage';
+import SignInPage from './pages/home/SignInPage';
+import SignUpPage from './pages/home/SignUpPage';
+import store from './store';
 
 function App() {
+  const { isAuthenticated, user, loading } = useSelector((state) => state.auth);
+  useEffect(() => {
+    store.dispatch(loadUser());
+  }, []);
+
   return (
     <Fragment>
       <Suspense fallback={<></>}>
@@ -48,10 +59,16 @@ function App() {
               </>
             }
           >
+            <Route path="/login" element={<SignInPage></SignInPage>}></Route>
+            <Route path="/register" element={<SignUpPage></SignUpPage>}></Route>
+            <Route
+              path="/password/forgot"
+              element={<ForgotPasswordPage></ForgotPasswordPage>}
+            ></Route>
             <Route path="/home" element={<HomePage></HomePage>}></Route>
             <Route path="/shop" element={<ShopPage></ShopPage>}></Route>
             <Route
-              path="/shop/search/:keyword?format=:format"
+              path="/shop/search/:keyword"
               element={<ShopPage></ShopPage>}
             ></Route>
             <Route

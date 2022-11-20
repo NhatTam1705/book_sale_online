@@ -16,16 +16,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Button from '../../../buttons/Button';
 import Slider1 from './../../../../assets/images/Slider_1.png';
 
-const ProductDetails = ({ product, author }) => {
+const ProductDetails = ({ product }) => {
   const {
     _id,
-    name: productName,
+    name,
     ratings,
     numOfReviews,
     soldPrice,
     stock,
+    author,
+    discount,
   } = product;
-  const { name: authorName } = author;
 
   const [quantity, setQuantity] = useState(1);
 
@@ -35,7 +36,7 @@ const ProductDetails = ({ product, author }) => {
 
   return (
     <div className="grid grid-cols-12 xl:gap-16 lg:gap-8 md:gap-y-16 sm:gap-y-8 gap-y-8">
-      <div className="flex items-center xl:col-span-5 lg:col-span-5 md:col-span-12 sm:col-span-12 col-span-12">
+      <div className="flex items-center col-span-12 xl:col-span-5 lg:col-span-5 md:col-span-12 sm:col-span-12">
         <Swiper
           effect={'coverflow'}
           grabCursor={true}
@@ -75,13 +76,13 @@ const ProductDetails = ({ product, author }) => {
           </SwiperSlide>
         </Swiper>
       </div>
-      <div className="flex flex-col xl:col-span-7 gap-4 lg:col-span-7 md:col-span-12 sm:col-span-12 col-span-12">
-        <h3 className="text-4xl font-semibold">{productName}</h3>
-        <div className="flex gap-5 text-lg flex-row flex-wrap">
+      <div className="flex flex-col col-span-12 gap-4 xl:col-span-7 lg:col-span-7 md:col-span-12 sm:col-span-12">
+        <h3 className="text-4xl font-semibold">{name}</h3>
+        <div className="flex flex-row flex-wrap gap-5 text-lg">
           <Rating name="read-only" value={ratings || 0} readOnly />
           <span>({numOfReviews})</span>
           <span className="font-semibold">By (author)</span>
-          <h6 className="text-gray-500">{authorName}</h6>
+          <h6 className="text-gray-500">{author && author.name}</h6>
         </div>
         <h4 className="text-3xl font-semibold">${soldPrice}</h4>
         <h6 className="text-lg">Discount</h6>
@@ -91,7 +92,7 @@ const ProductDetails = ({ product, author }) => {
             {stock > 0 ? 'In stock' : 'Out of stock'}
           </span>
         </h6>
-        <div className="grid xl:grid-cols-12 lg:grid-cols-6 md:grid-cols-12 sm:grid-cols-12 grid-cols-6 gap-5 h-14">
+        <div className="grid grid-cols-6 gap-5 xl:grid-cols-12 lg:grid-cols-6 md:grid-cols-12 sm:grid-cols-12 h-14">
           <div className="flex items-center col-span-2 p-2 space-x-2 border rounded-md boder-gray-300">
             <HiMinus
               onClick={() => setQuantity(quantity - 1)}
@@ -135,13 +136,13 @@ const ProductDetails = ({ product, author }) => {
 ProductDetails.PropsTypes = {
   product: PropsTypes.shape({
     _id: PropsTypes.string,
-    productName: PropsTypes.string,
-    authorName: PropsTypes.string,
+    name: PropsTypes.string,
     ratings: PropsTypes.number,
     numOfReviews: PropsTypes.number,
     soldPrice: PropsTypes.number,
     stock: PropsTypes.number,
-    authorId: PropsTypes.string,
+    author: PropsTypes.object,
+    discount: PropsTypes.object,
   }),
 };
 
@@ -153,6 +154,4 @@ const FallbackComponent = () => {
   );
 };
 
-export default withErrorBoundary(ProductDetails, {
-  FallbackComponent,
-});
+export default withErrorBoundary(ProductDetails, FallbackComponent);

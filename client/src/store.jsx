@@ -11,14 +11,24 @@ import {
   productsPaginationReducer,
   productsReducer,
 } from './reducers/productReducers';
+import { subCategoriesReducer } from './reducers/subCategoryReducers';
+import {
+  authReducer,
+  forgotPasswordReducer,
+  userReducer,
+} from './reducers/userReducers';
 
 const reducer = combineReducers({
   products: productsReducer,
   productsPagination: productsPaginationReducer,
   productDetails: productDetailsReducer,
   categories: categoriesReducer,
+  subCategories: subCategoriesReducer,
   authors: authorsReducer,
   authorDetails: authorDetailsReducer,
+  auth: authReducer,
+  user: userReducer,
+  forgotPassword: forgotPasswordReducer,
 });
 
 let initialState = {};

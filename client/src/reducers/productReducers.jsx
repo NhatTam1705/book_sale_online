@@ -1,15 +1,15 @@
 import {
   ALL_PRODUCTS_FAIL,
-  ALL_PRODUCTS_REQUEST,
-  ALL_PRODUCTS_SUCCESS,
   ALL_PRODUCTS_PAGINATION_FAIL,
   ALL_PRODUCTS_PAGINATION_REQUEST,
   ALL_PRODUCTS_PAGINATION_SUCCESS,
+  ALL_PRODUCTS_REQUEST,
+  ALL_PRODUCTS_SUCCESS,
   CLEAR_ERRORS,
   PRODUCT_DETAILS_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
-} from '../constansts/productConstansts';
+} from '../constants/productConstants';
 
 // Reducer handle get all product
 export const productsReducer = (state = { products: [] }, action) => {

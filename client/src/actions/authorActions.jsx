@@ -8,7 +8,7 @@ import {
   AUTHOR_DETAILS_REQUEST,
   AUTHOR_DETAILS_SUCCESS,
   CLEAR_ERRORS,
-} from '../constansts/authorConstansts';
+} from '../constants/authorConstants';
 
 // Action handle get all author
 export const getAuthors =

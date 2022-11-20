@@ -5,25 +5,27 @@ import {
   ALL_CATEGORIES_REQUEST,
   ALL_CATEGORIES_SUCCESS,
   CLEAR_ERRORS,
-} from '../constansts/categoryConstansts';
+} from '../constants/categoryConstants';
 
-export const getCategories = () => async (dispatch) => {
-  try {
-    dispatch({ type: ALL_CATEGORIES_REQUEST });
+export const getCategories =
+  (keyword = '') =>
+  async (dispatch) => {
+    try {
+      dispatch({ type: ALL_CATEGORIES_REQUEST });
 
-    const { data } = await axios.get('/api/v1/categories');
+      const { data } = await axios.get(`/api/v1/categories?keyword=${keyword}`);
 
-    dispatch({
-      type: ALL_CATEGORIES_SUCCESS,
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: ALL_CATEGORIES_FAIL,
-      payload: error.response.data.message,
-    });
-  }
-};
+      dispatch({
+        type: ALL_CATEGORIES_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ALL_CATEGORIES_FAIL,
+        payload: error.response.data.message,
+      });
+    }
+  };
 
 // Clear Errors
 export const clearErrors = () => async (dispatch) => {
