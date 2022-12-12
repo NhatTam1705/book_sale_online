@@ -18,6 +18,7 @@ const Header = () => {
   const { isAuthenticated, loading, error } = useSelector(
     (state) => state.auth
   );
+  const { cartItems } = useSelector((state) => state.cart);
 
   const navigate = useNavigate();
 
@@ -65,7 +66,10 @@ const Header = () => {
               </a>
             </span>
             <span className="cursor-pointer hover:text-orange-600">
-              <HiOutlineHeart className="w-5 h-5"></HiOutlineHeart>
+              <HiOutlineHeart
+                onClick={() => navigate('/profile/wishlist')}
+                className="w-5 h-5"
+              ></HiOutlineHeart>
             </span>
             <span className="cursor-pointer hover:text-orange-600">
               <HiOutlineUser
@@ -74,11 +78,12 @@ const Header = () => {
               ></HiOutlineUser>
             </span>
             <span className="relative cursor-pointer hover:text-orange-600">
-              <a href="http://google.com">
-                <HiOutlineShoppingCart className="w-5 h-5"></HiOutlineShoppingCart>
-              </a>
+              <HiOutlineShoppingCart
+                onClick={() => navigate('/shop/cart')}
+                className="w-5 h-5"
+              ></HiOutlineShoppingCart>
               <span className="absolute top-0 left-0 flex items-center justify-center w-4 h-4 text-xs text-white bg-black rounded-full translate-x-3/4 -translate-y-2/4">
-                0
+                {cartItems.length}
               </span>
             </span>
           </div>

@@ -13,7 +13,7 @@ import {
 import { UPDATE_PROFILE_RESET } from './../../../../../../constants/userConstants';
 import Button from './../../../../../buttons/Button';
 const profileSchema = Yup.object({
-  name: Yup.string().required('Please enter your name'),
+  name: Yup.string(),
   gender: Yup.string(),
   birthday: Yup.string(),
   phone: Yup.string(),

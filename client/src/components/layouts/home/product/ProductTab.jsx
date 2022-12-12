@@ -1,7 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { TabContext, TabList, TabPanel } from '@mui/lab';
-import { Rating, Tab } from '@mui/material';
+import {
+  LinearProgress,
+  linearProgressClasses,
+  Rating,
+  styled,
+  Tab,
+} from '@mui/material';
+import { useSnackbar } from 'notistack';
 import PropsTypes from 'prop-types';
+import { useRef } from 'react';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { useForm } from 'react-hook-form';
@@ -10,8 +19,22 @@ import {
   HiOutlineThumbDown,
   HiOutlineThumbUp,
 } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
+import { clearErrors, newReview } from '../../../../actions/productActions';
+import { NEW_REVIEW_RESET } from '../../../../constants/productConstants';
 import Button from '../../../buttons/Button';
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 8,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: '#e5e7eb',
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: '#eab308',
+  },
+}));
 
 const ProductTab = ({ product }) => {
   const {
@@ -72,6 +95,7 @@ const ProductTab = ({ product }) => {
             ratings={ratings}
             numOfReviews={numOfReviews}
             reviews={reviews}
+            id={_id}
           ></ReviewesTab>
         </div>
       </TabContext>
@@ -125,26 +149,50 @@ const ProductDetailsTab = ({
   );
 };
 
-const ReviewesTab = ({ ratings, numOfReviews, reviews }) => {
+const ReviewesTab = ({ ratings, numOfReviews, reviews, id }) => {
   const schemaReview = Yup.object({
     title: Yup.string().required(),
-    content: Yup.string().required(),
-    rating: Yup.number().required(),
+    comment: Yup.string().required(),
   });
+  const { user } = useSelector((state) => state.auth);
+  const { error, success } = useSelector((state) => state.newReview);
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const ref = useRef(null);
 
   const { register, handleSubmit, reset, control } = useForm({
     defaultValues: {
       title: '',
-      content: '',
-      rating: 0,
+      comment: '',
     },
     resolver: yupResolver(schemaReview),
     mode: 'onChange',
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    reset();
+  const [ratingPoint, setRatingPoint] = useState(1);
+
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(error, { variant: 'error' });
+      dispatch(clearErrors());
+    }
+
+    if (success) {
+      reset();
+      setRatingPoint(1);
+      enqueueSnackbar('Review posted successfully!', { variant: 'success' });
+      dispatch({ type: NEW_REVIEW_RESET });
+    }
+  }, [dispatch, enqueueSnackbar, error, success, reset]);
+
+  const handleCreateReview = (data) => {
+    data.rating = ratingPoint;
+    data.productId = id;
+    dispatch(newReview(data));
+  };
+
+  const handleWriteReview = () => {
+    ref.current?.scrollIntoView({ behavior: 'smooth'});
   };
 
   return (
@@ -175,204 +223,135 @@ const ReviewesTab = ({ ratings, numOfReviews, reviews }) => {
               <Button className="w-[180px] bg-white text-black border border-black text-lg hover:text-white hover:bg-black">
                 See all reviews
               </Button>
-              <Button className="w-[180px] text-white text-lg">
+              <Button
+                onClick={handleWriteReview}
+                className="w-[180px] text-white text-lg"
+              >
                 Write a reviews
               </Button>
             </div>
           </div>
           <div className="container flex flex-col justify-between col-span-6">
-            <div className="grid items-center grid-cols-12">
-              <span className="col-span-2">5 starts</span>
-              <div className="relative flex items-center col-span-9">
-                <div className="absolute rounded-full bg-gray-200 w-full h-[10px]"></div>
-                <div className="absolute rounded-full bg-yellow-500 w-[96%] h-[10px]"></div>
-              </div>
-              <span className="col-span-1 text-right">257</span>
-            </div>
-            <div className="grid items-center grid-cols-12">
-              <span className="col-span-2">1 starts</span>
-              <div className="relative flex items-center col-span-9">
-                <div className="absolute rounded-full bg-gray-200 w-full h-[10px]"></div>
-                <div className="absolute rounded-full bg-yellow-500 w-[86%] h-[10px]"></div>
-              </div>
-              <span className="col-span-1 text-right">257</span>
-            </div>
-            <div className="grid items-center grid-cols-12">
-              <span className="col-span-2">3 starts</span>
-              <div className="relative flex items-center col-span-9">
-                <div className="absolute rounded-full bg-gray-200 w-full h-[10px]"></div>
-                <div className="absolute rounded-full bg-yellow-500 w-[50%] h-[10px]"></div>
-              </div>
-              <span className="col-span-1 text-right">257</span>
-            </div>
-            <div className="grid items-center grid-cols-12">
-              <span className="col-span-2">2 starts</span>
-              <div className="relative flex items-center col-span-9">
-                <div className="absolute rounded-full bg-gray-200 w-full h-[10px]"></div>
-                <div className="absolute rounded-full bg-yellow-500 w-[20%] h-[10px]"></div>
-              </div>
-              <span className="col-span-1 text-right">257</span>
-            </div>
-            <div className="grid items-center grid-cols-12">
-              <span className="col-span-2">1 starts</span>
-              <div className="relative flex items-center col-span-9">
-                <div className="absolute rounded-full bg-gray-200 w-full h-[10px]"></div>
-                <div className="absolute rounded-full bg-yellow-500 w-[10%] h-[10px]"></div>
-              </div>
-              <span className="col-span-1 text-right">257</span>
-            </div>
+            {[5, 4, 3, 2, 1].map((item, index) => {
+              let numOfStart = 0;
+              if (reviews) {
+                numOfStart = reviews.reduce(
+                  (acc, review) => (review.rating === item ? acc + 1 : acc),
+                  0
+                );
+              }
+              return (
+                <div key={item} className="grid items-center grid-cols-12">
+                  <span className="col-span-2">{item} starts</span>
+                  <BorderLinearProgress
+                    sx={{ width: 1, hight: 10 }}
+                    className="col-span-9"
+                    variant="determinate"
+                    value={
+                      numOfReviews !== undefined
+                        ? Number(((numOfStart / numOfReviews) * 100).toFixed(0))
+                        : 0
+                    }
+                  />
+                  <span className="col-span-1 text-right">{numOfStart}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="flex flex-col gap-4">
-          <h6 className="text-xl font-semibold">1-5 of 44 reviews</h6>
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-row gap-5">
-              <span className="text-lg font-semibold">
-                Amazing Story! You will LOVE it
-              </span>
-              <Rating
-                sx={{ display: 'flex', alignItems: 'center' }}
-                name=""
-                defaultValue={1}
-                precision={0.5}
-                readOnly
-                size="small"
-              />
-            </div>
-            <h6 className="text-lg">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint
-              deleniti eaque dolor vel asperiores at dolores vero fuga, illum
-              unde quia, placeat reiciendis molestias nesciunt voluptatibus
-              alias est nam? Cumque?
-            </h6>
-            <h6 className="text-lg text-gray-600">Staci, February 22, 2020</h6>
-            <div className="flex flex-row gap-10">
-              <div className="flex flex-row gap-2">
-                <HiOutlineThumbUp className="text-2xl cursor-pointer"></HiOutlineThumbUp>
-                <span className="text-lg">20</span>
+          <h6 className="text-xl font-semibold">
+            1-5 of {numOfReviews} reviews
+          </h6>
+          {reviews &&
+            reviews.map((review, index) => (
+              <div key={index} className="flex flex-col gap-3">
+                <div className="flex flex-row gap-6">
+                  <span className="text-lg font-semibold">{review.title}</span>
+                  <Rating
+                    sx={{ display: 'flex', alignItems: 'center' }}
+                    value={review.rating}
+                    readOnly
+                    size="small"
+                  />
+                </div>
+                <h6 className="text-lg">{review.comment}</h6>
+                <h6 className="text-lg text-gray-600">
+                  {review.name}, {String(review.createdDate).substring(0, 10)}
+                </h6>
+                <div className="flex flex-row gap-10">
+                  <div className="flex flex-row gap-2">
+                    <HiOutlineThumbUp className="text-2xl cursor-pointer"></HiOutlineThumbUp>
+                    <span className="text-lg">{review.like}</span>
+                  </div>
+                  <div className="flex flex-row gap-2">
+                    <HiOutlineThumbDown className="text-2xl cursor-pointer"></HiOutlineThumbDown>
+                    <span className="text-lg">{review.disLike}</span>
+                  </div>
+                  <HiOutlineTag className="text-2xl cursor-pointer"></HiOutlineTag>
+                </div>
+                <div className="w-full border-t border-gray-200"></div>
               </div>
-              <div className="flex flex-row gap-2">
-                <HiOutlineThumbDown className="text-2xl cursor-pointer"></HiOutlineThumbDown>
-                <span className="text-lg">20</span>
-              </div>
-              <HiOutlineTag className="text-2xl cursor-pointer"></HiOutlineTag>
-            </div>
-            <div className="w-full border-t border-gray-200"></div>
-          </div>
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-row gap-5">
-              <span className="text-lg font-semibold">
-                Amazing Story! You will LOVE it
-              </span>
-              <Rating
-                sx={{ display: 'flex', alignItems: 'center' }}
-                name=""
-                defaultValue={1}
-                precision={0.5}
-                readOnly
-                size="small"
-              />
-            </div>
-            <h6 className="text-lg">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint
-              deleniti eaque dolor vel asperiores at dolores vero fuga, illum
-              unde quia, placeat reiciendis molestias nesciunt voluptatibus
-              alias est nam? Cumque?
-            </h6>
-            <h6 className="text-lg text-gray-600">Staci, February 22, 2020</h6>
-            <div className="flex flex-row gap-10">
-              <div className="flex flex-row gap-2">
-                <HiOutlineThumbUp className="text-2xl cursor-pointer"></HiOutlineThumbUp>
-                <span className="text-lg">20</span>
-              </div>
-              <div className="flex flex-row gap-2">
-                <HiOutlineThumbDown className="text-2xl cursor-pointer"></HiOutlineThumbDown>
-                <span className="text-lg">20</span>
-              </div>
-              <HiOutlineTag className="text-2xl cursor-pointer"></HiOutlineTag>
-            </div>
-            <div className="w-full border-t border-gray-200"></div>
-          </div>
-          <div className="flex flex-col gap-3">
-            <div className="flex flex-row gap-5">
-              <span className="text-lg font-semibold">
-                Amazing Story! You will LOVE it
-              </span>
-              <Rating
-                sx={{ display: 'flex', alignItems: 'center' }}
-                name=""
-                defaultValue={1}
-                precision={0.5}
-                readOnly
-                size="small"
-              />
-            </div>
-            <h6 className="text-lg">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sint
-              deleniti eaque dolor vel asperiores at dolores vero fuga, illum
-              unde quia, placeat reiciendis molestias nesciunt voluptatibus
-              alias est nam? Cumque?
-            </h6>
-            <h6 className="text-lg text-gray-600">Staci, February 22, 2020</h6>
-            <div className="flex flex-row gap-10">
-              <div className="flex flex-row gap-2">
-                <HiOutlineThumbUp className="text-2xl cursor-pointer"></HiOutlineThumbUp>
-                <span className="text-lg">20</span>
-              </div>
-              <div className="flex flex-row gap-2">
-                <HiOutlineThumbDown className="text-2xl cursor-pointer"></HiOutlineThumbDown>
-                <span className="text-lg">20</span>
-              </div>
-              <HiOutlineTag className="text-2xl cursor-pointer"></HiOutlineTag>
-            </div>
-            <div className="w-full border-t border-gray-200"></div>
-          </div>
+            ))}
         </div>
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-          <h6 className="text-xl font-semibold">Write a review</h6>
-          <div className="flex flex-row gap-5">
-            <span className="text-lg">Select a rating(required)</span>
-            <Rating
-              sx={{ display: 'flex', alignItems: 'center' }}
-              name="rating"
-              {...register('rating')}
-              precision={1}
-              size="small"
-            />
-          </div>
-          <div>
-            <h6 className="text-lg">
-              Details please! Your review helps other shoppers.
-            </h6>
-            <div className="mt-2 border border-gray-300">
-              <textarea
-                name="content"
-                {...register('content')}
-                id=""
-                cols="30"
-                rows="7"
-                placeholder="What did you like or dislike? What should other shoppers know before buying?"
-                className="w-full p-4 text-orange-900 resize-none"
-              ></textarea>
-            </div>
-            <div className="mt-4">
-              <h6 className="text-lg">Add title</h6>
-              <input
-                type="text"
-                placeholder="3000 characters remaining"
-                name="title"
-                {...register('title')}
-                className="w-full p-3 mt-2 text-orange-900 border border-gray-300"
+        {user !== null ? (
+          <form
+            ref={ref}
+            onSubmit={handleSubmit(handleCreateReview)}
+            className="flex flex-col gap-4"
+          >
+            <h6 className="text-xl font-semibold">Write a review</h6>
+            <div className="flex flex-row gap-5">
+              <span className="text-lg">Select a rating(required)</span>
+              <Rating
+                name="rating"
+                value={ratingPoint}
+                sx={{ display: 'flex', alignItems: 'center' }}
+                onChange={(e, value) =>
+                  setRatingPoint(Number(value || ratingPoint))
+                }
+                precision={1}
+                size="small"
               />
             </div>
-          </div>
-          <Button
-            type="submit"
-            className="text-white bg-black max-w-[200px] mt-2 text-lg w-full"
-          >
-            Submit review
-          </Button>
-        </form>
+            <div>
+              <h6 className="text-lg">
+                Details please! Your review helps other shoppers.
+              </h6>
+              <div className="mt-2 border border-gray-300">
+                <textarea
+                  name="comment"
+                  {...register('comment')}
+                  id=""
+                  cols="30"
+                  rows="7"
+                  placeholder="What did you like or dislike? What should other shoppers know before buying?"
+                  className="w-full p-4 text-orange-900 resize-none"
+                ></textarea>
+              </div>
+              <div className="mt-4">
+                <h6 className="text-lg">Add title</h6>
+                <input
+                  type="text"
+                  placeholder="3000 characters remaining"
+                  name="title"
+                  {...register('title')}
+                  className="w-full p-3 mt-2 text-orange-900 border border-gray-300"
+                />
+              </div>
+            </div>
+            <Button
+              type="submit"
+              className="text-white bg-black max-w-[200px] mt-2 text-lg w-full"
+            >
+              Submit review
+            </Button>
+          </form>
+        ) : (
+          <h6 ref={ref} className="text-xl font-semibold">
+            Login to post your review.
+          </h6>
+        )}
       </div>
     </TabPanel>
   );

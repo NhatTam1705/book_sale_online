@@ -1,9 +1,18 @@
+import { useCallback, useState } from 'react';
 import { TiExportOutline } from 'react-icons/ti';
 import Button from '../../../components/buttons/Button';
 import OrderFilterAdmin from '../../../components/layouts/admin/order/OrderFilterAdmin';
 import OrderTableAdmin from '../../../components/layouts/admin/order/OrderTableAdmin';
 
 const OrderAdminPage = () => {
+  const [user, setUser] = useState('');
+  const [status, setStatus] = useState('');
+
+  const fallbackFilter = useCallback((use, sta) => {
+    setUser(use);
+    setStatus(sta);
+  }, []);
+
   return (
     <>
       <div className="flex flex-row items-center justify-between mb-6">
@@ -14,8 +23,8 @@ const OrderAdminPage = () => {
         </Button>
       </div>
       <div className="grid grid-cols-12 gap-6">
-        <OrderTableAdmin></OrderTableAdmin>
-        <OrderFilterAdmin></OrderFilterAdmin>
+        <OrderTableAdmin user={user} status={status}></OrderTableAdmin>
+        <OrderFilterAdmin fallbackFilter={fallbackFilter}></OrderFilterAdmin>
       </div>
     </>
   );

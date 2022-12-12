@@ -7,6 +7,7 @@ const {
   getCategories,
   updateCategory,
   deleteCategory,
+  getCategoriesPagination,
 } = require('../controllers/categoryController');
 
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
@@ -14,9 +15,7 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 router
   .route('/admin/category/new')
   .post(isAuthenticatedUser, authorizeRoles('admin'), newCategory);
-router
-  .route('/admin/categories/:resPerPage')
-  .get(isAuthenticatedUser, authorizeRoles('admin'), getCategoriesAdmin);
+router.route('/categories/:resPerPage').get(getCategoriesPagination);
 router.route('/categories').get(getCategories);
 router
   .route('/admin/category/:id')

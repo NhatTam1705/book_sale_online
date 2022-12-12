@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {
   newSubCategory,
-  getSubCategoriesAdmin,
+  getSubCategoriesPagination,
   getSubCategories,
   updateSubCategory,
   deleteSubCategory,
@@ -14,9 +14,7 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 router
   .route('/admin/subCategory/new')
   .post(isAuthenticatedUser, authorizeRoles('admin'), newSubCategory);
-router
-  .route('/admin/subCategories/:resPerPage')
-  .get(isAuthenticatedUser, authorizeRoles('admin'), getSubCategoriesAdmin);
+router.route('/subCategories/:resPerPage').get(getSubCategoriesPagination);
 router.route('/subCategories').get(getSubCategories);
 router
   .route('/admin/subCategory/:id')

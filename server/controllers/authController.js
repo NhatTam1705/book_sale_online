@@ -1,8 +1,7 @@
 const User = require('../models/user');
-
 const ErrorHandler = require('../utils/errorHandler');
-
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
+const APIFeatures = require('../utils/apiFeatures');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
@@ -79,9 +78,7 @@ exports.forgotPassword = catchAsyncErrors(async (req, res, next) => {
   await user.save({ validateBeforeSave: false });
 
   //create reset password url
-  const resetUrl = `${req.protocol}://${req.get(
-    'host'
-  )}/api/v1/password/reset/${resetToken}`;
+  const resetUrl = `${process.env.FRONTEND_URL}/password/reset/${resetToken}`;
 
   const message = `Your passsword reset token is as follow:\n\n${resetUrl}\n\n If you have not requested this email, then ignore it`;
 
@@ -153,8 +150,8 @@ exports.getUserProfile = catchAsyncErrors(async (req, res, next) => {
 
 //Update / Change password => /api/v1/password/update
 exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
-  if(req.body.password !== req.body.comfirmPassword) {
-    new ErrorHandler('Password and confirm password does not match!', 404)
+  if (req.body.password !== req.body.comfirmPassword) {
+    new ErrorHandler('Password and confirm password does not match!', 404);
   }
   const user = await User.findById(req.user.id).select('+password');
 
@@ -225,12 +222,36 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
 
 //Admin Routes
 
-//Get all users => /api/v1/admin/users
-exports.allUsers = catchAsyncErrors(async (req, res, next) => {
-  const users = await User.find();
+//Get all users pagination => /api/v1/admin/users/:resPerPage
+exports.allUsersPagination = catchAsyncErrors(async (req, res, next) => {
+  let resPerPage = req.params.resPerPage;
+  const usersCount = await User.countDocuments();
+  const apiFeatures = new APIFeatures(User.find(), req.query).search().filter();
+  let users = await apiFeatures.query;
+  let filteredUsersCount = users.length;
+  apiFeatures.sorting().pagination(resPerPage);
+  users = await apiFeatures.query.clone();
 
   res.status(200).json({
     success: true,
+    filteredUsersCount,
+    usersCount,
+    users,
+  });
+});
+//Get all users => /api/v1/admin/users
+exports.allUsers = catchAsyncErrors(async (req, res, next) => {
+  const usersCount = await User.countDocuments();
+  const apiFeatures = new APIFeatures(User.find(), req.query)
+    .search()
+    .filter()
+    .sorting();
+  const users = await apiFeatures.query.clone();
+
+  res.status(200).json({
+    success: true,
+    count: users.length,
+    usersCount,
     users,
   });
 });
@@ -249,8 +270,8 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
     user,
   });
 });
-//Update user profile => /api/v1/admin/user/:id
 
+//Update user profile => /api/v1/admin/user/:id
 exports.updateUser = catchAsyncErrors(async (req, res, nex) => {
   const newUserData = {
     name: req.body.name,

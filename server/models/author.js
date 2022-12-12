@@ -9,8 +9,17 @@ const authorSchema = new mongoose.Schema({
   },
   introduce: {
     type: String,
-    maxLength: [150, 'Author description can not exceed 150 characters'],
-    default: 'No decription',
+    required: [true, 'Please enter author introduce'],
+  },
+  avatar: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
   },
   user: {
     type: mongoose.Schema.ObjectId,

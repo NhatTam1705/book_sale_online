@@ -1,9 +1,21 @@
-import { Checkbox } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import { useState } from 'react';
 import { HiMinus, HiPlus } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
 
 const SideBarShippingCheckout = () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(true);
+  const { cartItems } = useSelector((state) => state.cart);
+  const price = cartItems.reduce(
+    (acc, item) => acc + item.quantity * item.soldPrice,
+    0
+  );
+  const [value, setValue] = useState(price > 200 ? 'freeShip' : 'noneFreeShip');
 
   return (
     <>
@@ -24,20 +36,26 @@ const SideBarShippingCheckout = () => {
         </div>
         {show && (
           <>
-            <div className="flex flex-col">
-              <div class="flex items-center">
-                <Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />
-                <span className="my-auto text-lg ">Free shipping</span>
-              </div>
-              <div class="flex items-center">
-                <Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />
-                <span className="my-auto text-lg ">Flat rate: $15</span>
-              </div>
-              <div class="flex items-center">
-                <Checkbox sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} />
-                <span className="my-auto text-lg ">Local pickup: $8</span>
-              </div>
-            </div>
+            <FormControl>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={value}
+              >
+                <FormControlLabel
+                  value="freeShip"
+                  control={<Radio />}
+                  label="Free Shipping"
+                  disabled={value === 'freeShip' ? false : true}
+                />
+                <FormControlLabel
+                  value="noneFreeShip"
+                  control={<Radio />}
+                  label="None Free Shipping: 25$"
+                  disabled={value === 'noneFreeShip' ? false : true}
+                />
+              </RadioGroup>
+            </FormControl>
           </>
         )}
       </div>

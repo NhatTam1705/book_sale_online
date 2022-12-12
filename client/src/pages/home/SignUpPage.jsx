@@ -64,7 +64,6 @@ const SignUpPage = () => {
       enqueueSnackbar('Register and login successfully!', {
         variant: 'success',
       });
-      navigate('/home');
     }
 
     if (error) {

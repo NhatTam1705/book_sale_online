@@ -32,6 +32,26 @@ exports.getDiscounts = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
+// Get all discount pagination=> /api/v1/admin/discounts/:resPerPage?keyword=...
+exports.getDiscountsPagination = catchAsyncErrors(async (req, res, next) => {
+  let resPerPage = req.params.resPerPage;
+  const discountsCount = await Discount.countDocuments();
+  const apiFeatures = new APIFeatures(Discount.find(), req.query)
+    .search()
+    .filter();
+  let discounts = await apiFeatures.query;
+  let filteredDiscountsCount = discounts.length;
+  apiFeatures.sorting().pagination(resPerPage);
+  discounts = await apiFeatures.query.clone();
+
+  res.status(200).json({
+    success: true,
+    filteredDiscountsCount,
+    discountsCount,
+    discounts,
+  });
+});
+
 // Update discount => /api/v1/admin/discount/:id
 exports.updateDiscount = catchAsyncErrors(async (req, res, next) => {
   let discount = await Discount.findById(req.params.id);

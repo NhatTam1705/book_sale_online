@@ -1,4 +1,10 @@
 import {
+  ALL_USER_FAIL,
+  ALL_USER_PAGINATION_FAIL,
+  ALL_USER_PAGINATION_REQUEST,
+  ALL_USER_PAGINATION_SUCCESS,
+  ALL_USER_REQUEST,
+  ALL_USER_SUCCESS,
   CLEAR_ERRORS,
   FORGOT_PASSWORD_FAIL,
   FORGOT_PASSWORD_REQUEST,
@@ -11,6 +17,9 @@ import {
   LOGIN_SUCCESS,
   LOGOUT_FAIL,
   LOGOUT_SUCCESS,
+  NEW_PASSWORD_FAIL,
+  NEW_PASSWORD_REQUEST,
+  NEW_PASSWORD_SUCCESS,
   REGISTER_USER_FAIL,
   REGISTER_USER_REQUEST,
   REGISTER_USER_SUCCESS,
@@ -22,6 +31,9 @@ import {
   UPDATE_PROFILE_REQUEST,
   UPDATE_PROFILE_RESET,
   UPDATE_PROFILE_SUCCESS,
+  USER_DETAILS_FAIL,
+  USER_DETAILS_REQUEST,
+  USER_DETAILS_SUCCESS,
 } from '../constants/userConstants';
 
 // Reducer handle authentication
@@ -153,6 +165,7 @@ export const userReducer = (state = {}, action) => {
 export const forgotPasswordReducer = (state = {}, action) => {
   switch (action.type) {
     case FORGOT_PASSWORD_REQUEST:
+    case NEW_PASSWORD_REQUEST:
       return {
         ...state,
         loading: true,
@@ -166,10 +179,85 @@ export const forgotPasswordReducer = (state = {}, action) => {
         message: action.payload,
       };
 
+    case NEW_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        success: action.payload,
+      };
+
     case FORGOT_PASSWORD_FAIL:
+    case NEW_PASSWORD_FAIL:
       return {
         ...state,
         loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+export const usersReducer = (state = { users: [] }, action) => {
+  switch (action.type) {
+    case ALL_USER_PAGINATION_REQUEST:
+    case ALL_USER_REQUEST:
+      return {
+        loading: true,
+        users: [],
+      };
+
+    case ALL_USER_PAGINATION_SUCCESS:
+    case ALL_USER_SUCCESS:
+      return {
+        loading: false,
+        users: action.payload.users,
+        usersCount: action.payload.usersCount,
+        filteredUsersCount: action.payload.filteredUsersCount,
+      };
+
+    case ALL_USER_PAGINATION_FAIL:
+    case ALL_USER_FAIL:
+      return {
+        loading: false,
+        error: action.payload,
+      };
+
+    case CLEAR_ERRORS:
+      return {
+        ...state,
+        error: null,
+      };
+
+    default:
+      return state;
+  }
+};
+
+// Reducer handle get single user details
+export const userDetailsReducer = (state = { user: {} }, action) => {
+  switch (action.type) {
+    case USER_DETAILS_REQUEST:
+      return {
+        ...state,
+        loading: true,
+      };
+
+    case USER_DETAILS_SUCCESS:
+      return {
+        loading: false,
+        user: action.payload,
+      };
+
+    case USER_DETAILS_FAIL:
+      return {
+        ...state,
         error: action.payload,
       };
 

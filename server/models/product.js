@@ -24,6 +24,11 @@ const productSchema = new mongoose.Schema({
     required: [true, 'Please enter product stock'],
     default: 0.0,
   },
+  stockInput: {
+    type: Number,
+    required: [true, 'Please enter product stock input'],
+    default: 0.0,
+  },
   format: {
     type: String,
     required: [true, 'Please select format for this product'],
@@ -66,6 +71,18 @@ const productSchema = new mongoose.Schema({
     trim: true,
     default: 0.0,
   },
+  images: [
+    {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      url: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   ratings: {
     type: Number,
     default: 0.0,
@@ -89,9 +106,25 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      title: {
+        type: String,
+        required: true,
+      },
       comment: {
         type: String,
         required: true,
+      },
+      like: {
+        type: Number,
+        default: 0,
+      },
+      disLike: {
+        type: Number,
+        default: 0,
+      },
+      createdDate: {
+        type: Date,
+        default: Date.now,
       },
     },
   ],

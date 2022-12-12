@@ -6,6 +6,7 @@ const {
   getDiscounts,
   updateDiscount,
   deleteDiscount,
+  getDiscountsPagination,
 } = require('../controllers/discountController');
 
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
@@ -16,6 +17,9 @@ router
 router
   .route('/admin/discounts')
   .get(isAuthenticatedUser, authorizeRoles('admin'), getDiscounts);
+router
+  .route('/admin/discounts/:resPerPage')
+  .get(isAuthenticatedUser, authorizeRoles('admin'), getDiscountsPagination);
 router
   .route('/admin/discount/:id')
   .put(isAuthenticatedUser, authorizeRoles('admin'), updateDiscount);

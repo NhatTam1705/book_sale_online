@@ -26,7 +26,7 @@ const ProductPage = () => {
     }
 
     dispatch(getProductDetials(id));
-  }, [dispatch, enqueueSnackbar, error, id]);
+  }, [dispatch, enqueueSnackbar, error, id, product]);
 
   return (
     <>

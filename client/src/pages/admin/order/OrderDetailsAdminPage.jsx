@@ -1,34 +1,74 @@
 import { Autocomplete, TextField } from '@mui/material';
+import { useSnackbar } from 'notistack';
+import { useEffect } from 'react';
 import {
   MdCreditCard,
   MdOutlineDateRange,
   MdOutlineLocalPrintshop,
   MdOutlineLocationOn,
   MdOutlinePersonOutline,
+  MdOutlinePinDrop,
 } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  clearErrors,
+  getOrderDetails,
+  updateOrder,
+} from '../../../actions/orderActions';
 import Slider from '../../../assets/images/Slider_1.png';
 import Button from '../../../components/buttons/Button';
+import { UPDATE_ORDER_RESET } from '../../../constants/orderConstants';
 
 const status = [
   {
-    label: 'Status 1',
-    value: 1,
+    label: 'Processing',
+    value: 'Processing',
   },
   {
-    label: 'Status 2',
-    value: 2,
+    label: 'Preparing',
+    value: 'Preparing',
   },
   {
-    label: 'Status 3',
-    value: 3,
+    label: 'Delivering',
+    value: 'Delivering',
   },
   {
-    label: 'Status 4',
-    value: 4,
+    label: 'Completed',
+    value: 'Completed',
   },
 ];
 
 const OrderDetailsAdminPage = () => {
+  const { id } = useParams();
+  const { enqueueSnackbar } = useSnackbar();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const {
+    error: errorOrderDetails,
+    loading,
+    order,
+  } = useSelector((state) => state.orderDetails);
+  const { error, isUpdated } = useSelector((state) => state.order);
+
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(error, { variant: 'error' });
+      dispatch(clearErrors());
+    }
+
+    if (errorOrderDetails) {
+      enqueueSnackbar(errorOrderDetails, { variant: 'error' });
+      dispatch(clearErrors());
+    }
+
+    if (isUpdated) {
+      dispatch({ type: UPDATE_ORDER_RESET });
+    }
+
+    dispatch(getOrderDetails(id));
+  }, [dispatch, enqueueSnackbar, error, errorOrderDetails, id, isUpdated]);
+
   return (
     <>
       <div className="flex flex-row items-center justify-between mb-6">
@@ -40,27 +80,34 @@ const OrderDetailsAdminPage = () => {
             <MdOutlineDateRange className="w-8 h-8 col-span-2 "></MdOutlineDateRange>
             <div className="flex flex-col col-span-10">
               <span className="text-lg font-medium">
-                Wed, Aug 13, 2020, 4:24PM
+                {order && String(order.createdDate).substring(0, 10)}
               </span>
-              <span className="text-base text-gray-500">#ID 19110313</span>
+              <span className="text-base text-gray-500">
+                #ID {order && order._id}
+              </span>
             </div>
           </div>
-          <div className="grid grid-cols-12 gap-2 w-[450px]">
+          <div className="grid grid-cols-8 gap-2 w-[400px]">
             <Autocomplete
               id="status"
               options={status}
               className="w-full col-span-6"
+              value={(order && order?.orderStatus) || ''}
+              onChange={(event, value) =>
+                dispatch(
+                  updateOrder(id, {
+                    status: (value && value.value) || order?.orderStatus,
+                  })
+                )
+              }
               renderInput={(params) => (
                 <TextField
                   {...params}
-                  placeholder="Change status"
                   className="bg-white"
+                  label={(order && order?.orderStatus) || ''}
                 />
               )}
             />
-            <Button className="col-span-4 text-black bg-white border border-gray-300">
-              Save
-            </Button>
             <Button className="col-span-2 text-white bg-black">
               <MdOutlineLocalPrintshop className="w-6 h-6 m-auto"></MdOutlineLocalPrintshop>
             </Button>
@@ -73,11 +120,27 @@ const OrderDetailsAdminPage = () => {
             <div className="flex flex-col col-span-10 gap-1">
               <h5 className="text-lg font-medium">Customer</h5>
               <div className="flex flex-col">
-                <span>Old man dev</span>
-                <span>oldmandev@gmail.com</span>
-                <span>0334193816</span>
+                <div>
+                  <label className="text-gray-500">Name: </label>
+                  <span>{order?.shippingInfo?.name}</span>
+                </div>
+                <div>
+                  <label className="text-gray-500">Phone: </label>
+                  <span>{order?.shippingInfo?.phone}</span>
+                </div>
+                <div>
+                  <label className="text-gray-500">Email: </label>
+                  <span>{order?.shippingInfo?.email}</span>
+                </div>
               </div>
-              <span className="text-blue-500 cursor-pointer">View profile</span>
+              <span
+                // onClick={() =>
+                //   navigate(`/admin/customer/${order && order.user}`)
+                // }
+                className="text-blue-500 cursor-pointer"
+              >
+                View profile
+              </span>
             </div>
           </div>
           <div className="grid grid-cols-12 col-span-6">
@@ -86,16 +149,8 @@ const OrderDetailsAdminPage = () => {
               <h5 className="text-lg font-medium">Deliver to</h5>
               <div className="flex flex-col">
                 <div>
-                  <label className="text-gray-500">City: </label>
-                  <span>Long An</span>
-                </div>
-                <div>
-                  <label className="text-gray-500">Street: </label>
-                  <span>19/5</span>
-                </div>
-                <div>
-                  <label className="text-gray-500">Address: </label>
-                  <span>Can Duoc</span>
+                  <label className="text-gray-500">Delivery: </label>
+                  <span>{order?.shippingInfo?.delivery}</span>
                 </div>
               </div>
               <span className="text-blue-500 cursor-pointer">Open map</span>
@@ -112,23 +167,32 @@ const OrderDetailsAdminPage = () => {
             </div>
             <hr />
             <div>
-              <ProductOrderItem></ProductOrderItem>
-              <ProductOrderItem></ProductOrderItem>
-              <ProductOrderItem></ProductOrderItem>
+              {order &&
+                order.orderItems &&
+                order?.orderItems.map((item, index) => (
+                  <ProductOrderItem
+                    key={item.product}
+                    item={item}
+                  ></ProductOrderItem>
+                ))}
             </div>
             <div className="grid grid-cols-12 mt-3">
               <div className="col-span-4 col-start-9 text-lg">
                 <div className="flex flex-row justify-between w-full">
                   <span className="text-gray-500">Subtotal</span>
-                  <span className="font-medium">$11</span>
+                  <span className="font-medium">
+                    ${order?.totalPrice - order?.shippingPrice}
+                  </span>
                 </div>
                 <div className="flex flex-row justify-between w-full">
                   <span className="text-gray-500">Shipping cost</span>
-                  <span className="font-medium">$6</span>
+                  <span className="font-medium">${order?.shippingPrice}</span>
                 </div>
                 <div className="flex flex-row justify-between w-full">
                   <span className="text-gray-500">Total</span>
-                  <span className="font-bold font-xl">$17</span>
+                  <span className="font-bold font-xl">
+                    ${order?.totalPrice}
+                  </span>
                 </div>
               </div>
             </div>
@@ -138,24 +202,38 @@ const OrderDetailsAdminPage = () => {
               <div className="flex flex-col gap-3 p-4 bg-white border border-gray-300 rounded-md">
                 <h6 className="text-lg font-medium">Payment info</h6>
                 <div className="flex gap-3">
-                  <MdCreditCard className="w-6 h-6"></MdCreditCard>
-                  <span>Master Card</span>
+                  {order?.paymentMethod === 'Direct bank transfer' ? (
+                    <>
+                      <MdCreditCard className="w-6 h-6"></MdCreditCard>
+                      <span>{order?.paymentMethod}</span>
+                    </>
+                  ) : (
+                    <>
+                      <MdOutlinePinDrop className="w-6 h-6"></MdOutlinePinDrop>
+                      <span>{order?.paymentMethod}</span>
+                    </>
+                  )}
                 </div>
-                <span>Business name:</span>
-                <span>Phone:</span>
+                {order?.paymentMethod === 'Direct bank transfer' && (
+                  <>
+                    <span>ID: {order?.paymentInfo?.id}</span>
+                    <span>Status: {order?.paymentInfo?.status}</span>
+                  </>
+                )}
               </div>
               <div className="flex flex-col gap-3">
                 <h6 className="text-lg font-medium">Notes</h6>
                 <div className="p-4 bg-white border border-gray-300 rounded-md">
                   <textarea
+                    disabled={true}
                     name=""
                     id=""
                     rows="5"
-                    className="w-full resize-none"
+                    defaultValue={order?.shippingInfo?.note}
+                    className="w-full resize-none bg-white"
                     placeholder="Type here"
                   ></textarea>
                 </div>
-                <Button className="text-white bg-black">Save note</Button>
               </div>
             </div>
           </div>
@@ -167,7 +245,8 @@ const OrderDetailsAdminPage = () => {
 
 export default OrderDetailsAdminPage;
 
-const ProductOrderItem = () => {
+const ProductOrderItem = ({ item }) => {
+  const { name, quantity, price } = item;
   return (
     <>
       <div className="grid items-center grid-cols-12 py-3 text-lg">
@@ -175,11 +254,11 @@ const ProductOrderItem = () => {
           <div className="col-span-3">
             <img src={Slider} alt="" className="m-auto w-[70%]" />
           </div>
-          <span className="col-span-9 font-medium">Old man dev</span>
+          <span className="col-span-9 font-medium">{name}</span>
         </div>
-        <span className="col-span-2">2</span>
-        <span className="col-span-2">$11</span>
-        <span className="col-span-2">$22</span>
+        <span className="col-span-2">{quantity}</span>
+        <span className="col-span-2">${price}</span>
+        <span className="col-span-2">${price * quantity}</span>
       </div>
       <hr />
     </>

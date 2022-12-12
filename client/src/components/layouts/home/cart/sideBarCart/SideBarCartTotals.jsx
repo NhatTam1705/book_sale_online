@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { HiMinus, HiPlus } from 'react-icons/hi';
 
-const SideBarCartTotals = () => {
-  const [show, setShow] = useState(false);
+const SideBarCartTotals = ({ price }) => {
+  const [show, setShow] = useState(true);
 
   return (
     <>
@@ -24,13 +24,15 @@ const SideBarCartTotals = () => {
         {show && (
           <>
             <div className="flex flex-col gap-3 text-lg">
-              <div className="grid grid-cols-2">
-                <span className="col-span-1 text-left">Subtotal:</span>
-                <span className="col-span-1 text-right">99.99$</span>
+              <div className="flex flex-row justify-between">
+                <span className="">Subtotal:</span>
+                <span className="">{price}$</span>
               </div>
-              <div className="grid grid-cols-2">
-                <span className="col-span-1 text-left">Shipping:</span>
-                <span className="col-span-1 text-right">Free shipping</span>
+              <div className="flex flex-row justify-between">
+                <span className="">Shipping:</span>
+                <span className="">
+                  {price > 200 ? 'Free Shipping' : 'Local Pickup: 25$'}
+                </span>
               </div>
             </div>
           </>

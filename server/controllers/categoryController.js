@@ -16,20 +16,22 @@ exports.newCategory = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Get all categories for admin => /api/v1/admin/categories/:resPerPage&keyword=...
-exports.getCategoriesAdmin = catchAsyncErrors(async (req, res, next) => {
+// Get all categories pagination => /api/v1/categories/:resPerPage&keyword=...
+exports.getCategoriesPagination = catchAsyncErrors(async (req, res, next) => {
   let resPerPage = req.params.resPerPage;
 
   const categoriesCount = await Category.countDocuments();
   const apiFeatures = new APIFeatures(Category.find(), req.query)
     .search()
-    .filter()
-    .pagination(resPerPage);
-  const categories = await apiFeatures.query;
+    .filter();
+  let categories = await apiFeatures.query;
+  let filteredCategoriesCount = categories.length;
+  apiFeatures.sorting().pagination(resPerPage);
+  categories = await apiFeatures.query.clone();
 
   res.status(200).json({
     success: true,
-    count: categories.length,
+    filteredCategoriesCount,
     categoriesCount,
     categories,
   });
@@ -54,14 +56,11 @@ exports.getCategories = catchAsyncErrors(async (req, res, next) => {
 // Update category => /api/v1/admin/category/:id
 exports.updateCategory = catchAsyncErrors(async (req, res, next) => {
   let category = await Category.findById(req.params.id);
-
   if (!category) {
     return next(new ErrorHandler('Category is not found!', 404));
   }
-
   req.body.user = req.user.id;
   req.body.modifiedDate = Date.now();
-
   category = await Category.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
@@ -84,9 +83,8 @@ exports.deleteCategory = catchAsyncErrors(async (req, res, next) => {
     (sub) => sub.category.toString() === req.params.id.toString()
   );
   if (categoryExist.length !== 0) {
-    return next(new ErrorHandler('Category can not deleted!', 404));
+    return next(new ErrorHandler('Category can not delete!', 404));
   }
-
   await category.remove();
   res.status(200).json({
     success: true,

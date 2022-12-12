@@ -12,7 +12,7 @@ import {
 } from 'react-icons/hi';
 import { IoLogoGoogle } from 'react-icons/io5';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { clearErrors, login } from '../../actions/userActions';
 import Button from '../../components/buttons/Button';
@@ -46,8 +46,9 @@ const SignInPage = () => {
 
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const location = useLocation();
 
-  const { isAuthenticated, loading, error } = useSelector(
+  const { isAuthenticated, loading, error, user } = useSelector(
     (state) => state.auth
   );
   const navigate = useNavigate();
@@ -56,12 +57,17 @@ const SignInPage = () => {
     const { email, password } = data;
     dispatch(login(email, password));
   };
+  const redirect = location.search ? location.search.split('=')[1] : '/home';
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/home');
+      if (user.role === 'user') {
+        navigate(redirect);
+      } else {
+        navigate('/admin/dashboard');
+      }
       reset();
-      enqueueSnackbar('Login successfully!', { variant: 'success' });
+      // enqueueSnackbar('Login successfully!', { variant: 'success' });
     }
 
     if (error) {

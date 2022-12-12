@@ -1,24 +1,31 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const orderSchema = mongoose.Schema({
   shippingInfo: {
-    address: {
+    name: {
       type: String,
       required: true,
     },
-    provinceOrCity: {
+    phone: {
       type: String,
       required: true,
     },
-    phoneNo: {
+    email: {
       type: String,
       required: true,
+    },
+    delivery: {
+      type: String,
+      required: true,
+    },
+    note: {
+      type: String,
     },
   },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: "User",
+    ref: 'User',
   },
   orderItems: [
     {
@@ -34,14 +41,32 @@ const orderSchema = mongoose.Schema({
         type: Number,
         required: true,
       },
+      format: {
+        type: String,
+        required: true,
+      },
+      language: {
+        type: String,
+        required: true,
+      },
       product: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: "Product",
+        ref: 'Product',
       },
     },
   ],
-
+  paymentInfo: {
+    id: {
+      type: String,
+    },
+    status: {
+      type: String,
+    },
+  },
+  paidAt: {
+    type: Date,
+  },
   itemsPrice: {
     //tổng giá của một sp x số lượng => 1 táp = 3$ x 3 trái = 9$ (itemsPrice)
     type: Number,
@@ -61,7 +86,15 @@ const orderSchema = mongoose.Schema({
   orderStatus: {
     type: String,
     required: true,
-    default: "Processing",
+    default: 'Processing',
+  },
+  paymentMethod: {
+    type: String,
+    required: true,
+    enum: {
+      values: ['Cash on delivery', 'Direct bank transfer'],
+      message: 'Please select correct payment method for order ',
+    },
   },
   deliveredDate: {
     type: Date,
@@ -72,4 +105,4 @@ const orderSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("Order", orderSchema);
+module.exports = mongoose.model('Order', orderSchema);

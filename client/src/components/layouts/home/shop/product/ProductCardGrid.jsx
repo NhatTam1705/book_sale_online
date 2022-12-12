@@ -1,8 +1,16 @@
+import { Tooltip } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import PropsTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { HiOutlineHeart, HiSwitchHorizontal } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { addItemToCart } from '../../../../../actions/cartActions';
+import {
+  addItemToWishlist,
+  removeItemFromWishlist,
+} from '../../../../../actions/wishlistActions';
 import Slider1 from '../../../../../assets/images/Slider_1.png';
 
 const ProductCardGrid = ({ product }) => {
@@ -14,6 +22,33 @@ const ProductCardGrid = ({ product }) => {
 
   // Declare function redirect url when click to product card
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  const { wishlistItems } = useSelector((state) => state.wishlist);
+  const [isWishlist, setIsWishList] = useState(false);
+  useEffect(() => {
+    const isItemExist = wishlistItems.find((i) => i.product === _id);
+    if (isItemExist) {
+      setIsWishList(true);
+    } else {
+      setIsWishList(false);
+    }
+  }, [_id, wishlistItems]);
+
+  const handleAddToWishlist = () => {
+    if (!isWishlist) {
+      dispatch(addItemToWishlist(_id));
+      setIsWishList((prev) => !prev);
+    } else {
+      dispatch(removeItemFromWishlist(_id));
+      setIsWishList((prev) => !prev);
+    }
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addItemToCart(_id, 1));
+    enqueueSnackbar('Item added to cart!', { variant: 'success' });
+  };
 
   return (
     <>
@@ -38,19 +73,36 @@ const ProductCardGrid = ({ product }) => {
             hover ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          <button className="col-span-3 font-semibold uppercase transition-all duration-300 border-b-2 hover:border-gray-900">
+          <button
+            onClick={handleAddToCart}
+            className="col-span-3 font-semibold uppercase transition-all duration-300 border-b-2 hover:border-gray-900"
+          >
             Add to card
           </button>
           <div className="flex flex-row items-center justify-end col-span-2 gap-1">
-            <span className="p-2 rounded-full w-9 h-9 hover:bg-red-500">
-              <HiSwitchHorizontal
-                className="w-full h-full"
-                onClick={() => navigate(`/shop/product/${_id}`)}
-              ></HiSwitchHorizontal>
-            </span>
-            <span className="p-2 rounded-full w-9 h-9 hover:bg-red-500">
-              <HiOutlineHeart className="w-full h-full"></HiOutlineHeart>
-            </span>
+            <Tooltip title="View Detail" placement="bottom">
+              <span className="p-2 rounded-full w-9 h-9 hover:bg-red-500">
+                <HiSwitchHorizontal
+                  className="w-full h-full cursor-pointer"
+                  onClick={() => navigate(`/shop/product/${_id}`)}
+                ></HiSwitchHorizontal>
+              </span>
+            </Tooltip>
+            <Tooltip
+              title={isWishlist ? 'Remove From Wishlist' : 'Add To Wishlist'}
+              placement="bottom"
+            >
+              <span
+                className={`p-2 rounded-full w-9 h-9 ${
+                  isWishlist ? 'bg-red-500' : ''
+                } hover:bg-red-500`}
+              >
+                <HiOutlineHeart
+                  onClick={handleAddToWishlist}
+                  className="w-full h-full cursor-pointer"
+                ></HiOutlineHeart>
+              </span>
+            </Tooltip>
           </div>
           <div></div>
         </div>

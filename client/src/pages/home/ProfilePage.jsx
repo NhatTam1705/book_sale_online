@@ -1,23 +1,7 @@
-import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import SideBarProfile from '../../components/layouts/home/profile/SideBarProfile';
 
 const ProfilePage = () => {
-  const { isAuthenticated, loading, user } = useSelector((state) => state.auth);
-  const { enqueueSnackbar } = useSnackbar();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/home');
-      enqueueSnackbar('Login first to access resource!', {
-        variant: 'warning',
-      });
-    }
-  });
   return (
     <>
       <div className="grid grid-cols-12 px-12 ">

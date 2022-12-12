@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { HiMinus, HiPlus } from 'react-icons/hi';
+import { useSelector } from 'react-redux';
 
-const SideBarYourOrderCheckout = () => {
-  const [show, setShow] = useState(false);
+const SideBarYourOrderCheckout = ({ cartItems }) => {
+  const [show, setShow] = useState(true);
 
   return (
     <>
@@ -24,20 +25,21 @@ const SideBarYourOrderCheckout = () => {
         {show && (
           <>
             <div className="flex flex-col gap-3 text-lg">
-              <div className="grid grid-cols-3">
-                <div className="flex col-span-2 gap-2">
-                  <span className="text-left ">Touchscreen MP3 Player</span>
-                  <span className="font-semibold"> x 1</span>
-                </div>
-                <span className="col-span-1 text-right">99.99$</span>
-              </div>
-              <div className="grid grid-cols-3">
-                <div className="flex col-span-2 gap-2">
-                  <span className="text-left ">Touchscreen MP3 Player</span>
-                  <span className="font-semibold"> x 1</span>
-                </div>
-                <span className="col-span-1 text-right">99.99$</span>
-              </div>
+              {cartItems &&
+                cartItems.map((item, index) => (
+                  <div key={item.product} className="grid grid-cols-5">
+                    <div className="grid grid-cols-12 col-span-4 gap-2">
+                      <span className="col-span-10 text-left">{item.name}</span>
+                      <span className="col-span-2 font-semibold">
+                        {' '}
+                        x {item.quantity}
+                      </span>
+                    </div>
+                    <span className="col-span-1 text-right">
+                      {item.price * item.quantity}$
+                    </span>
+                  </div>
+                ))}
             </div>
           </>
         )}

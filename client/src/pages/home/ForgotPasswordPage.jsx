@@ -5,6 +5,10 @@ import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import Button from '../../components/buttons/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { display } from '@mui/system';
+import { clearErrors, forgotPassword } from '../../actions/userActions';
 
 const forgotPasswordSchema = Yup.object({
   email: Yup.string()
@@ -14,7 +18,11 @@ const forgotPasswordSchema = Yup.object({
 
 const ForgotPasswordPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
+  const { error, loading, message } = useSelector(
+    (state) => state.forgotPassword
+  );
   const {
     handleSubmit,
     register,
@@ -28,8 +36,19 @@ const ForgotPasswordPage = () => {
   });
 
   const handleForgotPassword = (data) => {
-    console.log(data);
+    dispatch(forgotPassword(data));
   };
+
+  useEffect(() => {
+    if (error) {
+      enqueueSnackbar(error, { variant: 'error' });
+      dispatch(clearErrors());
+    }
+
+    if (message) {
+      enqueueSnackbar(message, { variant: 'success' });
+    }
+  }, [dispatch, enqueueSnackbar, error, message]);
 
   return (
     <div className=" max-w-[600px] m-auto my-24 border border-gray-300 rounded-lg">

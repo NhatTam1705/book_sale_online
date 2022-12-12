@@ -16,24 +16,28 @@ exports.newSubCategory = catchAsyncErrors(async (req, res, next) => {
   });
 });
 
-// Get all sub categories for admin => /api/v1/admin/subCategories/:resPerPage&keyword=...
-exports.getSubCategoriesAdmin = catchAsyncErrors(async (req, res, next) => {
-  let resPerPage = req.params.resPerPage;
+// Get all sub categories pagination => /api/v1/subCategories/:resPerPage&keyword=...
+exports.getSubCategoriesPagination = catchAsyncErrors(
+  async (req, res, next) => {
+    let resPerPage = req.params.resPerPage;
 
-  const subCategoriesCount = await SubCategory.countDocuments();
-  const apiFeatures = new APIFeatures(SubCategory.find(), req.query)
-    .search()
-    .filter()
-    .pagination(resPerPage);
-  const subCategories = await apiFeatures.query;
+    const subCategoriesCount = await SubCategory.countDocuments();
+    const apiFeatures = new APIFeatures(SubCategory.find(), req.query)
+      .search()
+      .filter();
+    let subCategories = await apiFeatures.query;
+    let filteredSubCategoriesCount = subCategories.length;
+    apiFeatures.sorting().pagination(resPerPage);
+    subCategories = await apiFeatures.query.clone();
 
-  res.status(200).json({
-    success: true,
-    count: subCategories.length,
-    subCategoriesCount,
-    subCategories,
-  });
-});
+    res.status(200).json({
+      success: true,
+      filteredSubCategoriesCount,
+      subCategoriesCount,
+      subCategories,
+    });
+  }
+);
 
 // Get all sub categories => /api/v1/subCategories?keyword=...
 exports.getSubCategories = catchAsyncErrors(async (req, res, next) => {

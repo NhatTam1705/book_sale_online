@@ -68,7 +68,7 @@ const ShopPage = () => {
   useEffect(() => {
     if (error) {
       enqueueSnackbar(error, { variant: 'error' });
-      dispatch(clearErrors);
+      dispatch(clearErrors());
     }
     dispatch(
       getProductsPagination(

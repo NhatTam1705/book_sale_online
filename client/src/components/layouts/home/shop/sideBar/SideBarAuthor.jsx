@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react';
 import { HiMinus, HiPlus, HiSearch, HiX } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, getAuthors } from '../../../../../actions/authorActions';
+import useDebounce from '../../../../../hooks/useDebounce';
 
 const SideBarAuthor = ({ fallbackAuthor }) => {
   const [show, setShow] = useState(false);
   const [keyword, setKeyword] = useState('');
+  const keywordDebounce = useDebounce(keyword, 500);
   const dispatch = useDispatch();
   const [author, setAuthor] = useState('');
   const { enqueueSnackbar } = useSnackbar();
@@ -20,8 +22,8 @@ const SideBarAuthor = ({ fallbackAuthor }) => {
       dispatch(clearErrors());
     }
 
-    dispatch(getAuthors(keyword.trim()));
-  }, [error, dispatch, enqueueSnackbar, keyword]);
+    dispatch(getAuthors(keywordDebounce));
+  }, [error, dispatch, enqueueSnackbar, keywordDebounce]);
 
   useEffect(() => {
     fallbackAuthor(author);

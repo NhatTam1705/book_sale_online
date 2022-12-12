@@ -19,7 +19,7 @@ router
 router.route('/authors').get(getAuthors);
 router.route('/author/:id').get(getAuthorDetails);
 
-router.route('/admin/authors/:resPerPage').get(getAuthorsPagination);
+router.route('/authors/:resPerPage').get(getAuthorsPagination);
 
 router
   .route('/admin/author/:id')

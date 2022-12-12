@@ -1,6 +1,7 @@
 import { Rating } from '@mui/material';
+import { useSnackbar } from 'notistack';
 import PropsTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import {
   HiMinus,
@@ -8,11 +9,18 @@ import {
   HiOutlineShare,
   HiPlus,
 } from 'react-icons/hi';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { EffectCoverflow, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
 import 'swiper/css/pagination';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { addItemToCart } from '../../../../actions/cartActions';
+import {
+  addItemToWishlist,
+  removeItemFromWishlist,
+} from '../../../../actions/wishlistActions';
 import Button from '../../../buttons/Button';
 import Slider1 from './../../../../assets/images/Slider_1.png';
 
@@ -28,10 +36,49 @@ const ProductDetails = ({ product }) => {
     discount,
   } = product;
 
+  const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
+  const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+  const { wishlistItems } = useSelector((state) => state.wishlist);
+  const [isWishlist, setIsWishList] = useState(false);
+  useEffect(() => {
+    const isItemExist = wishlistItems.find((i) => i.product === _id);
+    if (isItemExist) {
+      setIsWishList(true);
+    } else {
+      setIsWishList(false);
+    }
+  }, [_id, wishlistItems]);
+
+  const handleAddToWishlist = () => {
+    if (!isWishlist) {
+      dispatch(addItemToWishlist(_id));
+      setIsWishList((prev) => !prev);
+    } else {
+      dispatch(removeItemFromWishlist(_id));
+      setIsWishList((prev) => !prev);
+    }
+  };
 
   const handleChangeQuantity = (e) => {
+    if (e.target.value > stock) return;
     setQuantity(e.target.value);
+  };
+
+  const handleIncrementQuantity = () => {
+    if (quantity + 1 > stock) return;
+    setQuantity(quantity + 1);
+  };
+
+  const handleDecrementQuantity = () => {
+    if (quantity - 1 <= 0) return;
+    setQuantity(quantity - 1);
+  };
+
+  const handleAddToCart = () => {
+    dispatch(addItemToCart(id, quantity));
+    enqueueSnackbar('Item added to cart!', { variant: 'success' });
   };
 
   return (
@@ -95,7 +142,7 @@ const ProductDetails = ({ product }) => {
         <div className="grid grid-cols-6 gap-5 xl:grid-cols-12 lg:grid-cols-6 md:grid-cols-12 sm:grid-cols-12 h-14">
           <div className="flex items-center col-span-2 p-2 space-x-2 border rounded-md boder-gray-300">
             <HiMinus
-              onClick={() => setQuantity(quantity - 1)}
+              onClick={handleDecrementQuantity}
               className="cursor-pointer"
             ></HiMinus>
             <input
@@ -108,7 +155,7 @@ const ProductDetails = ({ product }) => {
             />
             <HiPlus
               className="cursor-pointer"
-              onClick={() => setQuantity(quantity + 1)}
+              onClick={handleIncrementQuantity}
             ></HiPlus>
           </div>
           <Button
@@ -116,10 +163,16 @@ const ProductDetails = ({ product }) => {
             className={`${
               stock > 0 ? '' : 'bg-gray-500 cursor-not-allowed'
             }  w-full h-full col-span-4 text-white`}
+            onClick={handleAddToCart}
           >
             Add To Card
           </Button>
-          <div className="flex items-center col-span-3 space-x-3 cursor-pointer hover:text-orange-600">
+          <div
+            onClick={handleAddToWishlist}
+            className={`flex items-center col-span-3 space-x-3 cursor-pointer hover:text-orange-600 ${
+              isWishlist ? 'text-orange-600' : ''
+            }`}
+          >
             <HiOutlineHeart className="text-2xl"></HiOutlineHeart>
             <span className="text-lg">Add to Wishlist</span>
           </div>

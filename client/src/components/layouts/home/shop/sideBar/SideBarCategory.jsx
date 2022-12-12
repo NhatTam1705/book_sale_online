@@ -8,12 +8,15 @@ import {
   getCategories,
 } from '../../../../../actions/categoryActions';
 import { getSubCategories } from '../../../../../actions/subCategoryActions';
+import useDebounce from '../../../../../hooks/useDebounce';
 
 const SideBarCategory = ({ fallbackCategory }) => {
   const [show, setShow] = useState(false);
 
   const [keyword, setKeyword] = useState('');
+  const keywordDebounce = useDebounce(keyword, 500);
   const [keywordSub, setKeywordSub] = useState('');
+  const keywordSubDebounce = useDebounce(keywordSub, 500);
   const [category, setCategory] = useState('');
   const [subCategory, setSubCategory] = useState('');
 
@@ -37,9 +40,16 @@ const SideBarCategory = ({ fallbackCategory }) => {
       dispatch(clearErrors());
     }
 
-    dispatch(getCategories(keyword));
-    dispatch(getSubCategories(keywordSub, category));
-  }, [error, dispatch, enqueueSnackbar, keyword, keywordSub, category]);
+    dispatch(getCategories(keywordDebounce));
+    dispatch(getSubCategories(keywordSubDebounce, category));
+  }, [
+    error,
+    dispatch,
+    enqueueSnackbar,
+    keywordDebounce,
+    keywordSubDebounce,
+    category,
+  ]);
 
   useEffect(() => {
     fallbackCategory(subCategory);

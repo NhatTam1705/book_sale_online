@@ -5,6 +5,8 @@ import {
   MdOutlineCategory,
   MdOutlineExpandLess,
   MdOutlineExpandMore,
+  MdOutlineFeaturedVideo,
+  MdOutlineMonetizationOn,
   MdOutlineShoppingCart,
   MdOutlineSwitchAccount,
   MdPeopleOutline,
@@ -38,6 +40,22 @@ const sideBarItems = [
   },
   {
     id: 4,
+    name: 'Discount',
+    icon: (
+      <MdOutlineMonetizationOn className="w-6 h-6 col-span-1 m-auto text-gray-500 cursor-pointer"></MdOutlineMonetizationOn>
+    ),
+    link: '/admin/discounts',
+  },
+  {
+    id: 5,
+    name: 'Advertisement',
+    icon: (
+      <MdOutlineFeaturedVideo className="w-6 h-6 col-span-1 m-auto text-gray-500 cursor-pointer"></MdOutlineFeaturedVideo>
+    ),
+    link: '/admin/advertisements',
+  },
+  {
+    id: 6,
     name: 'Category',
     icon: (
       <MdOutlineCategory className="w-6 h-6 col-span-1 m-auto text-gray-500 cursor-pointer"></MdOutlineCategory>
@@ -45,7 +63,7 @@ const sideBarItems = [
     link: '/admin/categories',
   },
   {
-    id: 5,
+    id: 7,
     name: 'Product',
     icon: (
       <MdLibraryBooks className="w-6 h-6 col-span-1 m-auto text-gray-500 cursor-pointer"></MdLibraryBooks>
@@ -62,9 +80,9 @@ const sideBarItems = [
         subLink: '/admin/products',
       },
     ],
-  }, 
+  },
   {
-    id: 6,
+    id: 8,
     name: 'Author',
     icon: (
       <MdOutlineSwitchAccount className="w-6 h-6 col-span-1 m-auto text-gray-500 cursor-pointer"></MdOutlineSwitchAccount>

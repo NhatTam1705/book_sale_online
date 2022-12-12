@@ -11,6 +11,16 @@ const advertisementSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please enter advertisement description'],
   },
+  image: {
+    public_id: {
+      type: String,
+      required: true,
+    },
+    url: {
+      type: String,
+      required: true,
+    },
+  },
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

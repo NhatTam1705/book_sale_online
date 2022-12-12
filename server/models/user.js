@@ -48,6 +48,12 @@ const userSchema = new mongoose.Schema({
       default: null,
     },
   },
+  // address: [
+  //   {
+  //     type: String,
+  //     default: null
+  //   }
+  // ],
   role: {
     type: String,
     default: 'user',

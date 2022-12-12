@@ -5,7 +5,7 @@ import {
   HiOutlineLocationMarker,
   HiOutlineLogout,
   HiOutlineNewspaper,
-  HiOutlineViewBoards,
+  HiOutlineViewBoards
 } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -46,12 +46,6 @@ const dashboardItems = [
     icon: <HiOutlineHeart className="w-14 h-14"></HiOutlineHeart>,
     link: '/profile/wishlist',
   },
-  {
-    id: 6,
-    name: 'Logout',
-    icon: <HiOutlineLogout className="w-14 h-14"></HiOutlineLogout>,
-    link: null,
-  },
 ];
 
 const DashboardProfile = () => {
@@ -61,6 +55,7 @@ const DashboardProfile = () => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(logout());
+    navigate('/home')
     enqueueSnackbar('Logout successfully!', { variant: 'success' });
   };
   return (
@@ -87,6 +82,15 @@ const DashboardProfile = () => {
                 <span className="text-lg">{item.name}</span>
               </div>
             ))}
+          <div
+            className="xl:col-span-4 lg:col-span-4 md:col-span-6 sm:col-span-4 col-span-6 px-6 py-12 flex flex-col gap-2 items-center border border-gray-300 cursor-pointer"
+            onClick={handleLogout}
+          >
+            <div className="w-24 h-24 rounded-full flex items-center justify-center bg-pink-50 hover:bg-red-300 text-red-500 hover:text-white">
+              <HiOutlineLogout className="w-14 h-14"></HiOutlineLogout>
+            </div>
+            <span className="text-lg">Logout</span>
+          </div>
         </div>
       </div>
     </div>
