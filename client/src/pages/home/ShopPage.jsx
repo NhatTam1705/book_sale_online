@@ -7,6 +7,7 @@ import {
   clearErrors,
   getProductsPagination,
 } from '../../actions/productActions';
+import MetaData from '../../components/dialogs/MetaData';
 import ProductList from '../../components/layouts/home/shop/product/ProductList';
 import SideBarAuthor from '../../components/layouts/home/shop/sideBar/SideBarAuthor';
 import SideBarByRating from '../../components/layouts/home/shop/sideBar/SideBarByRating';
@@ -104,6 +105,7 @@ const ShopPage = () => {
 
   return (
     <>
+      <MetaData title="Shop"></MetaData>
       <div className="grid grid-cols-2 gap-8 px-12 py-24 xl:grid-cols-9 lg:grid-cols-7 md:grid-cols-5 sm:grid-cols-2">
         <div className="col-span-2">
           <SideBarCategory

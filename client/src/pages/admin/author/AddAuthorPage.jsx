@@ -9,6 +9,7 @@ import * as Yup from 'yup';
 import { clearErrors, newAuthor } from '../../../actions/authorActions';
 import Avatar from '../../../assets/images/Slider_1.png';
 import Button from '../../../components/buttons/Button';
+import MetaData from '../../../components/dialogs/MetaData';
 import { NEW_AUTHOR_RESET } from '../../../constants/authorConstants';
 
 const authorSchema = Yup.object({
@@ -38,7 +39,7 @@ const AddAuthorPage = () => {
     mode: 'onChange',
   });
 
-  const { success, error } = useSelector((state) => state.newAuthor);
+  const { success, error, loading } = useSelector((state) => state.newAuthor);
 
   useEffect(() => {
     if (error) {
@@ -70,80 +71,89 @@ const AddAuthorPage = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
-      <div className="flex flex-row items-center justify-between mb-6">
-        <h5 className="text-3xl font-medium">Add Author</h5>
-      </div>
-      <form
-        autoComplete="off"
-        onSubmit={handleSubmit(handleCreateAuthor)}
-        encType="multipart/form-data"
-        className="bg-gray-50 p-6 rounded-lg grid grid-cols-12 gap-6"
-      >
-        <div className="col-span-8 flex flex-col gap-4 text-lg">
-          <div className="grid grid-cols-12 gap-6">
-            <div className="col-span-12 flex flex-col gap-1">
-              <label htmlFor="name">Full name</label>
-              <TextField
-                id="name"
-                className="bg-white"
-                name="name"
-                {...register('name')}
-                placeholder="Full name"
-              />
-              {errors?.name && (
+    <>
+      <MetaData title='Add Author - Admin'></MetaData>
+      <div className="max-w-3xl mx-auto">
+        <div className="flex flex-row items-center justify-between mb-6">
+          <h5 className="text-3xl font-medium">Add Author</h5>
+        </div>
+        <form
+          autoComplete="off"
+          onSubmit={handleSubmit(handleCreateAuthor)}
+          encType="multipart/form-data"
+          className="bg-gray-50 p-6 rounded-lg grid grid-cols-12 gap-6"
+        >
+          <div className="col-span-8 flex flex-col gap-4 text-lg">
+            <div className="grid grid-cols-12 gap-6">
+              <div className="col-span-12 flex flex-col gap-1">
+                <label htmlFor="name">Full name</label>
+                <TextField
+                  id="name"
+                  className="bg-white"
+                  name="name"
+                  {...register('name')}
+                  placeholder="Full name"
+                />
+                {errors?.name && (
+                  <div className="text-sm text-red-500">
+                    {errors.name?.message}
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="introduce">Full Introduce</label>
+              <div className="p-4 bg-white border border-gray-300 rounded-md">
+                <textarea
+                  name="introduce"
+                  id="introduce"
+                  rows="5"
+                  {...register('introduce')}
+                  className="w-full resize-none"
+                  placeholder="Full Introduce"
+                ></textarea>
+              </div>
+              {errors?.introduce && (
                 <div className="text-sm text-red-500">
-                  {errors.name?.message}
+                  {errors.introduce?.message}
                 </div>
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-1">
-            <label htmlFor="introduce">Full Introduce</label>
-            <div className="p-4 bg-white border border-gray-300 rounded-md">
-              <textarea
-                name="introduce"
-                id="introduce"
-                rows="5"
-                {...register('introduce')}
-                className="w-full resize-none"
-                placeholder="Full Introduce"
-              ></textarea>
+          <div className="col-span-4">
+            <img
+              src={avatarReview}
+              alt="Avatar Author"
+              className="w-56 h-56 rounded-full mx-auto object-cover"
+            />
+            <div className="w-full flex justify-center pt-4">
+              <Button
+                onClick={() => inputRef.current.click()}
+                className="w-32 py-2 mx-auto bg-white border border-gray"
+              >
+                Upload
+              </Button>
             </div>
-            {errors?.introduce && (
-              <div className="text-sm text-red-500">
-                {errors.introduce?.message}
-              </div>
-            )}
+            <input
+              type="file"
+              accept="image/*"
+              ref={inputRef}
+              className="hidden"
+              onChange={handleChange}
+            />
           </div>
-        </div>
-        <div className="col-span-4">
-          <img
-            src={avatarReview}
-            alt="Avatar Author"
-            className="w-56 h-56 rounded-full mx-auto object-cover"
-          />
-          <div className="w-full flex justify-center pt-4">
-            <Button
-              onClick={() => inputRef.current.click()}
-              className="w-32 py-2 mx-auto bg-white border border-gray"
-            >
-              Upload
-            </Button>
-          </div>
-          <input
-            type="file"
-            accept="image/*"
-            ref={inputRef}
-            className="hidden"
-            onChange={handleChange}
-          />
-        </div>
-        <Button type="submit" className="col-span-12 text-white text-lg">
-          Create Author
-        </Button>
-      </form>
-    </div>
+          <Button
+            disabledButton={loading}
+            type="submit"
+            className={`col-span-12 text-white text-lg ${
+              loading ? 'cursor-not-allowed bg-gray-300' : ''
+            }`}
+          >
+            Create Author
+          </Button>
+        </form>
+      </div>
+    </>
   );
 };
 

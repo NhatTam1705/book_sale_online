@@ -36,7 +36,10 @@ const SideBarYourOrderCheckout = ({ cartItems }) => {
                       </span>
                     </div>
                     <span className="col-span-1 text-right">
-                      {item.price * item.quantity}$
+                      {(item.discount
+                        ? item.price * (1 - item.discount / 100)
+                        : item.price) * item.quantity}
+                      $
                     </span>
                   </div>
                 ))}

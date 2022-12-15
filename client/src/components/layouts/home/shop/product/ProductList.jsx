@@ -3,8 +3,8 @@ import PropsTypes from 'prop-types';
 import { Fragment, useEffect, useState } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { HiOutlineViewGrid, HiOutlineViewList } from 'react-icons/hi';
-import ProductCardGrid from './ProductCardGrid';
-import ProductCardList from './ProductCardList';
+import ProductCardGrid, { ProductCardGridSkeleton } from './ProductCardGrid';
+import ProductCardList, { ProductCardListSkeleton } from './ProductCardList';
 
 const sorts = [
   {
@@ -110,20 +110,42 @@ const ProductList = ({
         </div>
       </div>
       <div className="grid grid-cols-12 my-8">
-        {products &&
-          products.map((product, index) => (
-            <Fragment key={product._id}>
-              {isList ? (
-                <div className="col-span-12">
-                  <ProductCardList product={product}></ProductCardList>
-                </div>
-              ) : (
-                <div className="col-span-12 xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-6">
-                  <ProductCardGrid product={product}></ProductCardGrid>
-                </div>
-              )}
-            </Fragment>
-          ))}
+        {loading ? (
+          <>
+            {Array(perPage)
+              .fill(0)
+              .map((item, index) => (
+                <Fragment key={index}>
+                  {isList ? (
+                    <div className="col-span-12">
+                      <ProductCardListSkeleton></ProductCardListSkeleton>
+                    </div>
+                  ) : (
+                    <div className="col-span-12 xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-6">
+                      <ProductCardGridSkeleton></ProductCardGridSkeleton>
+                    </div>
+                  )}
+                </Fragment>
+              ))}
+          </>
+        ) : (
+          <>
+            {products.length > 0 &&
+              products.map((product, index) => (
+                <Fragment key={product._id}>
+                  {isList ? (
+                    <div className="col-span-12">
+                      <ProductCardList product={product}></ProductCardList>
+                    </div>
+                  ) : (
+                    <div className="col-span-12 xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-6">
+                      <ProductCardGrid product={product}></ProductCardGrid>
+                    </div>
+                  )}
+                </Fragment>
+              ))}
+          </>
+        )}
       </div>
       {perPage < (filteredProductsCount || productsCount) &&
         filteredProductsCount !== 0 && (

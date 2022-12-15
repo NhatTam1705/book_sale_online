@@ -21,6 +21,10 @@ const authorSchema = new mongoose.Schema({
       required: true,
     },
   },
+  totalBook: {
+    type: Number,
+    default: 0,
+  },
   user: {
     type: mongoose.Schema.ObjectId,
     ref: 'User',

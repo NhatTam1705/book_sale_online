@@ -1,10 +1,16 @@
+import { useSnackbar } from 'notistack';
 import { useEffect } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { HiChevronDoubleRight } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { getCategories } from '../../../../../actions/categoryActions';
-import FeaturedCategoriesCard from './FeaturedCategoriesCard';
+import {
+  clearErrors,
+  getSubCategories,
+} from '../../../../../actions/subCategoryActions';
+import FeaturedCategoriesCard, {
+  FeaturedCategoriesCardSkeleton,
+} from './FeaturedCategoriesCard';
 
 const themeCategoryColors = [
   { bg: 'bg-red-200', text: 'text-red-500' },
@@ -26,17 +32,7 @@ const themeCategoryColors = [
   { bg: 'bg-rose-200', text: 'text-rose-500' },
 ];
 
-const FeaturedCategoriesList = () => {
-  const disptach = useDispatch();
-
-  const { loading, categories, error, categoriesCount } = useSelector(
-    (state) => state.categories
-  );
-
-  useEffect(() => {
-    disptach(getCategories());
-  }, [disptach]);
-
+const FeaturedCategoriesList = ({ loading, subCategories }) => {
   return (
     <div>
       <div className="flex flex-row items-center justify-between mb-10">
@@ -48,30 +44,79 @@ const FeaturedCategoriesList = () => {
           <HiChevronDoubleRight className="w-6 h-6"></HiChevronDoubleRight>
         </div>
       </div>
-      <Swiper grabCursor={'true'} spaceBetween={30} slidesPerView={'auto'}>
-        {categories &&
-          categories
-            .sort((prev, next) => {
-              return prev.createdDate < next.createdDate ? 1 : -1;
-            })
-            .map((category) => {
-              let index = Math.floor(
-                Math.random() * themeCategoryColors.length
-              );
-              return (
-                <SwiperSlide
-                  key={category._id}
-                  className="xl:max-w-[18%] lg:max-w-[22.5%] md:max-w-[30.5%] sm:max-w-[48%] max-w-[100%]"
-                >
-                  <FeaturedCategoriesCard
-                    category={category}
-                    bg={themeCategoryColors[index].bg}
-                    text={themeCategoryColors[index].text}
-                  ></FeaturedCategoriesCard>
+      {loading ? (
+        <>
+          <Swiper
+            breakpoints={{
+              576: {
+                slidesPerView: 1,
+              },
+              768: {
+                slidesPerView: 2,
+              },
+              992: {
+                slidesPerView: 3,
+              },
+              1200: {
+                slidesPerView: 4,
+              },
+            }}
+            grabCursor={'true'}
+            spaceBetween={30}
+            slidesPerView={'auto'}
+          >
+            {Array(8)
+              .fill(0)
+              .map((item, index) => (
+                <SwiperSlide key={index}>
+                  <FeaturedCategoriesCardSkeleton></FeaturedCategoriesCardSkeleton>
                 </SwiperSlide>
-              );
-            })}
-      </Swiper>
+              ))}
+          </Swiper>
+        </>
+      ) : (
+        <>
+          <Swiper
+            breakpoints={{
+              576: {
+                slidesPerView: 1,
+              },
+              768: {
+                slidesPerView: 2,
+              },
+              992: {
+                slidesPerView: 3,
+              },
+              1200: {
+                slidesPerView: 4,
+              },
+            }}
+            grabCursor={'true'}
+            spaceBetween={30}
+            slidesPerView={'auto'}
+          >
+            {subCategories &&
+              subCategories
+                .sort((prev, next) => {
+                  return prev.createdDate < next.createdDate ? 1 : -1;
+                })
+                .map((subCategory) => {
+                  let index = Math.floor(
+                    Math.random() * themeCategoryColors.length
+                  );
+                  return (
+                    <SwiperSlide key={subCategory._id}>
+                      <FeaturedCategoriesCard
+                        subCategory={subCategory}
+                        bg={themeCategoryColors[index].bg}
+                        text={themeCategoryColors[index].text}
+                      ></FeaturedCategoriesCard>
+                    </SwiperSlide>
+                  );
+                })}
+          </Swiper>
+        </>
+      )}
     </div>
   );
 };

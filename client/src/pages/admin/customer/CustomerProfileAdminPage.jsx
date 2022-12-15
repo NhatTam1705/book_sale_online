@@ -13,6 +13,7 @@ import {
   getUserDetials,
 } from '../../../actions/userActions';
 import Avatar from '../../../assets/images/Slider_1.png';
+import MetaData from '../../../components/dialogs/MetaData';
 import OrderItemCustomerAdmin from '../../../components/layouts/admin/customer/OrderItemCustomerAdmin';
 import { DELETE_ORDER_RESET } from '../../../constants/orderConstants';
 
@@ -70,6 +71,7 @@ const CustomerProfileAdminPage = () => {
 
   return (
     <>
+      <MetaData title="Customer Profile - Admin"></MetaData>
       <div className="max-w-4xl mx-auto">
         <div className="flex flex-row items-center justify-between mb-6">
           <h5 className="text-3xl font-medium">Customer Profile</h5>

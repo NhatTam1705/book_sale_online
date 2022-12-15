@@ -19,8 +19,16 @@ import Slider1 from '../../../../../assets/images/Slider_1.png';
 
 const ProductCardList = ({ product }) => {
   // Destructuring information of product
-  const { name, format, _id, soldPrice, description, author, discount } =
-    product;
+  const {
+    name,
+    format,
+    _id,
+    soldPrice,
+    description,
+    author,
+    discount,
+    images,
+  } = product;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
@@ -51,16 +59,37 @@ const ProductCardList = ({ product }) => {
   };
 
   return (
-    <div className="grid grid-cols-2 gap-8 p-8 border border-gray-300 xl:grid-cols-12 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-3 hover:shadow-md hover:border-black">
+    <div className="grid grid-cols-2 gap-8 p-8 border border-gray-300 xl:grid-cols-12 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-3 hover:shadow-md hover:border-black relative">
       <div className="col-span-2">
-        <img src={Slider1} alt="" className="h-full" />
+        <img src={images[0].url} alt={name} className="h-full" />
       </div>
+      {discount && (
+        <div className="w-20 h-10 top-0 left-0 bg-red-500 absolute flex items-center justify-center">
+          <span className="text-lg text-white">
+            - {discount && discount.percent} %
+          </span>
+        </div>
+      )}
       <div className="flex flex-col justify-center col-span-8 gap-1">
         <h6 className="text-sm text-red-600 uppercase">{format}</h6>
         <h5 className="text-base font-medium">{name}</h5>
-        <h5 className="text-base text-gray-500">{author.name}</h5>
-        <h6 className="text-base">{description}</h6>
-        <h5 className="text-lg font-medium">${soldPrice}</h5>
+        <h5
+          onClick={() => navigate(`/author/${author._id}`)}
+          className="text-base text-gray-500 cursor-pointer hover:text-orange-600"
+        >
+          {author.name}
+        </h5>
+        <h6 className="text-base truncate">{description}</h6>
+        <div className="flex flex-row text-lg font-medium row-span-1 gap-5">
+          <h5 className={` ${discount ? 'text-red-600 line-through' : ''}`}>
+            ${soldPrice}
+          </h5>
+          {discount && (
+            <h5 className="">
+              ${soldPrice - (soldPrice * discount.percent) / 100}
+            </h5>
+          )}
+        </div>
       </div>
       <div className="grid items-center justify-center grid-cols-3 col-span-2">
         <Tooltip className="col-span-1" title="Add To Cart" placement="bottom">
@@ -95,6 +124,27 @@ const ProductCardList = ({ product }) => {
             ></HiOutlineHeart>
           </span>
         </Tooltip>
+      </div>
+    </div>
+  );
+};
+
+export const ProductCardListSkeleton = () => {
+  return (
+    <div className="grid grid-cols-2 gap-8 p-8 border border-gray-300 xl:grid-cols-12 lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-3 hover:shadow-md hover:border-black relative">
+      <div className="col-span-2 h-[200px] skeleton"></div>
+      <div className="flex flex-col justify-center w-full col-span-8 gap-1">
+        <div className="skeleton h-7 w-24"></div>
+        <div className="skeleton h-7 w-[80%]"></div>
+        <div className="skeleton h-7 w-[30%]"></div>
+        <div className="skeleton h-7 w-[100%]"></div>
+        <div className="skeleton h-7 w-10"></div>
+      </div>
+      <div className="grid items-center justify-center grid-cols-3 col-span-2">
+        <span className="p-2 rounded-full w-9 h-9 skeleton"></span>
+        <span className="p-2 rounded-full w-9 h-9 skeleton"></span>
+
+        <span className={`p-2 rounded-full w-9 h-9 skeleton`}></span>
       </div>
     </div>
   );

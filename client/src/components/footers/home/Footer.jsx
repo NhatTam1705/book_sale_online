@@ -1,31 +1,150 @@
+import emailjs from '@emailjs/browser';
+import { useSnackbar } from 'notistack';
+import { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { SiFacebook, SiInstagram, SiMessenger, SiTiktok } from 'react-icons/si';
 import Logo from '../.../../../../assets/images/logo.png';
 import FooterPayment from '../../../assets/images/payment.png';
+import i18n from '../../../i18n';
 import Button from '../../buttons/Button';
 
-const array = [1, 2, 3, 4];
+const footerData = [
+  {
+    title: 'Explore',
+    subTitle: [
+      {
+        title: 'Home',
+        link: '/home',
+      },
+      {
+        title: 'Shop',
+        link: '/shop',
+      },
+      {
+        title: 'Author',
+        link: '/author',
+      },
+      {
+        title: 'Blog',
+        link: '/blog',
+      },
+    ],
+  },
+  {
+    title: 'Customer Service',
+    subTitle: [
+      {
+        title: 'Help Center',
+        link: '/help_center',
+      },
+      {
+        title: 'Returns',
+        link: '/returns',
+      },
+      {
+        title: 'About Us',
+        link: '/about_us',
+      },
+      {
+        title: 'Contact_us',
+        link: '/contact_us',
+      },
+    ],
+  },
+  {
+    title: 'Policy',
+    subTitle: [
+      {
+        title: 'Return Policy',
+        link: '/return_policy',
+      },
+      {
+        title: 'Terms Of Use',
+        link: '/terms_of_use',
+      },
+      {
+        title: 'Security',
+        link: '/security',
+      },
+      {
+        title: 'Privacy',
+        link: '/privacy',
+      },
+    ],
+  },
+  {
+    title: 'Categories',
+    subTitle: [
+      {
+        title: 'New Book',
+        link: '/new_book',
+      },
+      {
+        title: 'On Sale',
+        link: '/on_sale',
+      },
+      {
+        title: 'Most Reviewed',
+        link: '/most_reviewed',
+      },
+      {
+        title: 'Featured',
+        link: '/featured',
+      },
+    ],
+  },
+];
 
 const Footer = () => {
+  const { t } = useTranslation();
+  const { enqueueSnackbar } = useSnackbar();
+  const form = useRef();
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm(
+        'service_nr38kcl',
+        'template_rh2qb8n',
+        form.current,
+        '6vOEUlMILzRBORbKi'
+      )
+      .then(
+        (result) => {
+          enqueueSnackbar('Sent a message to MeoMeo - Store', {
+            variant: 'success',
+          });
+        },
+        (error) => {
+          console.log(error);
+          enqueueSnackbar(error, { variant: 'error' });
+        }
+      );
+  };
   return (
     <>
       <div className="px-12 py-12 text-lg border border-gray-300">
         <div className="container grid max-w-3xl py-5 mx-auto">
-          <h1 className="text-3xl font-medium text-center">
-            Join Our Newsletter
-          </h1>
+          <h1 className="text-3xl font-medium text-center">Feedback</h1>
           <p className="text-lg text-center">
-            Signup to be the first to hear about exclusive deals, special offers
-            and upcoming collections
+            Give suggestions to improve the website
           </p>
-          <form className="grid mt-5 xl:grid-cols-4 lg:grid-cols-4 sm:grid-cols-3 gap-7 md:grid-cols-4">
+          <form
+            ref={form}
+            onSubmit={sendEmail}
+            autoComplete="off"
+            className="grid mt-5 xl:grid-cols-4 lg:grid-cols-4 sm:grid-cols-3 gap-7 md:grid-cols-4"
+          >
             <input
-              type="email"
-              placeholder="Enter email for weekly newsletter."
+              placeholder="Enter your message."
               className="border border-[#161619] indent-5 col-span-3 h-14"
-              name=""
+              name="message"
               id=""
             />
-            <Button className="col-span-1 text-white h-14 sm:col-start-2 md:col-start-4 xl:col-start-4 lg:col-start-4">
+            <Button
+              type="submit"
+              className={`col-span-1 text-white h-14 sm:col-start-2 md:col-start-4 xl:col-start-4 lg:col-start-4 cursor-pointer `}
+            >
               Subscribe
             </Button>
           </form>
@@ -58,33 +177,25 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          {array.map((item) => (
-            <div key={item} className="grid col-span-1 ">
-              <h4 className="text-xl font-medium">Explore</h4>
-              <ul className="space-y-2 ">
-                <li className="hover:translate-x-[20px] transition-all duration-500">
-                  <a href="#" className=" hover:text-orange-600">
-                    About us
-                  </a>
-                </li>
-                <li className="hover:translate-x-[20px] transition-all duration-500">
-                  <a href="#" className=" hover:text-orange-600">
-                    About us
-                  </a>
-                </li>
-                <li className="hover:translate-x-[20px] transition-all duration-500">
-                  <a href="#" className=" hover:text-orange-600">
-                    About us
-                  </a>
-                </li>
-                <li className="hover:translate-x-[20px] transition-all duration-500">
-                  <a href="#" className=" hover:text-orange-600">
-                    About us
-                  </a>
-                </li>
-              </ul>
-            </div>
-          ))}
+          {t('footer.contactFooter', { returnObjects: true }).map(
+            (item, index) => (
+              <div key={item.title} className="grid col-span-1 ">
+                <h4 className="text-xl font-medium">{item.title}</h4>
+                <ul className="space-y-2 ">
+                  {item.subTitle.map((subItem, subIndex) => (
+                    <li
+                      key={subItem.title}
+                      className="hover:translate-x-[20px] transition-all duration-500"
+                    >
+                      <a href={subItem.link} className=" hover:text-orange-600">
+                        {subItem.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          )}
         </div>
       </div>
       <div className="px-12 border-b border-gray-300 border-x">
@@ -100,11 +211,16 @@ const Footer = () => {
           />
           <div className="col-span-3 grid grid-cols-3 gap-5 h-[45px]">
             <div className="col-span-2 p-2 border border-gray-200">
-              <select className="w-full" name="" id="">
-                <option value="eng">English (United States)</option>
-                <option value="deu">Deutsch</option>
-                <option value="fra">Français</option>
-                <option value="esp">Español</option>
+              <select
+                onChange={(e) => i18n.changeLanguage(e.target.value)}
+                className="w-full"
+                name=""
+                id=""
+              >
+                <option value="en">English (United States)</option>
+                <option value="vi">Việt Nam</option>
+                {/* <option value="fra">Français</option>
+                <option value="esp">Español</option> */}
               </select>
             </div>
             <div className="col-span-1 p-2 border border-gray-200">

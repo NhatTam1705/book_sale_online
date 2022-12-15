@@ -1,6 +1,7 @@
 import { useCallback, useState } from 'react';
 import { TiExportOutline } from 'react-icons/ti';
 import Button from '../../../components/buttons/Button';
+import MetaData from '../../../components/dialogs/MetaData';
 import OrderFilterAdmin from '../../../components/layouts/admin/order/OrderFilterAdmin';
 import OrderTableAdmin from '../../../components/layouts/admin/order/OrderTableAdmin';
 
@@ -15,6 +16,7 @@ const OrderAdminPage = () => {
 
   return (
     <>
+      <MetaData title="Order - Admin"></MetaData>
       <div className="flex flex-row items-center justify-between mb-6">
         <h5 className="text-3xl font-medium">Orders</h5>
         <Button className="flex items-center gap-3 text-lg text-black bg-white border border-gray-300 ">

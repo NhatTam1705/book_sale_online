@@ -12,6 +12,7 @@ import {
   getAuthorsPagination,
 } from '../../../actions/authorActions';
 import Button from '../../../components/buttons/Button';
+import MetaData from '../../../components/dialogs/MetaData';
 import AuthorCardAdmin, {
   AuthorCardAdminSkeleton,
 } from '../../../components/layouts/admin/author/AuthorCardAdmin';
@@ -105,6 +106,7 @@ const AuthorListPage = () => {
 
   return (
     <>
+      <MetaData title="Author List - Admin"></MetaData>
       <div className="flex flex-row items-center justify-between mb-6">
         <h5 className="text-3xl font-medium">Authors</h5>
         <div className="flex gap-3">

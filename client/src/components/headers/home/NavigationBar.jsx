@@ -4,6 +4,7 @@ import { HiOutlineMenu, HiSearch, HiX } from 'react-icons/hi';
 import { NavLink, useNavigate } from 'react-router-dom';
 import navigationItemsData from '../../../assets/datas/navigationItems';
 import Logo from '../../../assets/images/logo.png';
+import SideBar from './SideBar';
 
 const NavigationBar = () => {
   const navigate = useNavigate();
@@ -27,9 +28,9 @@ const NavigationBar = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     if (keyword.trim()) {
-      navigate(`/shop/search/${keyword}`)
+      navigate(`/shop/search/${keyword}`);
     } else {
-      navigate('/shop')
+      navigate('/shop');
     }
   };
 
@@ -39,7 +40,7 @@ const NavigationBar = () => {
         <div className="grid items-center w-full h-full grid-cols-12 px-12 mx-auto xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-12 gap-x-5">
           <div className="flex items-center justify-center col-span-2 xl:col-span-1 lg:col-span-1 md:col-span-1 sm:col-span-2">
             <span className="w-auto h-auto">
-              <HiOutlineMenu
+              {/* <HiOutlineMenu
                 id="basic-button"
                 aria-controls={open ? 'basic-menu' : undefined}
                 aria-haspopup="true"
@@ -68,7 +69,8 @@ const NavigationBar = () => {
                       <span className='w-full px-2 my-2 text-lg border-b-2 border-transparent mx-14 hover:text-orange-600 hover:border-orange-600'>{item.navName}</span>
                     </MenuItem>
                   ))}
-              </Menu>
+              </Menu> */}
+              <SideBar></SideBar>
             </span>
           </div>
           <div className="flex items-center justify-center col-span-2 xl:col-span-1 lg:col-span-1 md:col-span-2 sm:col-span-2">

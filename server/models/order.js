@@ -37,6 +37,9 @@ const orderSchema = mongoose.Schema({
         type: Number,
         required: true,
       },
+      discount: {
+        type: Number,
+      },
       price: {
         type: Number,
         required: true,

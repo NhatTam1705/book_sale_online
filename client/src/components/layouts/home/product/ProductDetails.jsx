@@ -10,7 +10,7 @@ import {
   HiPlus,
 } from 'react-icons/hi';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { EffectCoverflow, Pagination } from 'swiper';
 import 'swiper/css';
 import 'swiper/css/effect-coverflow';
@@ -34,11 +34,12 @@ const ProductDetails = ({ product }) => {
     stock,
     author,
     discount,
+    images,
   } = product;
 
-  const { id } = useParams();
   const [quantity, setQuantity] = useState(1);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
   const { wishlistItems } = useSelector((state) => state.wishlist);
   const [isWishlist, setIsWishList] = useState(false);
@@ -77,7 +78,7 @@ const ProductDetails = ({ product }) => {
   };
 
   const handleAddToCart = () => {
-    dispatch(addItemToCart(id, quantity));
+    dispatch(addItemToCart(_id, quantity));
     enqueueSnackbar('Item added to cart!', { variant: 'success' });
   };
 
@@ -100,27 +101,12 @@ const ProductDetails = ({ product }) => {
           modules={[EffectCoverflow, Pagination]}
           className="w-full mySwiper"
         >
-          <SwiperSlide className="max-w-[55%] ">
-            <img src={Slider1} alt="" className="w-full h-auto" />
-          </SwiperSlide>
-          <SwiperSlide className="max-w-[55%] ">
-            <img className="w-full h-auto" src={Slider1} alt="" />
-          </SwiperSlide>
-          <SwiperSlide className="max-w-[55%] ">
-            <img className="w-full h-auto" src={Slider1} alt="" />
-          </SwiperSlide>
-          <SwiperSlide className="max-w-[55%] ">
-            <img className="w-full h-auto" src={Slider1} alt="" />
-          </SwiperSlide>
-          <SwiperSlide className="max-w-[55%] ">
-            <img className="w-full h-auto" src={Slider1} alt="" />
-          </SwiperSlide>
-          <SwiperSlide className="max-w-[55%] ">
-            <img className="w-full h-auto" src={Slider1} alt="" />
-          </SwiperSlide>
-          <SwiperSlide className="max-w-[55%] ">
-            <img className="w-full h-auto" src={Slider1} alt="" />
-          </SwiperSlide>
+          {images &&
+            images.map((image, index) => (
+              <SwiperSlide key={image.url} className="max-w-[55%] ">
+                <img src={image.url} alt={name} className="w-full h-auto" />
+              </SwiperSlide>
+            ))}
         </Swiper>
       </div>
       <div className="flex flex-col col-span-12 gap-4 xl:col-span-7 lg:col-span-7 md:col-span-12 sm:col-span-12">
@@ -129,14 +115,27 @@ const ProductDetails = ({ product }) => {
           <Rating name="read-only" value={ratings || 0} readOnly />
           <span>({numOfReviews})</span>
           <span className="font-semibold">By (author)</span>
-          <h6 className="text-gray-500">{author && author.name}</h6>
+          <h6
+            onClick={() => navigate(`/author/${author._id}`)}
+            className="text-gray-500 cursor-pointer hover:text-orange-600"
+          >
+            {author && author.name}
+          </h6>
         </div>
-        <h4 className="text-3xl font-semibold">${soldPrice}</h4>
-        <h6 className="text-lg">Discount</h6>
+        <div className="flex flex-row text-3xl font-semibold gap-5">
+          <h5 className={` ${discount ? 'text-red-600 line-through' : ''}`}>
+            ${soldPrice}
+          </h5>
+          {discount && (
+            <h5 className="">
+              ${soldPrice - (soldPrice * discount.percent) / 100}
+            </h5>
+          )}
+        </div>
         <h6 className="text-lg">
           <strong>Status: </strong>
           <span className={`${stock > 0 ? 'text-green-500' : 'text-red-500'}`}>
-            {stock > 0 ? 'In stock' : 'Out of stock'}
+            {stock > 0 ? 'In stock' : 'Out of stock'} ({stock})
           </span>
         </h6>
         <div className="grid grid-cols-6 gap-5 xl:grid-cols-12 lg:grid-cols-6 md:grid-cols-12 sm:grid-cols-12 h-14">

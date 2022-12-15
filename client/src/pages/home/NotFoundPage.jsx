@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/buttons/Button';
+import MetaData from '../../components/dialogs/MetaData';
 import HeaderAdmin from '../../components/headers/admin/HeaderAdmin';
 import Header from '../../components/headers/home/Header';
 import NavigationBar from '../../components/headers/home/NavigationBar';
@@ -10,6 +11,7 @@ const NotFoundPage = () => {
   const { isAuthenticated, user, loading } = useSelector((state) => state.auth);
   return (
     <>
+      <MetaData title="Not Found"></MetaData>
       {user && user.role === 'admin' ? (
         <HeaderAdmin></HeaderAdmin>
       ) : (

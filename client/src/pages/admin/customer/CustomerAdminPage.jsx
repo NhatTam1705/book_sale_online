@@ -6,6 +6,7 @@ import { TiExportOutline } from 'react-icons/ti';
 import { useDispatch, useSelector } from 'react-redux';
 import { clearErrors, getUsersPagination } from '../../../actions/userActions';
 import Button from '../../../components/buttons/Button';
+import MetaData from '../../../components/dialogs/MetaData';
 import CustomerCardAdmin, {
   CustomerCardAdminSkeleton,
 } from '../../../components/layouts/admin/customer/CustomerCardAdmin';
@@ -78,6 +79,7 @@ const CustomerAdminPage = () => {
 
   return (
     <>
+      <MetaData title="Customer - Admin"></MetaData>
       <div className="flex flex-row items-center justify-between mb-6">
         <h5 className="text-3xl font-medium">Customers</h5>
         <Button className="flex items-center gap-3 text-lg text-black bg-white border border-gray-300 ">

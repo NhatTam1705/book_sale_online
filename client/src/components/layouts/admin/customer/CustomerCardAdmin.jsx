@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import Avatar from '../../../../assets/images/Slider_1.png';
+import Avatar from '../../../../assets/images/default_avatar.png';
 import Button from '../../../buttons/Button';
 
 const CustomerCardAdmin = ({ user }) => {

@@ -20,6 +20,7 @@ import {
   getSubCategories,
 } from '../../../actions/subCategoryActions';
 import Button from '../../../components/buttons/Button';
+import MetaData from '../../../components/dialogs/MetaData';
 import ProductCardAdmin, {
   ProductCardAdminSkeleton,
 } from '../../../components/layouts/admin/product/ProductCardAdmin';
@@ -133,6 +134,7 @@ const ProductListPage = () => {
 
   return (
     <>
+      <MetaData title="Product List - Admin"></MetaData>
       <div className="flex flex-row items-center justify-between mb-6">
         <h5 className="text-3xl font-medium">Products</h5>
         <div className="flex gap-3">

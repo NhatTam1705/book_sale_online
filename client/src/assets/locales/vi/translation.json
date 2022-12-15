@@ -1,0 +1,94 @@
+{
+  "header": {
+    "help": "Bạn cần gì?"
+  },
+
+  "footer": {
+    "contactFooter": [
+      {
+        "title": "Khám phá",
+        "subTitle": [
+          {
+            "title": "Trang Chủ",
+            "link": "/home"
+          },
+          {
+            "title": "Cửa Hàng",
+            "link": "/shop"
+          },
+          {
+            "title": "Tác Giả",
+            "link": "/author"
+          },
+          {
+            "title": "Tin Tức",
+            "link": "/blog"
+          }
+        ]
+      },
+      {
+        "title": "Dịch vụ",
+        "subTitle": [
+          {
+            "title": "Trung Tâm Trợ Giúp",
+            "link": "/help_center"
+          },
+          {
+            "title": "Lợi Nhuận",
+            "link": "/returns"
+          },
+          {
+            "title": "Giới Thiệu",
+            "link": "/about_us"
+          },
+          {
+            "title": "Liên Lạc",
+            "link": "/contact_us"
+          }
+        ]
+      },
+      {
+        "title": "Chính Sách",
+        "subTitle": [
+          {
+            "title": "Chính Sách Hoàn Trả",
+            "link": "/return_policy"
+          },
+          {
+            "title": "Điều Khoản Sử Dụng",
+            "link": "/terms_of_use"
+          },
+          {
+            "title": "Bảo Mật",
+            "link": "/security"
+          },
+          {
+            "title": "Riêng Tư",
+            "link": "/privacy"
+          }
+        ]
+      },
+      {
+        "title": "Danh mục",
+        "subTitle": [
+          {
+            "title": "Sách Mới",
+            "link": "/new_book"
+          },
+          {
+            "title": "Đang Khuyến Mãi",
+            "link": "/on_sale"
+          },
+          {
+            "title": "Nhiều Đánh Giá Nhất",
+            "link": "/most_reviewed"
+          },
+          {
+            "title": "Đặc Sắc",
+            "link": "/featured"
+          }
+        ]
+      }
+    ]
+  }
+}

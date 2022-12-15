@@ -1,35 +1,20 @@
-import { useSnackbar } from 'notistack';
-import { useEffect } from 'react';
 import { HiChevronDoubleRight } from 'react-icons/hi';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { getProducts } from '../../../../../actions/productActions';
 import BestsellingBooksCard, {
   BestsellingBooksCardSkeleton,
 } from './BestsellingBooksCard';
 
-const BestsellingBooksList = () => {
-  const { enqueueSnackbar } = useSnackbar();
-  const disptach = useDispatch();
-
-  const { loading, products, error, productsCount } = useSelector(
-    (state) => state.products
-  );
-
-  useEffect(() => {
-    if (error) {
-      return enqueueSnackbar(error, {
-        variant: 'error',
-      });
-    }
-    disptach(getProducts());
-  }, [disptach, enqueueSnackbar, error]);
-
+const BestsellingBooksList = ({ products, loading }) => {
+  const navigate = useNavigate();
   return (
     <div>
       <div className="flex flex-row items-center justify-between mb-10">
         <h4 className="text-4xl font-normal">Bestselling Books</h4>
-        <div className="flex items-center cursor-pointer hover:text-orange-600">
+        <div
+          onClick={() => navigate('/shop')}
+          className="flex items-center cursor-pointer hover:text-orange-600"
+        >
           <h6 className="hidden text-lg xl:block lg:block md:block">
             View All
           </h6>
@@ -37,29 +22,71 @@ const BestsellingBooksList = () => {
         </div>
       </div>
       {loading ? (
-        <Swiper grabCursor={'true'} spaceBetween={0} slidesPerView={'auto'}>
+        <Swiper
+          breakpoints={{
+            576: {
+              slidesPerView: 1,
+            },
+            768: {
+              slidesPerView: 2,
+            },
+            992: {
+              slidesPerView: 3,
+            },
+            1200: {
+              slidesPerView: 5,
+            },
+          }}
+          grabCursor={'true'}
+          spaceBetween={0}
+          slidesPerView={'auto'}
+        >
           {Array(5)
             .fill(0)
             .map((value, index) => (
-              <SwiperSlide
-                key={index}
-                className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]"
-              >
+              <SwiperSlide key={index}>
                 <BestsellingBooksCardSkeleton></BestsellingBooksCardSkeleton>
               </SwiperSlide>
             ))}
         </Swiper>
       ) : (
-        <Swiper grabCursor={'true'} spaceBetween={0} slidesPerView={'auto'}>
+        <Swiper
+          breakpoints={{
+            576: {
+              slidesPerView: 1,
+            },
+            768: {
+              slidesPerView: 2,
+            },
+            992: {
+              slidesPerView: 3,
+            },
+            1200: {
+              slidesPerView: 5,
+            },
+          }}
+          grabCursor={'true'}
+          spaceBetween={0}
+          slidesPerView={'auto'}
+        >
           {products &&
-            products.sort().map((product) => (
-              <SwiperSlide
-                key={product._id}
-                className="xl:max-w-[20%] lg:max-w-[25%] md:max-w-[33.33%] sm:max-w-[50%]"
-              >
-                <BestsellingBooksCard product={product}></BestsellingBooksCard>
-              </SwiperSlide>
-            ))}
+            products
+              .sort((prev, next) => {
+                return prev.stockInput - prev.stock <
+                  next.stockInput - next.stock
+                  ? 1
+                  : -1;
+              })
+              .map(
+                (product, index) =>
+                  index < 8 && (
+                    <SwiperSlide key={product._id}>
+                      <BestsellingBooksCard
+                        product={product}
+                      ></BestsellingBooksCard>
+                    </SwiperSlide>
+                  )
+              )}
         </Swiper>
       )}
     </div>

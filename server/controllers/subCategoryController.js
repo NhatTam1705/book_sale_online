@@ -44,7 +44,8 @@ exports.getSubCategories = catchAsyncErrors(async (req, res, next) => {
   const subCategoriesCount = await SubCategory.countDocuments();
   const apiFeatures = new APIFeatures(SubCategory.find(), req.query)
     .search()
-    .filter();
+    .filter()
+    .sorting();
   const subCategories = await apiFeatures.query;
 
   res.status(200).json({

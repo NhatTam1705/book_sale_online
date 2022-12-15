@@ -24,6 +24,10 @@ exports.newProduct = catchAsyncErrors(async (req, res, next) => {
       url: result.secure_url,
     });
   }
+  const author = await Author.findById(req.body.author);
+  author.totalBook = author.totalBook + 1;
+  await author.save({ validateBeforeSave: false });
+
   req.body.images = imagesLinks;
   req.body.user = req.user.id;
   req.body.stockInput = req.body.stock;
@@ -41,6 +45,12 @@ exports.getProducts = catchAsyncErrors(async (req, res, next) => {
     .search()
     .filter();
   const products = await apiFeatures.query;
+  for await (let product of products) {
+    product.author = await Author.findById(product.author);
+    if (product.discount) {
+      product.discount = await Discount.findById(product.discount);
+    }
+  }
   res.status(200).json({
     success: true,
     count: products.length,

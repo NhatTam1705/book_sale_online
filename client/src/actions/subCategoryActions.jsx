@@ -20,12 +20,12 @@ import {
 } from '../constants/subCategoryConstants';
 
 export const getSubCategories =
-  (keyword = '', category) =>
+  (keyword = '', category, sortBy = 'createdDate', orderBy = 'desc') =>
   async (dispatch) => {
     try {
       dispatch({ type: ALL_SUB_CATEGORIES_REQUEST });
 
-      let url = `/api/v1/subCategories?keyword=${keyword}`;
+      let url = `/api/v1/subCategories?sortBy=${sortBy}&orderBy=${orderBy}keyword=${keyword}`;
 
       if (category) {
         url = url + `&category=${category}`;

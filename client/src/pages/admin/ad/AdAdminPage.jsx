@@ -9,14 +9,15 @@ import { TiExportOutline } from 'react-icons/ti';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
 import {
+  clearErrors,
   deleteAdvertisement,
   getAdvertisementsPagination,
   newAdvertisement,
   updateAdvertisement,
 } from '../../../actions/advertisementActions';
-import { clearErrors } from '../../../actions/advertisementActions';
 import Background from '../../../assets/images/Slider_1.png';
 import Button from '../../../components/buttons/Button';
+import MetaData from '../../../components/dialogs/MetaData';
 import AdvertisementItemAdmin, {
   AdvertisementItemAdminSkeleton,
 } from '../../../components/layouts/admin/advertisement/AdvertisementItemAdmin';
@@ -25,11 +26,6 @@ import {
   NEW_ADVERTISEMENT_RESET,
   UPDATE_ADVERTISEMENT_RESET,
 } from '../../../constants/advertisementConstants';
-import {
-  DELETE_DISCOUNT_RESET,
-  NEW_DISCOUNT_RESET,
-  UPDATE_DISCOUNT_RESET,
-} from '../../../constants/discountConstants';
 import useDebounce from '../../../hooks/useDebounce';
 
 const shows = [
@@ -58,7 +54,7 @@ const advertisementSchema = Yup.object({
   ),
 });
 
-const AdvertisementAdminPage = () => {
+const AdAdminPage = () => {
   const [backgroundReview, setBackgroundReview] = useState(Background);
   const [background, setBackground] = useState('');
   const dispatch = useDispatch();
@@ -79,9 +75,11 @@ const AdvertisementAdminPage = () => {
     filteredAdvertisementsCount,
     advertisementsCount,
   } = useSelector((state) => state.advertisements);
-  const { error: errorAdvertisement, success } = useSelector(
-    (state) => state.newAdvertisement
-  );
+  const {
+    error: errorAdvertisement,
+    success,
+    loading: loadingNew,
+  } = useSelector((state) => state.newAdvertisement);
   const {
     error: errorUpdateOrDelete,
     isDeleted,
@@ -196,6 +194,7 @@ const AdvertisementAdminPage = () => {
 
   return (
     <>
+      <MetaData title="Advertisement - Admin"></MetaData>
       <div className="flex flex-row items-center justify-between mb-6">
         <h5 className="text-3xl font-medium">Advertisements</h5>
         <div className="flex gap-3">
@@ -369,8 +368,11 @@ const AdvertisementAdminPage = () => {
                 />
                 <div className="w-full flex justify-center pt-4">
                   <Button
+                    disabledButton={loadingNew}
                     onClick={() => inputRef.current.click()}
-                    className="w-32 py-2 mx-auto bg-white border border-gray"
+                    className={`w-32 py-2 mx-auto bg-white border border-gray ${
+                      loadingNew ? 'cursor-not-allowed bg-gray-300' : ''
+                    }`}
                   >
                     Upload
                   </Button>
@@ -384,8 +386,11 @@ const AdvertisementAdminPage = () => {
                 />
               </div>
               <Button
+                disabledButton={loading}
                 type="submit"
-                className="col-span-1 mx-20 h-14 text-white flex items-center justify-around"
+                className={`col-span-1 mx-20 h-14 text-white flex items-center justify-around ${
+                  loading ? 'cursor-not-allowed bg-gray-300' : ''
+                }`}
               >
                 <MdOutlineLibraryAdd></MdOutlineLibraryAdd>
                 <span>{action === 'create' ? 'Add' : 'Save'}</span>
@@ -398,4 +403,4 @@ const AdvertisementAdminPage = () => {
   );
 };
 
-export default AdvertisementAdminPage;
+export default AdAdminPage;

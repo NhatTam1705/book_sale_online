@@ -16,6 +16,7 @@ import {
   updateDiscount,
 } from '../../../actions/discountActions';
 import Button from '../../../components/buttons/Button';
+import MetaData from '../../../components/dialogs/MetaData';
 import DiscountItemAdmin, {
   DiscountItemAdminSkeleton,
 } from '../../../components/layouts/admin/discount/DiscountItemAdmin';
@@ -169,6 +170,7 @@ const DiscountAdminPage = () => {
 
   return (
     <>
+      <MetaData title="Discount - Admin"></MetaData>
       <div className="flex flex-row items-center justify-between mb-6">
         <h5 className="text-3xl font-medium">Discounts</h5>
         <div className="flex gap-3">

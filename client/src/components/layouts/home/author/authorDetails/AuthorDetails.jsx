@@ -1,30 +1,36 @@
 import PropsTypes from 'prop-types';
 import { withErrorBoundary } from 'react-error-boundary';
-import Slider1 from '../../../../../assets/images/Slider_1.png';
 import BookCard from './BookCard';
 
-const array = [1, 2, 3, 4];
-
-const AuthorDetails = ({ author }) => {
-  const { name, introduce } = author;
+const AuthorDetails = ({
+  author,
+  loading,
+  products,
+  loadingProduct,
+  authorId,
+}) => {
+  const { name, introduce, avatar } = author;
   return (
     <div className="grid grid-cols-12 gap-8">
       <div className="xl:col-span-3 lg:col-span-4 md:col-span-5 sm:col-span-6 col-span-12">
-        <img src={Slider1} alt="" className="w-full" />
+        <img src={avatar && avatar.url} alt={name} className="w-full" />
       </div>
       <div className="xl:col-span-9 lg:col-span-8 md:col-span-7 sm:col-span-6 col-span-12 flex flex-col gap-4">
         <h4 className="text-3xl font-normal">{name}</h4>
         <p>{introduce}</p>
         <div className="grid grid-cols-12 gap-1">
-          {array &&
-            array.map((item, index) => (
-              <div
-                key={index}
-                className="xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-12 col-span-12 bg-white"
-              >
-                <BookCard></BookCard>
-              </div>
-            ))}
+          {products.length > 0 &&
+            products.map(
+              (product, index) =>
+                product.author._id === authorId && (
+                  <div
+                    key={product._id}
+                    className="xl:col-span-3 lg:col-span-4 md:col-span-6 sm:col-span-12 col-span-12 bg-white"
+                  >
+                    <BookCard product={product}></BookCard>
+                  </div>
+                )
+            )}
         </div>
       </div>
     </div>

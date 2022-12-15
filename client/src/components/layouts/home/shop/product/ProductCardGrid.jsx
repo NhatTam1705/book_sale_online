@@ -11,11 +11,10 @@ import {
   addItemToWishlist,
   removeItemFromWishlist,
 } from '../../../../../actions/wishlistActions';
-import Slider1 from '../../../../../assets/images/Slider_1.png';
 
 const ProductCardGrid = ({ product }) => {
   // Destructuring information of product
-  const { _id, name, format, soldPrice, author, discount } = product;
+  const { _id, name, format, soldPrice, author, discount, images } = product;
 
   // Declare value hover when hover product card
   const [hover, setHover] = useState(false);
@@ -55,18 +54,32 @@ const ProductCardGrid = ({ product }) => {
       <div
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)}
-        className="w-full h-[430PX] select-none cursor-pointer border border-gray-300 hover:shadow-md hover:border-black relative"
+        className="w-full h-[430px] select-none cursor-pointer border border-gray-300 hover:shadow-md hover:border-black relative"
       >
-        <img className="px-16 mt-8 h-[225px]" src={Slider1} alt="Book" />
+        <img className="mx-auto mt-8 h-52" src={images[0].url} alt={name} />
+        {discount && (
+          <div className="w-20 h-10 top-0 left-0 bg-red-500 absolute flex items-center justify-center">
+            <span className="text-lg text-white">
+              - {discount && discount.percent} %
+            </span>
+          </div>
+        )}
         <div
-          className={`flex flex-col w-full gap-1 absolute px-8 mb-8 pt-3 transition-all duration-500 bg-white ${
+          className={`grid grid-rows-5 w-full absolute px-8 mb-8 pt-3 transition-all duration-500 bg-white ${
             hover ? '-translate-y-10' : 'bottom-0'
           }`}
         >
-          <h6 className="text-sm text-red-600 uppercase">{format}</h6>
-          <h5 className="text-base font-medium">{name}</h5>
-          <h5 className="text-base text-gray-500">{author.name}</h5>
-          <h5 className="text-lg font-medium">${soldPrice}</h5>
+          <h6 className="text-sm text-red-600 uppercase row-span-1">
+            {format}
+          </h6>
+          <h5 className="text-base font-medium row-span-2">{name}</h5>
+          <h5
+            onClick={() => navigate(`/author/${author._id}`)}
+            className="cursor-pointer hover:text-orange-600 text-base text-gray-500 row-span-1"
+          >
+            {author.name}
+          </h5>
+          <h5 className="text-lg font-medium row-span-1">${soldPrice}</h5>
         </div>
         <div
           className={`grid grid-cols-5 absolute transition-all duration-500 bottom-0 px-8 mb-8 w-full ${
@@ -104,7 +117,24 @@ const ProductCardGrid = ({ product }) => {
               </span>
             </Tooltip>
           </div>
-          <div></div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export const ProductCardGridSkeleton = () => {
+  return (
+    <>
+      <div className="w-full h-[430px] select-none cursor-pointer border border-gray-300 hover:shadow-md hover:border-black">
+        <div className="skeleton mx-16 mt-8 h-[200px]" />
+        <div
+          className={`grid grid-rows-5 gap-1 w-full px-8 mb-8 pt-2 bg-white`}
+        >
+          <div className="h-7 row-span-1 w-[50%] skeleton"></div>
+          <div className="h-14 row-span-2 skeleton"></div>
+          <div className="h-7 row-span-1 skeleton"></div>
+          <div className="h-7 row-span-1 w-[25%] skeleton"></div>
         </div>
       </div>
     </>

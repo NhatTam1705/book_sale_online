@@ -9,7 +9,7 @@ import {
 import Slider1 from '../../../../../assets/images/Slider_1.png';
 
 const CartItem = ({ item }) => {
-  const { product, name, price, quantity: amount, author, stock } = item;
+  const { product, name, price, quantity: amount, author, stock, image } = item;
   const [quantity, setQuantity] = useState(amount);
   const dispatch = useDispatch();
 
@@ -41,9 +41,9 @@ const CartItem = ({ item }) => {
     <div className="grid items-center grid-cols-5 p-8 bg-white border border-gray-300 xl:grid-cols-10 lg:grid-cols-10 md:grid-cols-9 sm:grid-cols-5">
       <div className="grid col-span-5 xl:grid-cols-10 lg:grid-cols-10 md:grid-cols-10 sm:grid-cols-1 xl:col-span-5 lg:col-span-5 md:col-span-4 sm:col-span-5">
         <img
-          src={Slider1}
-          alt=""
-          className="w-full h-[150px] lg:col-span-2 xl:col-spa-2 md:col-span-2"
+          src={image}
+          alt={name}
+          className="w-full h-auto lg:col-span-2 xl:col-spa-2 md:col-span-2"
         />
         <div className="flex flex-col justify-center p-5 xl:col-span-8 lg:col-span-8 md:col-span-8">
           <h6
@@ -60,7 +60,25 @@ const CartItem = ({ item }) => {
           </h6>
         </div>
       </div>
-      <span className="col-span-1 text-lg font-medium ">{price}$</span>
+      <div className="flex flex-row text-lg font-medium col-span-1 gap-1">
+        <h5
+          className={` ${
+            item.discount && item.discount !== 0
+              ? 'text-red-600 line-through'
+              : ''
+          }`}
+        >
+          ${price}
+        </h5>
+        {item.discount !== 0 && (
+          <h5 className="">
+            $
+            {Number(
+              price - (price * (item.discount && item.discount)) / 100
+            ).toFixed(2)}
+          </h5>
+        )}
+      </div>
       <div className="flex items-center h-[55px] col-span-2 p-2 space-x-2 border rounded-md xl:w-[120px] lg:w-[100px] md:w-[120px] sm:w-[120px] w-[120px] boder-gray-300">
         <HiMinus
           onClick={handleDecrementQuantity}
@@ -80,7 +98,11 @@ const CartItem = ({ item }) => {
         ></HiPlus>
       </div>
       <span className="col-span-1 text-lg font-medium ">
-        {quantity * price}$
+        {Number(
+          quantity *
+            ((item.discount && 1 - item.discount / 100) * price || price)
+        ).toFixed(2)}
+        $
       </span>
       <div className="flex justify-end col-span-1">
         <HiOutlineTrash

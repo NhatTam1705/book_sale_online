@@ -1,4 +1,3 @@
-import Button from '../../../../buttons/Button';
 import CartItem from './CartItem';
 
 const ListCart = ({ cartItems }) => {

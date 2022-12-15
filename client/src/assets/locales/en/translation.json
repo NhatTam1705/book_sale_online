@@ -1,0 +1,94 @@
+{
+  "header": {
+    "help": "Can we help you?"
+  },
+
+  "footer": {
+    "contactFooter": [
+      {
+        "title": "Explore",
+        "subTitle": [
+          {
+            "title": "Home",
+            "link": "/home"
+          },
+          {
+            "title": "Shop",
+            "link": "/shop"
+          },
+          {
+            "title": "Author",
+            "link": "/author"
+          },
+          {
+            "title": "Blog",
+            "link": "/blog"
+          }
+        ]
+      },
+      {
+        "title": "Customer Service",
+        "subTitle": [
+          {
+            "title": "Help Center",
+            "link": "/help_center"
+          },
+          {
+            "title": "Returns",
+            "link": "/returns"
+          },
+          {
+            "title": "About Us",
+            "link": "/about_us"
+          },
+          {
+            "title": "Contact_us",
+            "link": "/contact_us"
+          }
+        ]
+      },
+      {
+        "title": "Policy",
+        "subTitle": [
+          {
+            "title": "Return Policy",
+            "link": "/return_policy"
+          },
+          {
+            "title": "Terms Of Use",
+            "link": "/terms_of_use"
+          },
+          {
+            "title": "Security",
+            "link": "/security"
+          },
+          {
+            "title": "Privacy",
+            "link": "/privacy"
+          }
+        ]
+      },
+      {
+        "title": "Categories",
+        "subTitle": [
+          {
+            "title": "New Book",
+            "link": "/new_book"
+          },
+          {
+            "title": "On Sale",
+            "link": "/on_sale"
+          },
+          {
+            "title": "Most Reviewed",
+            "link": "/most_reviewed"
+          },
+          {
+            "title": "Featured",
+            "link": "/featured"
+          }
+        ]
+      }
+    ]
+  }
+}

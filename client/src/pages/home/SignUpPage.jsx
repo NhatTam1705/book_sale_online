@@ -14,6 +14,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 import { clearErrors, register } from '../../actions/userActions';
 import Button from '../../components/buttons/Button';
+import MetaData from '../../components/dialogs/MetaData';
 
 const registerSchema = Yup.object({
   name: Yup.string().required('Please enter your name'),
@@ -82,144 +83,149 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className=" max-w-[600px] m-auto my-24 border border-gray-300 rounded-lg">
-      <div className="flex flex-row justify-between p-8">
-        <div className="flex items-center gap-3">
-          <HiOutlinePencilAlt className="w-6 h-6"></HiOutlinePencilAlt>
-          <span className="text-lg font-medium">Create Account</span>
-        </div>
-        <div
-          onClick={() => navigate('/home')}
-          className="flex items-center gap-2 text-gray-500 cursor-pointer hover:text-orange-600"
-        >
-          <span className="text-base">Close</span>
-          <HiOutlineX className="w-5 h-5"></HiOutlineX>
-        </div>
-      </div>
-      <hr />
-      <form
-        onSubmit={handleSubmit(handleRegister)}
-        autoComplete="off"
-        className="flex flex-col gap-5 p-8 text-lg"
-      >
-        <div className="flex flex-col gap-2">
-          <label htmlFor="name">
-            Name <span className="text-red-600">*</span>
-          </label>
-          <div>
-            <input
-              id="name"
-              name="name"
-              {...registerForm('name')}
-              type="text"
-              placeholder="Old man dev"
-              className="w-full p-2 border border-gray-300 indent-2"
-            />
+    <>
+      <MetaData title="Sign Up"></MetaData>
+      <div className=" max-w-[600px] m-auto my-24 border border-gray-300 rounded-lg">
+        <div className="flex flex-row justify-between p-8">
+          <div className="flex items-center gap-3">
+            <HiOutlinePencilAlt className="w-6 h-6"></HiOutlinePencilAlt>
+            <span className="text-lg font-medium">Create Account</span>
           </div>
-          {errors?.name && (
-            <div className="text-sm text-red-500">{errors.name?.message}</div>
-          )}
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email">
-            Email <span className="text-red-600">*</span>
-          </label>
-          <div>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              {...registerForm('email')}
-              placeholder="nntam17052001@gmail.com"
-              className="w-full p-2 border border-gray-300 indent-2"
-            />
-          </div>
-          {errors?.email && (
-            <div className="text-sm text-red-500">{errors.email?.message}</div>
-          )}
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="password">
-            Password <span className="text-red-600">*</span>
-          </label>
-          <div className="flex flex-row border border-gray-300">
-            <input
-              name="password"
-              {...registerForm('password')}
-              type={showPassword ? 'text' : 'password'}
-              id="password"
-              placeholder="********"
-              className="w-full p-2 indent-2"
-            />
-            {getValues('password') &&
-              (!showPassword ? (
-                <HiOutlineEye
-                  className="w-12 m-auto text-2xl"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                ></HiOutlineEye>
-              ) : (
-                <HiOutlineEyeOff
-                  className="w-12 m-auto text-2xl"
-                  onClick={() => setShowPassword((prev) => !prev)}
-                ></HiOutlineEyeOff>
-              ))}
-          </div>
-          {errors?.password && (
-            <div className="text-sm text-red-500">
-              {errors.password?.message}
-            </div>
-          )}
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="confirmPassword">
-            Confirm Password <span className="text-red-600">*</span>
-          </label>
-          <div className="flex flex-row border border-gray-300">
-            <input
-              name="confirmPassword"
-              {...registerForm('confirmPassword')}
-              type={showConfirmPassword ? 'text' : 'password'}
-              id="confirmPassword"
-              placeholder="********"
-              className="w-full p-2 indent-2"
-            />
-            {getValues('confirmPassword') &&
-              (!showConfirmPassword ? (
-                <HiOutlineEye
-                  className="w-12 m-auto text-2xl"
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                ></HiOutlineEye>
-              ) : (
-                <HiOutlineEyeOff
-                  className="w-12 m-auto text-2xl"
-                  onClick={() => setShowConfirmPassword((prev) => !prev)}
-                ></HiOutlineEyeOff>
-              ))}
-          </div>
-          {errors?.confirmPassword && (
-            <div className="text-sm text-red-500">
-              {errors.confirmPassword?.message}
-            </div>
-          )}
-        </div>
-        <Button
-          type="submit"
-          disabled={loading ? true : false}
-          className="w-full py-4 text-white bg-black"
-        >
-          Create Account
-        </Button>
-        <div className="flex flex-row justify-center gap-1">
-          <span>Already have an account?</span>
-          <span
-            onClick={() => navigate('/login')}
-            className="text-red-600 cursor-pointer"
+          <div
+            onClick={() => navigate('/home')}
+            className="flex items-center gap-2 text-gray-500 cursor-pointer hover:text-orange-600"
           >
-            Login
-          </span>
+            <span className="text-base">Close</span>
+            <HiOutlineX className="w-5 h-5"></HiOutlineX>
+          </div>
         </div>
-      </form>
-    </div>
+        <hr />
+        <form
+          onSubmit={handleSubmit(handleRegister)}
+          autoComplete="off"
+          className="flex flex-col gap-5 p-8 text-lg"
+        >
+          <div className="flex flex-col gap-2">
+            <label htmlFor="name">
+              Name <span className="text-red-600">*</span>
+            </label>
+            <div>
+              <input
+                id="name"
+                name="name"
+                {...registerForm('name')}
+                type="text"
+                placeholder="Old man dev"
+                className="w-full p-2 border border-gray-300 indent-2"
+              />
+            </div>
+            {errors?.name && (
+              <div className="text-sm text-red-500">{errors.name?.message}</div>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="email">
+              Email <span className="text-red-600">*</span>
+            </label>
+            <div>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                {...registerForm('email')}
+                placeholder="nntam17052001@gmail.com"
+                className="w-full p-2 border border-gray-300 indent-2"
+              />
+            </div>
+            {errors?.email && (
+              <div className="text-sm text-red-500">
+                {errors.email?.message}
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="password">
+              Password <span className="text-red-600">*</span>
+            </label>
+            <div className="flex flex-row border border-gray-300">
+              <input
+                name="password"
+                {...registerForm('password')}
+                type={showPassword ? 'text' : 'password'}
+                id="password"
+                placeholder="********"
+                className="w-full p-2 indent-2"
+              />
+              {getValues('password') &&
+                (!showPassword ? (
+                  <HiOutlineEye
+                    className="w-12 m-auto text-2xl"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  ></HiOutlineEye>
+                ) : (
+                  <HiOutlineEyeOff
+                    className="w-12 m-auto text-2xl"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                  ></HiOutlineEyeOff>
+                ))}
+            </div>
+            {errors?.password && (
+              <div className="text-sm text-red-500">
+                {errors.password?.message}
+              </div>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="confirmPassword">
+              Confirm Password <span className="text-red-600">*</span>
+            </label>
+            <div className="flex flex-row border border-gray-300">
+              <input
+                name="confirmPassword"
+                {...registerForm('confirmPassword')}
+                type={showConfirmPassword ? 'text' : 'password'}
+                id="confirmPassword"
+                placeholder="********"
+                className="w-full p-2 indent-2"
+              />
+              {getValues('confirmPassword') &&
+                (!showConfirmPassword ? (
+                  <HiOutlineEye
+                    className="w-12 m-auto text-2xl"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  ></HiOutlineEye>
+                ) : (
+                  <HiOutlineEyeOff
+                    className="w-12 m-auto text-2xl"
+                    onClick={() => setShowConfirmPassword((prev) => !prev)}
+                  ></HiOutlineEyeOff>
+                ))}
+            </div>
+            {errors?.confirmPassword && (
+              <div className="text-sm text-red-500">
+                {errors.confirmPassword?.message}
+              </div>
+            )}
+          </div>
+          <Button
+            type="submit"
+            disabled={loading ? true : false}
+            className="w-full py-4 text-white bg-black"
+          >
+            Create Account
+          </Button>
+          <div className="flex flex-row justify-center gap-1">
+            <span>Already have an account?</span>
+            <span
+              onClick={() => navigate('/login')}
+              className="text-red-600 cursor-pointer"
+            >
+              Login
+            </span>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 

@@ -5,14 +5,17 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.scss';
 import store from './store';
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Provider store={store}>
     <BrowserRouter>
-      <SnackbarProvider maxSnack={3}>
-        <App />
-      </SnackbarProvider>
+      <HelmetProvider>
+        <SnackbarProvider maxSnack={3}>
+          <App />
+        </SnackbarProvider>
+      </HelmetProvider>
     </BrowserRouter>
   </Provider>
 );

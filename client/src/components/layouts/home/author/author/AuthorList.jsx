@@ -1,7 +1,8 @@
 import PropsTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import Button from '../../../../buttons/Button';
-import AuthorCard from './AuthorCard';
+import AuthorCard, { AuthorCardSkeleton } from './AuthorCard';
 
 const characters = [
   {
@@ -114,32 +115,60 @@ const characters = [
   },
 ];
 
-const AuthorList = ({ authors, loading, authorsCount }) => {
+const AuthorList = ({ authors, loading, authorsCount, fallbackAuthor }) => {
+  const [show, setShow] = useState(5);
+  const [keyword, setKeyword] = useState('');
+  useEffect(() => {
+    fallbackAuthor(show, keyword);
+  }, [fallbackAuthor, keyword, show]);
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-row flex-wrap justify-between text-lg">
         {characters &&
           characters.map((item, index) => (
-            <span key={item.id} className="mx-5 cursor-pointer">
+            <span
+              key={item.id}
+              onClick={() => setKeyword(item.name === 'ALL' ? '' : item.name)}
+              className="mx-5 cursor-pointer hover:text-orange-600"
+            >
               {item.name}
             </span>
           ))}
       </div>
       <div className="grid grid-cols-2 gap-2 xl:grid-cols-10 lg:grid-cols-8 md:grid-cols-6 sm:grid-cols-4">
-        {authors &&
-          authors
-            .sort((prev, next) => {
-              return prev.createdDate < next.createdDate ? 1 : -1;
-            })
-            .map((author, index) => (
-              <div className="col-span-2" key={author._id}>
-                <AuthorCard author={author}></AuthorCard>
-              </div>
-            ))}
+        {loading ? (
+          <>
+            {Array(show)
+              .fill(0)
+              .map((item, index) => (
+                <div className="col-span-2" key={index}>
+                  <AuthorCardSkeleton></AuthorCardSkeleton>
+                </div>
+              ))}
+          </>
+        ) : (
+          <>
+            {authors &&
+              authors.map((author, index) => (
+                <div className="col-span-2" key={author._id}>
+                  <AuthorCard author={author}></AuthorCard>
+                </div>
+              ))}
+          </>
+        )}
       </div>
-      <Button className="w-48 mx-auto text-lg bg-white border border-gray-300">
-        Load more
-      </Button>
+      {authors <= 0 ? (
+        <div className="mx-auto text-lg ">No results</div>
+      ) : (
+        <Button
+          onClick={() =>
+            setShow(show + 5 > authorsCount ? authorsCount : show + 5)
+          }
+          className="w-48 mx-auto text-lg bg-white border border-gray-300"
+        >
+          Load more
+        </Button>
+      )}
     </div>
   );
 };

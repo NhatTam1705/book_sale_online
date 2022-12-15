@@ -30,9 +30,13 @@ const OrdersProfile = () => {
       </div>
       <div>
         {orders &&
-          orders.map((order, index) => (
-            <OrderItem order={order} key={order._id}></OrderItem>
-          ))}
+          orders
+            .sort((prev, next) => {
+              return prev.createdDate < next.createdDate ? 1 : -1;
+            })
+            .map((order, index) => (
+              <OrderItem order={order} key={order._id}></OrderItem>
+            ))}
       </div>
     </div>
   );

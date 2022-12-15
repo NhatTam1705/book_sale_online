@@ -19,27 +19,20 @@ import {
 } from '../constants/advertisementConstants';
 
 // Action handle get all advertisement
-export const getAdvertisements =
-  (keyword = '') =>
-  async (dispatch) => {
-    try {
-      dispatch({ type: ALL_ADVERTISEMENTS_REQUEST });
+export const getAdvertisements = () => async (dispatch) => {
+  try {
+    dispatch({ type: ALL_ADVERTISEMENTS_REQUEST });
 
-      const { data } = await axios.get(
-        `/api/v1/advertisements?keyword=${keyword}`
-      );
+    const { data } = await axios.get(`/api/v1/advertisements`);
 
-      dispatch({
-        type: ALL_ADVERTISEMENTS_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: ALL_ADVERTISEMENTS_FAIL,
-        payload: error.response.data.message,
-      });
-    }
-  };
+    dispatch({ type: ALL_ADVERTISEMENTS_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: ALL_ADVERTISEMENTS_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
 
 // Action handle get all advertisement with pagination
 export const getAdvertisementsPagination =

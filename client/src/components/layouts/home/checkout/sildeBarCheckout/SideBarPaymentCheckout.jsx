@@ -42,7 +42,11 @@ const SideBarPaymentCheckout = ({ price: itemsPrice }) => {
   const [value, setValue] = useState('cash');
   const [paymentMethod, setPaymentMethod] = useState('Cash on delivery');
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-  const { error } = useSelector((state) => state.newOrder);
+  const {
+    error,
+    order: newOrder,
+    loading,
+  } = useSelector((state) => state.newOrder);
   const { user } = useSelector((state) => state.auth);
   let shippingPrice = itemsPrice > 200 ? 0 : 25;
   let totalPrice = itemsPrice + shippingPrice;
@@ -52,7 +56,7 @@ const SideBarPaymentCheckout = ({ price: itemsPrice }) => {
       enqueueSnackbar(error, { variant: 'error' });
       dispatch(clearErrors());
     }
-  }, [dispatch, error, enqueueSnackbar]);
+  }, [dispatch, error, enqueueSnackbar, loading, navigate]);
 
   useEffect(() => {
     setPaymentMethod(

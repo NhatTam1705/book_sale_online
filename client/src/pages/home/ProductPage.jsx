@@ -3,7 +3,12 @@ import { useEffect } from 'react';
 import { withErrorBoundary } from 'react-error-boundary';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { clearErrors, getProductDetials } from '../../actions/productActions';
+import {
+  clearErrors,
+  getProductDetials,
+  getProducts,
+} from '../../actions/productActions';
+import MetaData from '../../components/dialogs/MetaData';
 import ProductDetails from '../../components/layouts/home/product/ProductDetails';
 import ProductTab from '../../components/layouts/home/product/ProductTab';
 import RelatedProductsList from '../../components/layouts/home/product/relatedProducts/RelatedProductsList';
@@ -17,6 +22,13 @@ const ProductPage = () => {
     (state) => state.productDetails
   );
 
+  const {
+    products,
+    erorr: errorProduct,
+    productsCount,
+    loading: loadingProduct,
+  } = useSelector((state) => state.products);
+
   useEffect(() => {
     if (error) {
       enqueueSnackbar(error, {
@@ -25,17 +37,31 @@ const ProductPage = () => {
       dispatch(clearErrors());
     }
 
+    if (errorProduct) {
+      enqueueSnackbar(errorProduct, {
+        variant: 'error',
+      });
+      dispatch(clearErrors());
+    }
+
     dispatch(getProductDetials(id));
-  }, [dispatch, enqueueSnackbar, error, id, product]);
+    dispatch(getProducts());
+  }, [dispatch, enqueueSnackbar, error, errorProduct, id]);
 
   return (
     <>
+      <MetaData title="Product"></MetaData>
       <div className="px-12 pt-24 pb-12 bg-[#fff6f6]">
         <ProductDetails product={product}></ProductDetails>
       </div>
       <div className="flex flex-col gap-24 pb-24">
         <ProductTab product={product}></ProductTab>
-        <RelatedProductsList></RelatedProductsList>
+        <RelatedProductsList
+          product={product._id}
+          category={product.category}
+          products={products}
+          loading={loadingProduct}
+        ></RelatedProductsList>
       </div>
     </>
   );

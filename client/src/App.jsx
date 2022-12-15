@@ -3,6 +3,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import axios from 'axios';
 import {
   Fragment,
+  lazy,
   Suspense,
   useEffect,
   useLayoutEffect,
@@ -10,58 +11,139 @@ import {
 } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import ScrollToTop from 'react-scroll-to-top';
 import { loadUser } from './actions/userActions';
 import './App.css';
-import Footer from './components/footers/home/Footer';
-import HeaderAdmin from './components/headers/admin/HeaderAdmin';
-import SideBarAdmin from './components/headers/admin/SideBarAdmin';
-import Header from './components/headers/home/Header';
-import NavigationBar from './components/headers/home/NavigationBar';
-import AccountProfile from './components/layouts/home/profile/outletProfile/account/AccountProfile';
-import AddressProfile from './components/layouts/home/profile/outletProfile/AddressProfile';
-import DashboardProfile from './components/layouts/home/profile/outletProfile/DashboardProfile';
-import OrdersProfile from './components/layouts/home/profile/outletProfile/orders/OrdersProfile';
-import WishlistProfile from './components/layouts/home/profile/outletProfile/WishlistProfile';
-import AdvertisementAdminPage from './pages/admin/advertisement/AdvertisementAdminPage';
-import AddAuthorPage from './pages/admin/author/AddAuthorPage';
-import AuthorListPage from './pages/admin/author/AuthorListPage';
-import CategoryAdminPage from './pages/admin/category/CategoryAdminPage';
-import CustomerAdminPage from './pages/admin/customer/CustomerAdminPage';
-import CustomerProfileAdminPage from './pages/admin/customer/CustomerProfileAdminPage';
-import DashboardAdminPage from './pages/admin/dashboard/DashboardAdminPage';
-import DiscountAdminPage from './pages/admin/discount/DiscountAdminPage';
-import OrderAdminPage from './pages/admin/order/OrderAdminPage';
-import OrderDetailsAdminPage from './pages/admin/order/OrderDetailsAdminPage';
-import AddProductPage from './pages/admin/product/AddProductPage';
-import ProductListPage from './pages/admin/product/ProductListPage';
-import AuthorPage from './pages/home/AuthorPage';
-import AuthorSinglePage from './pages/home/AuthorSinglePage';
-import CartPage from './pages/home/CartPage';
-import CheckoutPage from './pages/home/CheckoutPage';
-import ForgotPasswordPage from './pages/home/ForgotPasswordPage';
-import HomePage from './pages/home/HomePage';
-import NotFoundPage from './pages/home/NotFoundPage';
-import OrderReceivedPage from './pages/home/OrderReceivedPage';
-import ProductPage from './pages/home/ProductPage';
-import ProfilePage from './pages/home/ProfilePage';
-import RecoverPasswordPage from './pages/home/RecoverPasswordPage';
-import ShopPage from './pages/home/ShopPage';
-import SignInPage from './pages/home/SignInPage';
-import SignUpPage from './pages/home/SignUpPage';
+// import AdvertisementAdminPage from './pages/admin/advertisement/AdvertisementAdminPage';
+// import HomePage from './pages/home/HomePage';
 import store from './store';
+
+// import Footer from './components/footers/home/Footer';
+const Footer = lazy(() => import('./components/footers/home/Footer'));
+// import HeaderAdmin from './components/headers/admin/HeaderAdmin';
+const HeaderAdmin = lazy(() =>
+  import('./components/headers/admin/HeaderAdmin')
+);
+// import SideBarAdmin from './components/headers/admin/SideBarAdmin';
+const SideBarAdmin = lazy(() =>
+  import('./components/headers/admin/SideBarAdmin')
+);
+// import Header from './components/headers/home/Header';
+const Header = lazy(() => import('./components/headers/home/Header'));
+// import NavigationBar from './components/headers/home/NavigationBar';
+const NavigationBar = lazy(() =>
+  import('./components/headers/home/NavigationBar')
+);
+// import AccountProfile from './components/layouts/home/profile/outletProfile/account/AccountProfile';
+const AccountProfile = lazy(() =>
+  import(
+    './components/layouts/home/profile/outletProfile/account/AccountProfile'
+  )
+);
+// import AddressProfile from './components/layouts/home/profile/outletProfile/AddressProfile';
+const AddressProfile = lazy(() =>
+  import('./components/layouts/home/profile/outletProfile/AddressProfile')
+);
+// import DashboardProfile from './components/layouts/home/profile/outletProfile/DashboardProfile';
+const DashboardProfile = lazy(() =>
+  import('./components/layouts/home/profile/outletProfile/DashboardProfile')
+);
+// import OrdersProfile from './components/layouts/home/profile/outletProfile/orders/OrdersProfile';
+const OrdersProfile = lazy(() =>
+  import('./components/layouts/home/profile/outletProfile/orders/OrdersProfile')
+);
+// import WishlistProfile from './components/layouts/home/profile/outletProfile/WishlistProfile';
+const WishlistProfile = lazy(() =>
+  import('./components/layouts/home/profile/outletProfile/WishlistProfile')
+);
+// import AdvertisementAdminPage from './pages/admin/advertisement/AdvertisementAdminPage';
+const AdAdminPage = lazy(() => import('./pages/admin/ad/AdAdminPage'));
+// import AddAuthorPage from './pages/admin/author/AddAuthorPage';
+const AddAuthorPage = lazy(() => import('./pages/admin/author/AddAuthorPage'));
+// import AuthorListPage from './pages/admin/author/AuthorListPage';
+const AuthorListPage = lazy(() =>
+  import('./pages/admin/author/AuthorListPage')
+);
+// import CategoryAdminPage from './pages/admin/category/CategoryAdminPage';
+const CategoryAdminPage = lazy(() =>
+  import('./pages/admin/category/CategoryAdminPage')
+);
+// import CustomerAdminPage from './pages/admin/customer/CustomerAdminPage';
+const CustomerAdminPage = lazy(() =>
+  import('./pages/admin/customer/CustomerAdminPage')
+);
+// import CustomerProfileAdminPage from './pages/admin/customer/CustomerProfileAdminPage';
+const CustomerProfileAdminPage = lazy(() =>
+  import('./pages/admin/customer/CustomerProfileAdminPage')
+);
+// import DashboardAdminPage from './pages/admin/dashboard/DashboardAdminPage';
+const DashboardAdminPage = lazy(() =>
+  import('./pages/admin/dashboard/DashboardAdminPage')
+);
+// import DiscountAdminPage from './pages/admin/discount/DiscountAdminPage';
+const DiscountAdminPage = lazy(() =>
+  import('./pages/admin/discount/DiscountAdminPage')
+);
+// import OrderAdminPage from './pages/admin/order/OrderAdminPage';
+const OrderAdminPage = lazy(() => import('./pages/admin/order/OrderAdminPage'));
+// import OrderDetailsAdminPage from './pages/admin/order/OrderDetailsAdminPage';
+const OrderDetailsAdminPage = lazy(() =>
+  import('./pages/admin/order/OrderDetailsAdminPage')
+);
+// import AddProductPage from './pages/admin/product/AddProductPage';
+const AddProductPage = lazy(() =>
+  import('./pages/admin/product/AddProductPage')
+);
+// import ProductListPage from './pages/admin/product/ProductListPage';
+const ProductListPage = lazy(() =>
+  import('./pages/admin/product/ProductListPage')
+);
+// import AuthorPage from './pages/home/AuthorPage';
+const AuthorPage = lazy(() => import('./pages/home/AuthorPage'));
+// import AuthorSinglePage from './pages/home/AuthorSinglePage';
+const AuthorSinglePage = lazy(() => import('./pages/home/AuthorSinglePage'));
+// import CartPage from './pages/home/CartPage';
+const CartPage = lazy(() => import('./pages/home/CartPage'));
+// import CheckoutPage from './pages/home/CheckoutPage';
+const CheckoutPage = lazy(() => import('./pages/home/CheckoutPage'));
+// import ForgotPasswordPage from './pages/home/ForgotPasswordPage';
+const ForgotPasswordPage = lazy(() =>
+  import('./pages/home/ForgotPasswordPage')
+);
+// import HomePage from './pages/home/HomePage';
+const HomePage = lazy(() => import('./pages/home/HomePage'));
+// import NotFoundPage from './pages/home/NotFoundPage';
+const NotFoundPage = lazy(() => import('./pages/home/NotFoundPage'));
+// import OrderReceivedPage from './pages/home/OrderReceivedPage';
+const OrderReceivedPage = lazy(() => import('./pages/home/OrderReceivedPage'));
+// import ProductPage from './pages/home/ProductPage';
+const ProductPage = lazy(() => import('./pages/home/ProductPage'));
+// import ProfilePage from './pages/home/ProfilePage';
+const ProfilePage = lazy(() => import('./pages/home/ProfilePage'));
+// import RecoverPasswordPage from './pages/home/RecoverPasswordPage';
+const RecoverPasswordPage = lazy(() =>
+  import('./pages/home/RecoverPasswordPage')
+);
+// import ShopPage from './pages/home/ShopPage';
+const ShopPage = lazy(() => import('./pages/home/ShopPage'));
+// import SignInPage from './pages/home/SignInPage';
+const SignInPage = lazy(() => import('./pages/home/SignInPage'));
+// import SignUpPage from './pages/home/SignUpPage';
+const SignUpPage = lazy(() => import('./pages/home/SignUpPage'));
 
 function App() {
   const { isAuthenticated, user, loading } = useSelector((state) => state.auth);
   const [stripeApiKey, setStripeApiKey] = useState('');
   useEffect(() => {
     store.dispatch(loadUser());
+  }, []);
 
+  useEffect(() => {
     async function getStripApiKey() {
       const { data } = await axios.get('/api/v1/stripeapi');
       setStripeApiKey(data.stripeApiKey);
     }
     getStripApiKey();
-    console.log(stripeApiKey);
   }, []);
 
   return (
@@ -201,7 +283,7 @@ function App() {
               ></Route>
               <Route
                 path="/admin/advertisements"
-                element={<AdvertisementAdminPage></AdvertisementAdminPage>}
+                element={<AdAdminPage></AdAdminPage>}
               ></Route>
               <Route
                 path="/admin/products"
@@ -228,6 +310,14 @@ function App() {
           </Routes>
         </Wrapper>
       </Suspense>
+      <ScrollToTop
+        smooth
+        viewBox="0 0 16 24"
+        svgPath="M18 15l-6-6-6 6"
+        style={{
+          background: 'linear-gradient(94.43deg, #1A6BF0 0%, #0742A5 96.94%)',
+        }}
+      />
     </Fragment>
   );
 }

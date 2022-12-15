@@ -18,6 +18,7 @@ import {
 } from '../../../actions/orderActions';
 import Slider from '../../../assets/images/Slider_1.png';
 import Button from '../../../components/buttons/Button';
+import MetaData from '../../../components/dialogs/MetaData';
 import { UPDATE_ORDER_RESET } from '../../../constants/orderConstants';
 
 const status = [
@@ -71,6 +72,7 @@ const OrderDetailsAdminPage = () => {
 
   return (
     <>
+      <MetaData title="Order Details - Admin"></MetaData>
       <div className="flex flex-row items-center justify-between mb-6">
         <h5 className="text-3xl font-medium">Order details</h5>
       </div>
