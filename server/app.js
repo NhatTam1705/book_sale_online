@@ -14,7 +14,7 @@ app.use(fileUpload());
 
 // Setting up config file
 if (process.env.NODE_ENV !== 'PRODUCTION')
-  require('dotenv').config({ path: 'server/config.env' });
+  require('dotenv').config({ path: 'server/config/config.env' });
 // dotenv.config({ path: 'config/config.env' });
 
 // Import all routers
