@@ -4,15 +4,18 @@ const errorMiddleware = require('./middlewares/error');
 const cookieParser = require('cookie-parser');
 const bodyparser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const dotenv = require("dotenv");
+// const dotenv = require('dotenv');
+const path = require('path');
 
 app.use(express.json());
 app.use(bodyparser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(fileUpload())
+app.use(fileUpload());
 
 // Setting up config file
-dotenv.config({ path: "config/config.env" });
+if (process.env.NODE_ENV !== 'PRODUCTION')
+  require('dotenv').config({ path: 'server/config.env' });
+// dotenv.config({ path: 'config/config.env' });
 
 // Import all routers
 const products = require('./routes/product');
@@ -38,4 +41,11 @@ app.use('/api/v1/', payment);
 // Middleware to handle error
 app.use(errorMiddleware);
 
+if (process.env.NODE_ENV === 'PRODUCTION') {
+  app.use(express.static(path.join(__dirname, '../client/build')));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'));
+  });
+}
 module.exports = app;
