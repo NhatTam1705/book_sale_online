@@ -23,12 +23,12 @@ const navigationItemsData = [
   },
   {
     id: 5,
-    to: '/about_us',
+    to: '/about-us',
     navName: 'About Us',
   },
   {
     id: 6,
-    to: '/contact_us',
+    to: '/contact-us',
     navName: 'Contact Us',
   },
 ];

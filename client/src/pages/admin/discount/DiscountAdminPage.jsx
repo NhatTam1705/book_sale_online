@@ -95,28 +95,30 @@ const DiscountAdminPage = () => {
   useEffect(() => {
     if (error) {
       enqueueSnackbar(error, { variant: 'error' });
-      dispatch(clearErrors);
+      dispatch(clearErrors());
     }
 
     if (errorDiscount) {
       enqueueSnackbar(errorDiscount, { variant: 'error' });
-      dispatch(clearErrors);
+      dispatch(clearErrors());
     }
 
     if (errorUpdateOrDelete) {
       enqueueSnackbar(errorUpdateOrDelete, { variant: 'error' });
-      dispatch(clearErrors);
+      dispatch(clearErrors());
     }
 
     if (success) {
       setShow(false);
       dispatch({ type: NEW_DISCOUNT_RESET });
+      enqueueSnackbar('Discount is added', { variant: 'success' });
       reset();
     }
 
     if (isUpdated) {
       setShow(false);
       dispatch({ type: UPDATE_DISCOUNT_RESET });
+      enqueueSnackbar('Discount is updated', { variant: 'success' });
       reset();
     }
 
@@ -304,6 +306,7 @@ const DiscountAdminPage = () => {
                   className="bg-white w-full"
                   placeholder="New Discount Name"
                   name="name"
+                  id="name"
                   {...register('name')}
                 />
                 {errors?.name && (
@@ -317,6 +320,7 @@ const DiscountAdminPage = () => {
                   className="bg-white w-full"
                   placeholder="New Discount Percent"
                   name="percent"
+                  id="percent"
                   label="Discount Percent"
                   {...register('percent')}
                 />

@@ -130,6 +130,9 @@ const ShopPage = lazy(() => import('./pages/home/ShopPage'));
 const SignInPage = lazy(() => import('./pages/home/SignInPage'));
 // import SignUpPage from './pages/home/SignUpPage';
 const SignUpPage = lazy(() => import('./pages/home/SignUpPage'));
+const AboutUsPage = lazy(() => import('./pages/home/AboutUsPage'));
+const ContactUsPage = lazy(() => import('./pages/home/ContactUsPage'));
+const BlogPage = lazy(() => import('./pages/home/BlogPage'));
 
 function App() {
   const { isAuthenticated, user, loading } = useSelector((state) => state.auth);
@@ -207,6 +210,15 @@ function App() {
               <Route
                 path="/author/:id"
                 element={<AuthorSinglePage></AuthorSinglePage>}
+              ></Route>
+              <Route path="/blog" element={<BlogPage></BlogPage>}></Route>
+              <Route
+                path="/about-us"
+                element={<AboutUsPage></AboutUsPage>}
+              ></Route>
+              <Route
+                path="/contact-us"
+                element={<ContactUsPage></ContactUsPage>}
               ></Route>
               <Route path="/author" element={<AuthorPage></AuthorPage>}></Route>
               <Route
